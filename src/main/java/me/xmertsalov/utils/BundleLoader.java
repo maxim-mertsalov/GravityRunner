@@ -15,6 +15,10 @@ public class BundleLoader {
     public static final String TILESET_ATLAS = "/res/tileset_sprites.png";
     public static final String WORLD_DATA = "/res/world.level";
 
+    // Game world objects
+    public static final String POWER_UPS_ATLAS = "/res/Objects/power-ups.png";
+    public static final String SAW_ATLAS = "/res/Objects/saw.png";
+
 
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;

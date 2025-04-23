@@ -1,10 +1,14 @@
 package me.xmertsalov;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import me.xmertsalov.components.PhisicsControler;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.gameWorld.LevelsManager;
+import me.xmertsalov.scenes.GameScene;
+import me.xmertsalov.scenes.inGame.MenuScene;
+import me.xmertsalov.scenes.inGame.PlayingScene;
 
 public class Game implements Runnable {
 	// Game window and panel
@@ -14,8 +18,8 @@ public class Game implements Runnable {
 	private GraphicsDevice gd;
 
 	// Game loop
-	private final int FPS_LIMIT = 120;
-	private final int UPS_LIMIT = 200;
+	public final static int FPS_LIMIT = 120;
+	public final static int UPS_LIMIT = 200;
 
 	// Game dimensions
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -28,15 +32,14 @@ public class Game implements Runnable {
 	public final static int WINDOW_WIDTH = 1440; // 1440
 	public final static int WINDOW_HEIGHT = 900; // 900
 
+	// Debug collisions
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
 	public final static Color DEBUG_COLOR_SECOND = new Color(255, 0, 0, 80);
 	public final static boolean DEBUG_ENABLED = false;
 
-
-	// Game objects
-	private Player player;
-	private LevelsManager levelsManager;
-	private PhisicsControler phisicsControler;
+	// All scenes
+	private PlayingScene playingScene;
+	private MenuScene menuScene;
 
 	public Game() {
 		setScale(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -52,7 +55,6 @@ public class Game implements Runnable {
 
 	// Change scale with resolution
 	public void setScale(float width, float height) {
-//		SCALE = width / GAME_WIDTH;
 		SCALE = height / GAME_HEIGHT;
 		TILES_SIZE = (int)Math.ceil(TILES_DEFAULT_SIZE * SCALE);
 
@@ -69,23 +71,26 @@ public class Game implements Runnable {
 
 	// This method is called when the game starts one time
 	private void startGame() {
-		player = new Player((int)(WINDOW_WIDTH / 2) - TILES_SIZE, 200);
-		levelsManager = new LevelsManager(this);
-		phisicsControler = new PhisicsControler(this);
+		playingScene = new PlayingScene(this);
+		menuScene = new MenuScene(this);
 	}
 
 	// This method is called every tick to update the game
 	public void updateGame() {
-		player.update();
-		levelsManager.update();
-		phisicsControler.update();
+		switch (GameScene.scene){
+			case PLAYING -> playingScene.update();
+			case MENU -> menuScene.update();
+			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+		}
 	}
 
 	// This method is called every frame to render the game
 	public void renderGame(Graphics g) {
-		player.render(g);
-		levelsManager.render(g);
-		phisicsControler.render(g);
+		switch (GameScene.scene) {
+			case PLAYING -> playingScene.draw(g);
+			case MENU -> menuScene.draw(g);
+			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+		}
 	}
 
 	@Override
@@ -138,14 +143,13 @@ public class Game implements Runnable {
 	}
 
 	public void windowFocusLost() {
-		player.resetDirBooleans();
+		if (GameScene.scene == GameScene.PLAYING)
+			playingScene.getPlayer().resetDirBooleans();
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
+	public PlayingScene getPlayingScene() {return playingScene;}
 
-	public LevelsManager getLevelsManager() {
-		return levelsManager;
-	}
+	public MenuScene getMenuScene() {return menuScene;}
+
+
 }

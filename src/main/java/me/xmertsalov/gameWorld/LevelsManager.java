@@ -1,6 +1,10 @@
 package me.xmertsalov.gameWorld;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.gameObjects.powerUps.SpeedDown;
+import me.xmertsalov.gameObjects.powerUps.SpeedUp;
+import me.xmertsalov.gameObjects.saws.MovableSaw;
+import me.xmertsalov.gameObjects.saws.Saw;
 import me.xmertsalov.utils.Agragation;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -12,6 +16,8 @@ public class LevelsManager {
     private Game game;
     private BufferedImage[] tilesetAtlas;
     private ArrayList<Level> levels = new ArrayList<Level>();
+
+    private ArrayList<Level> spawnLevels = new ArrayList<Level>(); // only in the start of game
 
     private ArrayList<Level> activeLevels;
     private int maxCurrentLevels = 3;
@@ -30,23 +36,32 @@ public class LevelsManager {
         parseLevelData(levelData);
 
         activeLevels = new ArrayList<>();
-        activeLevels.add(levels.get(1).copyLevel());
+        generateSpawnLevel();
         toRemoveActiveLevels = new ArrayList<>();
         toAddActiveLevels = new ArrayList<>();
-//        generateLevels();
     }
 
     private void importTilesetAtlas() {
         BufferedImage img = BundleLoader.getSpriteAtlas(BundleLoader.TILESET_ATLAS);
         int columns = img.getWidth() / Game.TILES_DEFAULT_SIZE;
         int rows = img.getHeight() / Game.TILES_DEFAULT_SIZE;
-//        System.out.println("columns: " + columns + ", rows: " + rows);
 
-        tilesetAtlas = new BufferedImage[columns * rows]; // columns * rows
+        if (img.getWidth() % Game.TILES_DEFAULT_SIZE != 0 || img.getHeight() % Game.TILES_DEFAULT_SIZE != 0) {
+            System.err.println("Warning: Tileset image dimensions are not divisible by the tile size.");
+        }
+
+        tilesetAtlas = new BufferedImage[columns * rows];
         for (int j = 0; j < rows; j++)
             for (int i = 0; i < columns; i++) {
-                int index = j * columns + i;
-                tilesetAtlas[index] = img.getSubimage(i * Game.TILES_DEFAULT_SIZE, j * Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
+                int x = i * Game.TILES_DEFAULT_SIZE;
+                int y = j * Game.TILES_DEFAULT_SIZE;
+
+                try{
+                    int index = j * columns + i;
+                    tilesetAtlas[index] = img.getSubimage(x, y, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
+                } catch (Exception e) {
+                    System.err.println("Error: " + e.getMessage());
+                }
             }
     }
 
@@ -56,25 +71,91 @@ public class LevelsManager {
 //        ArrayList<Level> levels = new ArrayList<Level>(2);
 
         for (int i = 0; i < lines.length; i++) {
+            // Start of a new level: line like: #level-0,"Some data"
             if (lines[i].startsWith("#level-")) {
                 levelCount++;
-                levels.add(new Level(this));
-                System.out.println("Level " + levelCount + " loaded");
+
+                String[] levelData = lines[i].split(",");
+
+                String params = levelData[1].substring(1, levelData[1].length() - 1); // get params and remove quotes
+
+                levels.add(new Level(this, params));
+                System.out.println("Level " + levelCount + " loaded" + " with params: " + params);
                 continue;
             }
+
+            // End of all levels
             if (lines[i].startsWith("\n")) {
                 break;
             }
-            String[] values = lines[i].split(","); // 0 - x, 1 - y, 2 - spriteIndex
-            if (values.length < 4) {
-                throw new RuntimeException("Invalid level data");
-            }
-            int x = (Integer.parseInt(values[0]) - 1) * Game.TILES_SIZE;
-            int y = (Integer.parseInt(values[1]) - 1) * Game.TILES_SIZE;
-            int spriteIndex = Integer.parseInt(values[2]);
-            String tileType = values[3].substring(1, values[3].length() - 1); // remove quotes
 
-            levels.get(levelCount).setTile(x, y, spriteIndex, tileType);
+            // if there are no level beginning string - incorrect data
+            if (levelCount < 0) {
+                System.err.println("Error: Level data not found");
+                break;
+            }
+
+            // Tile data: line like: position X,position Y,TileType,"Special params"
+            {
+                String[] values = lines[i].split(","); // 0 - x, 1 - y, 2 - spriteIndex, 3 - params
+                if (values.length < 4) {
+                    throw new RuntimeException("Invalid level data");
+                }
+                int x = (Integer.parseInt(values[0]) - 1) * Game.TILES_SIZE;
+                int y = (Integer.parseInt(values[1]) - 1) * Game.TILES_SIZE;
+                int spriteIndex = Integer.parseInt(values[2]);
+                String tileType = values[3].substring(1, values[3].length() - 1); // remove quotes
+
+                // Special elements like entities, power-ups and other
+                if (spriteIndex < 0){
+                    if (tileType.equals("SpeedUp")) {
+                        SpeedUp speedUp = new SpeedUp(x, y);
+                        levels.get(levelCount).setGameObject(speedUp);
+                    }
+                    else if (tileType.equals("SpeedDown")) {
+                        SpeedDown speedDown = new SpeedDown(x, y);
+                        levels.get(levelCount).setGameObject(speedDown);
+                    }
+                    else if (tileType.equals("Saw")) {
+                        Saw saw = new Saw(x, y);
+                        levels.get(levelCount).setGameObject(saw);
+                    }
+                    else if (tileType.equals("MovableSaw")) {
+                        int dx = (Integer.parseInt(values[4]) - 0) * Game.TILES_SIZE;
+                        int dy = (Integer.parseInt(values[5]) - 0) * Game.TILES_SIZE;
+                        MovableSaw movableSaw = new MovableSaw(x, y, dx, dy);
+                        levels.get(levelCount).setGameObject(movableSaw);
+                    }
+                    continue;
+                }
+
+                // Normal tile
+                levels.get(levelCount).setTile(x, y, spriteIndex, tileType);
+            }
+        }
+
+        System.out.println("Levels loaded: " + levels.size());
+
+        for (Level level : levels) {
+            if (level.getParams().startsWith("spawn")) {
+                spawnLevels.add(level);
+            }
+        }
+        levels.removeAll(spawnLevels);
+    }
+
+    private void generateSpawnLevel(){
+        if (activeLevels.isEmpty()){ // game have been started
+            // add spawn levels
+            for (Level level : spawnLevels) {
+                if (level.getParams().startsWith("spawn_p1")) {
+                    System.out.println("Spawning " + level.getParams());
+                    Level newLevel = level.copyLevel();
+                    newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);
+                    activeLevels.add(newLevel);
+                }
+            }
+
         }
     }
 
@@ -100,14 +181,12 @@ public class LevelsManager {
 
     private void addNewRandomLevel() {
         int maxLevel = levels.size();
-        int random = new Agragation().getRandomNumber(0, maxLevel);
+        int random = 8;//new Agragation().getRandomNumber(0, maxLevel);
 
         Level newLevel = levels.get(random).copyLevel();
         newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);
 
-//        activeLevels.add(newLevel);
         toAddActiveLevels.add(newLevel);
-
 
         System.out.println("New level added: " + random);
     }
@@ -127,31 +206,7 @@ public class LevelsManager {
 
         moveLevels(-speed);
 
-
-//        if (left) {
-//            moveLevels(speed);
-////            activeLevels.forEach(level -> {
-////                level.setXOffsetVelocity(-speed);
-////            });
-//        }
-//        else if (right) {
-//            moveLevels(-speed);
-////            activeLevels.forEach(level -> {
-////                level.setXOffsetVelocity(speed);
-////            });
-//        }
-//        else{
-//            moveLevels(0);
-////            activeLevels.forEach(level -> {
-////                level.setXOffsetVelocity(0);
-////            });
-//        }
-
-//        activeLevels.forEach(Level::update);
-        for (Level level : toAddActiveLevels) {level.update();}
-
-//        activeLevels.addAll(toAddActiveLevels);
-//        activeLevels.removeAll(toRemoveActiveLevels);
+//        for (Level level : toAddActiveLevels) {level.update();}
 
         toAddActiveLevels.clear();
         toRemoveActiveLevels.clear();
@@ -174,6 +229,10 @@ public class LevelsManager {
     }
     public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public double getSpeed() {
+        return speed;
     }
 
 }

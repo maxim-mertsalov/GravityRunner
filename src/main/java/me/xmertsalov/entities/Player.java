@@ -1,34 +1,74 @@
 package me.xmertsalov.entities;
 
-import me.xmertsalov.components.BoxCollider;
-import me.xmertsalov.components.Collider;
-import me.xmertsalov.components.PhisicsComponent;
-import me.xmertsalov.components.PlayerAnimator;
+import me.xmertsalov.components.*;
 import me.xmertsalov.Game;
+import me.xmertsalov.utils.BundleLoader;
 
 import static me.xmertsalov.components.PlayerState.*;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Player extends Entity {
-	private int playerState = RUNNING;
+
+	// Player states
+	private HashMap<String, List<Integer>> playerStates;
+	private String playerState = "RUNNING";
+
+	// Player attributes
+	private boolean isGodMode = false;
+	private boolean isDead = false;
+
 	private boolean moving = false, attacking = false;
+
+	// Player controls
 	private boolean left, up, right, down, changedGravity;
+
+	// Player speed
 	private final float playerSpeed = 2.0f;
 
+	// Player dimensions
 	private final double playerWidth, playerHeight;
 	private final static double incrementIndex = Game.SCALE * 0.4;
 
+	// Player components
 	private Collider collider;
 	private PhisicsComponent phisicsComponent;
+	private final Animator animator;
 
-	private final PlayerAnimator animator = new PlayerAnimator(this);
-
+	// Other
 	private final double mass = 0.5f;
+	private boolean isConsumedBonus = false;
 
-	public Player(float x, float y) {
+	// Player controls
+	private final int changeGravityKey;
+
+
+	public Player(float x, float y, int changeGravityKey) {
 		super(x, y);
-		animator.loadAnimations();
+        this.changeGravityKey = changeGravityKey;
+
+		playerStates = new HashMap<>();
+		playerStates.put("IDLE", new ArrayList<>(Arrays.asList(0, 5)) );
+		playerStates.put("RUNNING", new ArrayList<>(Arrays.asList(1, 6)) );
+		playerStates.put("HIT", new ArrayList<>(Arrays.asList(5, 4)) );
+		playerStates.put("ATTACK_1", new ArrayList<>(Arrays.asList(6, 3)) );
+		playerStates.put("GROUND", new ArrayList<>(Arrays.asList(4, 2)) );
+		playerStates.put("JUMP", new ArrayList<>(Arrays.asList(2, 3)) );
+		playerStates.put("DEATH", new ArrayList<>(Arrays.asList(6, 8)) );
+
+        animator = new Animator(BundleLoader.PIRATE_ATLAS,
+				64,
+				40,
+				7,
+				8,
+				playerStates,
+				playerState,
+				-1);
 
 		playerWidth = 64 * 4 * incrementIndex;
 		playerHeight = 40 * 4 * incrementIndex;
@@ -42,15 +82,18 @@ public class Player extends Entity {
 	}
 
 	public void update() {
-//		updatePos();
-
+		if (isDead) {
+			// Handle player death logic here
+			animator.setAnimationState("DEATH", true);
+//			return;
+		}
 		phisicsComponent.setVelocityY(0);
 
 		collider.updateBounds(
 				x + 20 * 4 * incrementIndex,
 				y + 4 * 4 * incrementIndex
 		);
-		animator.updateAnimationTick(playerState);
+		animator.update();
 		phisicsComponent.update();
 
 
@@ -63,23 +106,20 @@ public class Player extends Entity {
 //				256, 160, null);
 
 		collider.draw(g);
-		animator.render(g, x, y, (int)(playerWidth), (int)(playerHeight));
+		animator.draw(g, x, y, (int)(playerWidth), (int)(playerHeight));
 	}
 
 
 	private void setAnimationState() {
-		int startAni = playerState;
-
 		if (moving)
-			playerState = RUNNING;
+			playerState = "RUNNING";
 		else
-			playerState = IDLE;
+			playerState = "IDLE";
 
 		if (attacking)
-			playerState = ATTACK_1;
+			playerState = "ATTACK_1";
 
-		if (startAni != playerState)
-			animator.resetAnimTick();
+		animator.setAnimationState(playerState);
 	}
 
 
@@ -195,5 +235,21 @@ public class Player extends Entity {
 		return playerSpeed;
 	}
 
+	public int getChangeGravityKey() {
+		return changeGravityKey;
+	}
+
+	public boolean isGodMode(){ return isGodMode; }
+
+	public boolean isDead(){ return isDead; }
+	public void setDead(boolean dead) { this.isDead = dead; }
+
+    public boolean isConsumedBonus() {
+        return isConsumedBonus;
+    }
+
+    public void setConsumedBonus(boolean consumedBonus) {
+        isConsumedBonus = consumedBonus;
+    }
 }
 

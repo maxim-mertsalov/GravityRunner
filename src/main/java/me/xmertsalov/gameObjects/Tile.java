@@ -8,17 +8,17 @@ import me.xmertsalov.Game;
 
 import java.awt.*;
 
-public class Tile {
-    private double x, y;
+public class Tile extends GameObject {
     private int tileIndex;
     private String tileType;
+
+    private java.awt.Image img;
 
     private Collider collider;
     private TilePhisicsComponents tilePhisicsComponents;
 
     public Tile(double x, double y, int tileIndex, String tileType) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.tileIndex = tileIndex;
         this.tileType = tileType;
         this.collider = setCollider(tileType);
@@ -133,11 +133,10 @@ public class Tile {
         }
     }
 
+    // main renderer method
     public void render(Graphics g, java.awt.Image img) {
-        g.drawImage(img, (int) this.getX(), (int) this.getY(), Game.TILES_SIZE, Game.TILES_SIZE, null);
-
-        // For debugging colliders
-        if (this.getCollider() != null) this.getCollider().draw(g);
+        this.img = img;
+        draw(g);
     }
 
     public Collider getCollider() {
@@ -156,6 +155,14 @@ public class Tile {
         return y;
     }
 
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(img, (int) this.getX(), (int) this.getY(), Game.TILES_SIZE, Game.TILES_SIZE, null);
+
+        // For debugging colliders
+        if (this.getCollider() != null) this.getCollider().draw(g);
+    }
+
     public int getTileIndex() {
         return tileIndex;
     }
@@ -164,5 +171,18 @@ public class Tile {
         return tileType;
     }
 
+    public Tile clone() {
+        return new Tile(this.x, this.y, this.tileIndex, this.tileType);
+    }
 
+    @Override
+    public void setX(double x) {
+        super.setX(x);
+        collider.updateBounds(x, y);
+    }
+    @Override
+    public void setY(double y) {
+        super.setY(y);
+        collider.updateBounds(x, y);
+    }
 }
