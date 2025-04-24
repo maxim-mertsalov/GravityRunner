@@ -19,6 +19,8 @@ public class Player extends Entity {
 	private HashMap<String, List<Integer>> playerStates;
 	private String playerState = "RUNNING";
 
+	private String playerSkin = "Adventure Boy A";
+
 	// Player attributes
 	private boolean isGodMode = false;
 	private boolean isDead = false;
@@ -33,12 +35,12 @@ public class Player extends Entity {
 
 	// Player dimensions
 	private final double playerWidth, playerHeight;
-	private final static double incrementIndex = Game.SCALE * 0.4;
 
 	// Player components
 	private Collider collider;
 	private PhisicsComponent phisicsComponent;
-	private final Animator animator;
+	private Animator animator;
+
 
 	// Other
 	private final double mass = 0.5f;
@@ -46,37 +48,32 @@ public class Player extends Entity {
 
 	// Player controls
 	private final int changeGravityKey;
+	private boolean disableControls = false;
+
+	// Player flip sprite
+	private double flipY = 0;
+	private double flipH = 1;
 
 
-	public Player(float x, float y, int changeGravityKey) {
+	public Player(float x, float y, int changeGravityKey, PlayerAnimator playerAnimator, String playerSkin) {
 		super(x, y);
         this.changeGravityKey = changeGravityKey;
 
-		playerStates = new HashMap<>();
-		playerStates.put("IDLE", new ArrayList<>(Arrays.asList(0, 5)) );
-		playerStates.put("RUNNING", new ArrayList<>(Arrays.asList(1, 6)) );
-		playerStates.put("HIT", new ArrayList<>(Arrays.asList(5, 4)) );
-		playerStates.put("ATTACK_1", new ArrayList<>(Arrays.asList(6, 3)) );
-		playerStates.put("GROUND", new ArrayList<>(Arrays.asList(4, 2)) );
-		playerStates.put("JUMP", new ArrayList<>(Arrays.asList(2, 3)) );
-		playerStates.put("DEATH", new ArrayList<>(Arrays.asList(6, 8)) );
+		playerWidth = 48 * 2 * Game.SCALE;
+		playerHeight = 48 * 2 * Game.SCALE;
 
-        animator = new Animator(BundleLoader.PIRATE_ATLAS,
-				64,
-				40,
-				7,
-				8,
-				playerStates,
-				playerState,
-				-1);
+		this.playerSkin = playerSkin;
 
-		playerWidth = 64 * 4 * incrementIndex;
-		playerHeight = 40 * 4 * incrementIndex;
+		animator = playerAnimator.getAnimator(playerSkin);
+		animator.setAnimationState("RUNNING");
 
-		collider = new BoxCollider(x + 20 * 4 * incrementIndex,
-				y + 4 * 4 * incrementIndex,
-				24 * incrementIndex * 4,
-				28 * incrementIndex * 4);
+		collider = new BoxCollider(x + playerWidth / 3,
+				y + playerHeight / 3,
+				playerWidth / 3,
+				playerHeight / 3
+		);
+//				24 * incrementIndex * 4,
+//				28 * incrementIndex * 4);
 
 		phisicsComponent = new PhisicsComponent(this, mass);
 	}
@@ -84,17 +81,19 @@ public class Player extends Entity {
 	public void update() {
 		if (isDead) {
 			// Handle player death logic here
-			animator.setAnimationState("DEATH", true);
+//			animator.setAnimationState("DEATH", true);
 //			return;
 		}
 		phisicsComponent.setVelocityY(0);
 
 		collider.updateBounds(
-				x + 20 * 4 * incrementIndex,
-				y + 4 * 4 * incrementIndex
+				x + playerWidth / 3,
+				y + playerHeight / 3
 		);
 		animator.update();
 		phisicsComponent.update();
+
+		flipPlayer();
 
 
 //		setAnimationState();
@@ -106,45 +105,24 @@ public class Player extends Entity {
 //				256, 160, null);
 
 		collider.draw(g);
-		animator.draw(g, x, y, (int)(playerWidth), (int)(playerHeight));
+		animator.draw(g, x, y + flipY, (int)(playerWidth), (int)(playerHeight * flipH));
 	}
 
-
-	private void setAnimationState() {
-		if (moving)
-			playerState = "RUNNING";
-		else
-			playerState = "IDLE";
-
-		if (attacking)
-			playerState = "ATTACK_1";
-
-		animator.setAnimationState(playerState);
+	public void flipPlayer() {
+		if(getPhisicsComponent().getGravityDirection() < 0){
+			flipY = playerHeight;
+			flipH = -1;
+		}
+		else {
+			flipY = 0;
+			flipH = 1;
+		}
 	}
 
-
-
-	private void updatePos() {
-		moving = false;
-
-		if (left && !right) {
-			x -= playerSpeed;
-			moving = true;
-		} else if (right && !left) {
-			x += playerSpeed;
-			moving = true;
-		}
-
-		if (up && !down) {
-			phisicsComponent.setVelocityY(-playerSpeed);
-			moving = true;
-		} else if (down && !up) {
-			phisicsComponent.setVelocityY(playerSpeed);
-			moving = true;
-		} else {
-			// Reset vertical velocity when no movement keys are pressed
-			phisicsComponent.setVelocityY(0);
-		}
+	public void setAnimator(PlayerAnimator playerAnimator, String playerSkin) {
+        this.playerSkin = playerSkin;
+		animator = playerAnimator.getAnimator(playerSkin);
+		animator.setAnimationState("RUNNING");
 	}
 
 	public void resetDirBooleans() {
@@ -155,6 +133,8 @@ public class Player extends Entity {
 	}
 
 	public void changeGravity() {
+		if (disableControls) return;
+
 		phisicsComponent.setVelocityY(0);
 		phisicsComponent.setGravityDirection(-phisicsComponent.getGravityDirection());
 		phisicsComponent.setAbleToUp(true);
@@ -250,6 +230,14 @@ public class Player extends Entity {
 
     public void setConsumedBonus(boolean consumedBonus) {
         isConsumedBonus = consumedBonus;
+    }
+
+    public boolean isDisableControls() {
+        return disableControls;
+    }
+
+    public void setDisableControls(boolean disableControls) {
+        this.disableControls = disableControls;
     }
 }
 

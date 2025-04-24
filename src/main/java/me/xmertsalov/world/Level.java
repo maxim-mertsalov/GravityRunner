@@ -1,13 +1,9 @@
-package me.xmertsalov.gameWorld;
+package me.xmertsalov.world;
 
 import me.xmertsalov.gameObjects.Tile;
 import me.xmertsalov.Game;
 import me.xmertsalov.gameObjects.GameObject;
-import me.xmertsalov.gameObjects.powerUps.PowerUp;
-import me.xmertsalov.gameObjects.powerUps.SpeedDown;
-import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.MovableSaw;
-import me.xmertsalov.gameObjects.saws.Saw;
 
 import java.awt.*;
 import java.util.ArrayList;

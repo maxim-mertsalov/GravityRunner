@@ -2,10 +2,10 @@ package me.xmertsalov;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-import me.xmertsalov.components.PhisicsControler;
+import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.entities.Player;
-import me.xmertsalov.gameWorld.LevelsManager;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.MenuScene;
 import me.xmertsalov.scenes.inGame.PlayingScene;
@@ -35,11 +35,16 @@ public class Game implements Runnable {
 	// Debug collisions
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
 	public final static Color DEBUG_COLOR_SECOND = new Color(255, 0, 0, 80);
-	public final static boolean DEBUG_ENABLED = false;
+	public final static boolean DEBUG_ENABLED = true;
 
 	// All scenes
 	private PlayingScene playingScene;
 	private MenuScene menuScene;
+
+
+	// Global game objects
+	private ArrayList<Player> players;
+	private PlayerAnimator playerAnimator;
 
 	public Game() {
 		setScale(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -71,7 +76,13 @@ public class Game implements Runnable {
 
 	// This method is called when the game starts one time
 	private void startGame() {
-		playingScene = new PlayingScene(this);
+		players = new ArrayList<>();
+		playerAnimator = new PlayerAnimator();
+
+		players.add(new Player(Game.TILES_SIZE * 12, Game.TILES_SIZE * 5, KeyEvent.VK_SHIFT, playerAnimator, "Adventure Boy A"));
+		players.add(new Player(Game.TILES_SIZE * 12, Game.TILES_SIZE * 3, KeyEvent.VK_C, playerAnimator, "Special Knight 1"));
+
+		playingScene = new PlayingScene(this, players);
 		menuScene = new MenuScene(this);
 	}
 
@@ -143,8 +154,11 @@ public class Game implements Runnable {
 	}
 
 	public void windowFocusLost() {
-		if (GameScene.scene == GameScene.PLAYING)
-			playingScene.getPlayer().resetDirBooleans();
+		if (GameScene.scene == GameScene.PLAYING) {
+			for (Player player : playingScene.getPlayers()) {
+				player.resetDirBooleans();
+			}
+		}
 	}
 
 	public PlayingScene getPlayingScene() {return playingScene;}

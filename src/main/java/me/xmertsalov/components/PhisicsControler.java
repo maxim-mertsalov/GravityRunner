@@ -6,19 +6,20 @@ import me.xmertsalov.gameObjects.powerUps.PowerUp;
 import me.xmertsalov.gameObjects.powerUps.SpeedDown;
 import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.Saw;
+import me.xmertsalov.scenes.inGame.PlayingScene;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 
 public class PhisicsControler {
-    private Game game;
+    private final PlayingScene playingScene;
     private boolean isGroundedUp = false, isGroundedDown = false;
 
     private int ticks;
 
-    public PhisicsControler(Game game) {
-        this.game = game;
+    public PhisicsControler(PlayingScene playingScene) {
+        this.playingScene = playingScene;
     }
 
     public void update(){
@@ -27,57 +28,60 @@ public class PhisicsControler {
         resetPlayerVelocityX();
         detectGameObjects();
         ifPlayerFallingAway();
+        playersInteractions();
     }
 
     private void detectFallingCollisions() {
         isGroundedDown = false;
         isGroundedUp = false;
 
-        game.getPlayingScene().getLevelsManager().getActiveLevels().forEach(level -> {
+        playingScene.getLevelsManager().getActiveLevels().forEach(level -> {
             level.getTiles().forEach(tile -> {
                 if (tile.getCollider() != null) { // There are tiles with colliders:
                     Collider collider = tile.getCollider();
-                    if (game.getPlayingScene().getPlayer().getCollider() instanceof BoxCollider boxCollider) {
+                    for (Player player : playingScene.getPlayers()) {
+                        if (player.getCollider() instanceof BoxCollider boxCollider) {
+                            double velocityY = player.getPhisicsComponent().getVelocityY();
+                            double modVelocityY = Math.abs(velocityY);
 
-                        double velocityY = game.getPlayingScene().getPlayer().getPhisicsComponent().getVelocityY();
-                        double modVelocityY = Math.abs(velocityY);
+                            double k = 1;
 
-                        // Predict future bounds based on velocity
-                        Rectangle2D.Double playerNextBoundsUp = new Rectangle2D.Double(
-                                boxCollider.getBounds().getX(),
-                                boxCollider.getBounds().getY() + modVelocityY * 1.1 * Game.SCALE,
-                                boxCollider.getBounds().getWidth(),
-                                boxCollider.getBounds().getHeight()
-                        );
+                            // Predict future bounds based on velocity
+                            Rectangle2D.Double playerNextBoundsUp = new Rectangle2D.Double(
+                                    boxCollider.getBounds().getX(),
+                                    boxCollider.getBounds().getY() + modVelocityY * k * Game.SCALE,
+                                    boxCollider.getBounds().getWidth(),
+                                    boxCollider.getBounds().getHeight()
+                            );
 
-                        Rectangle2D.Double playerNextBoundsDown = new Rectangle2D.Double(
-                                boxCollider.getBounds().getX(),
-                                boxCollider.getBounds().getY() - modVelocityY * 1.1 * Game.SCALE,
-                                boxCollider.getBounds().getWidth(),
-                                boxCollider.getBounds().getHeight()
-                        );
+                            Rectangle2D.Double playerNextBoundsDown = new Rectangle2D.Double(
+                                    boxCollider.getBounds().getX(),
+                                    boxCollider.getBounds().getY() - modVelocityY * k * Game.SCALE,
+                                    boxCollider.getBounds().getWidth(),
+                                    boxCollider.getBounds().getHeight()
+                            );
 
-                        if (collider instanceof BoxCollider tileBoxCollider) {
-                            Rectangle2D tileBounds = tileBoxCollider.getBounds();
+                            if (collider instanceof BoxCollider tileBoxCollider) {
+                                Rectangle2D tileBounds = tileBoxCollider.getBounds();
 
-                            if (velocityY > 0 && tileBounds.intersects(playerNextBoundsUp)) { // Moving down
-//                                System.out.println("Grounded down");
-                                isGroundedDown = true;
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setAbleToDown(false);
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityY(0);
+                                if (velocityY > 0 && tileBounds.intersects(playerNextBoundsUp)) { // Moving down
+                                    isGroundedDown = true;
+                                    player.getPhisicsComponent().setAbleToDown(false);
+                                    player.getPhisicsComponent().setVelocityY(0);
 
-                                // Correct player's position to sit exactly on top of the platform
-                                game.getPlayingScene().getPlayer().setPosY(tileBounds.getY() - boxCollider.getBounds().getHeight() * 1.1);
-                            }
+                                    // Correct player's position to sit exactly on top of the platform
+                                    player.setPosY(tileBounds.getY() - tileBounds.getHeight() - boxCollider.getBounds().getHeight());
+                                }
 
-                            if (velocityY < 0 && tileBounds.intersects(playerNextBoundsDown)) { // Moving up
+                                if (velocityY < 0 && tileBounds.intersects(playerNextBoundsDown)) { // Moving up
 //                                System.out.println("Grounded up");
-                                isGroundedUp = true;
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setAbleToUp(false);
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityY(0);
+                                    isGroundedUp = true;
+                                    player.getPhisicsComponent().setAbleToUp(false);
+                                    player.getPhisicsComponent().setVelocityY(0);
 
-                                // Correct player's position to sit exactly below the platform
-                                game.getPlayingScene().getPlayer().setPosY(tileBounds.getY() + boxCollider.getBounds().getHeight() * 0.55);
+                                    // Correct player's position to sit exactly below the platform
+                                    player.setPosY(tileBounds.getY() - tileBounds.getHeight() + boxCollider.getBounds().getHeight());
+                                }
                             }
                         }
                     }
@@ -87,7 +91,7 @@ public class PhisicsControler {
     }
 
     private void detectWallsCollisions() {
-        game.getPlayingScene().getLevelsManager().getActiveLevels().forEach(level -> {
+        playingScene.getLevelsManager().getActiveLevels().forEach(level -> {
             level.getTiles().forEach(tile -> {
                 if (tile.getCollider() != null) { // There are tiles with colliders:
                     Collider collider = tile.getCollider();
@@ -95,22 +99,22 @@ public class PhisicsControler {
                         // Adjust the future tile collider bounds
                         Rectangle2D.Double adjustedTileBounds = new Rectangle2D.Double(
                                 boxCollider.getBounds().x + tile.getTilePhisicsComponents().getVelocity_x(),
-                                boxCollider.getBounds().y + boxCollider.getBounds().getHeight() * 0.15,
+                                boxCollider.getBounds().y + boxCollider.getBounds().getHeight() * 0.1,
                                 boxCollider.getBounds().getWidth(),
-                                boxCollider.getBounds().getHeight() * 0.7
+                                boxCollider.getBounds().getHeight() * 0.8
                         );
 
 
-
-                        if (game.getPlayingScene().getPlayer().getCollider() instanceof BoxCollider playerCollider) {
-                            if (playerCollider.getBounds().intersects(adjustedTileBounds)) {
-                                // Adjust player's position to prevent overlap
-                                double overlap = playerCollider.getBounds().getMaxX() - adjustedTileBounds.getMinX();
-                                game.getPlayingScene().getPlayer().setPosX(game.getPlayingScene().getPlayer().getPosX() - overlap);
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(tile.getTilePhisicsComponents().getVelocity_x());
-                            }
-                            else{
-                                game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(0);
+                        for (Player player : playingScene.getPlayers()) {
+                            if (player.getCollider() instanceof BoxCollider playerCollider){
+                                if (playerCollider.getBounds().intersects(adjustedTileBounds)) {
+                                    double overlap = playerCollider.getBounds().getMaxX() - adjustedTileBounds.getMinX();
+                                    player.setPosX(player.getPosX() - overlap);
+                                    player.getPhisicsComponent().setVelocityX(tile.getTilePhisicsComponents().getVelocity_x());
+                                }
+                                else {
+                                    player.getPhisicsComponent().setVelocityX(0);
+                                }
                             }
                         }
                     }
@@ -120,48 +124,51 @@ public class PhisicsControler {
     }
 
     public void resetPlayerVelocityX(){
-        if (game.getPlayingScene().getPlayer().isConsumedBonus()) {
-            ticks++;
-            if (ticks >= Game.UPS_LIMIT * 3) { // 3 seconds
-                game.getPlayingScene().getPlayer().setConsumedBonus(false);
-                game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(0);
-                ticks = 0;
+        for (Player player : playingScene.getPlayers()) {
+            if (player.isConsumedBonus()) {
+                ticks++;
+                if (ticks >= Game.UPS_LIMIT * 3) { // 3 seconds
+                    player.setConsumedBonus(false);
+                    player.getPhisicsComponent().setVelocityX(0);
+                    ticks = 0;
+                }
             }
         }
     }
 
     public void detectGameObjects(){
-        game.getPlayingScene().getLevelsManager().getActiveLevels().forEach(level -> {
+        playingScene.getLevelsManager().getActiveLevels().forEach(level -> {
             level.getGameObjects().forEach(gameObject -> {
 
-                BoxCollider player_collider = (BoxCollider) game.getPlayingScene().getPlayer().getCollider();
+                for (Player player : playingScene.getPlayers()) {
+                    BoxCollider player_collider = (BoxCollider) player.getCollider();
 
-
-
-                if(gameObject instanceof PowerUp powerUp){
-                    Player player = game.getPlayingScene().getPlayer();
-
-                    if (powerUp.getBounds().intersects(player_collider.getBounds()) && !player.isConsumedBonus()) {
-                        if (powerUp instanceof SpeedUp speedUp) {
-//                            game.getPlayingScene().getPlayer().getPhisicsComponent().applyForce(speedUp.getVelocityXIncrement() * 10, 0);
-                            game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(speedUp.getVelocityXIncrement() * 10);
-                            game.getPlayingScene().getPlayer().setConsumedBonus(true);
-                        }
-                        else if (powerUp instanceof SpeedDown speedDown) {
-//                            game.getPlayingScene().getPlayer().getPhisicsComponent().applyForce(speedDown.getVelocityXIncrement() * 10, 0);
-                            game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(speedDown.getVelocityXIncrement() * 10);
-                            game.getPlayingScene().getPlayer().setConsumedBonus(true);
+                    if(gameObject instanceof PowerUp powerUp){
+                        if (powerUp.getBounds().intersects(player_collider.getBounds()) && !player.isConsumedBonus()) {
+                            if (powerUp instanceof SpeedUp speedUp) {
+                                player.getPhisicsComponent().setVelocityX(speedUp.getVelocityXIncrement() * 10);
+                                player.setConsumedBonus(true);
+                            }
+                            else if (powerUp instanceof SpeedDown speedDown) {
+                                player.getPhisicsComponent().setVelocityX(speedDown.getVelocityXIncrement() * 10);
+                                player.setConsumedBonus(true);
+                            }
                         }
                     }
-                }
-                if (gameObject instanceof Saw saw){
-                    if (saw.getBounds().intersects(player_collider.getBounds())) {
-                        if (!game.getPlayingScene().getPlayer().isGodMode()) {
-                            playerDead(game.getPlayingScene().getPlayer());
-                        }
 
+                    if (gameObject instanceof Saw saw){
+                        if (saw.getBounds().intersects(player_collider.getBounds())) {
+                            if (!player.isGodMode()) {
+                                playerDead(player);
+                            }
+
+                        }
                     }
+
                 }
+
+
+
 
             });
         });
@@ -170,24 +177,114 @@ public class PhisicsControler {
 
 
     private void ifPlayerFallingAway(){
-        if (game.getPlayingScene().getPlayer().getPosY() > Game.WINDOW_HEIGHT + Game.TILES_SIZE * 2) { // falling down
-            playerDead(game.getPlayingScene().getPlayer());
-        }
-        else if(game.getPlayingScene().getPlayer().getPosY() < -Game.TILES_SIZE * 2){ // falling up
-            playerDead(game.getPlayingScene().getPlayer());
-        }
-        else if (game.getPlayingScene().getPlayer().getPosX() < -Game.TILES_SIZE * 2){
-            playerDead(game.getPlayingScene().getPlayer());
+        for (Player player : playingScene.getPlayers()) {
+            if (player.getPosY() > Game.WINDOW_HEIGHT + Game.TILES_SIZE * 2) { // falling down
+                playerDead(player);
+            }
+            else if(player.getPosY() < -Game.TILES_SIZE * 2){ // falling up
+                playerDead(player);
+            }
+            else if (player.getPosX() < -Game.TILES_SIZE * 2){
+                playerDead(player);
+            }
         }
     }
 
     private void playerDead(Player player){
         player.setDead(true);
-        double xVelocity = game.getPlayingScene().getLevelsManager().getSpeed();
-        game.getPlayingScene().getPlayer().getPhisicsComponent().setVelocityX(-xVelocity);
+        double xVelocity = playingScene.getLevelsManager().getSpeed();
+        player.getPhisicsComponent().setVelocityX(-xVelocity);
     }
 
     public void render(Graphics g){
+    }
+
+    private void playersInteractions(){
+        if (playingScene.isGhostMode()) return;
+
+        for(Player player : playingScene.getPlayers()) {
+            for (Player otherPlayer : playingScene.getPlayers()) {
+                if (player != otherPlayer) {
+                    if(player.getCollider() instanceof BoxCollider boxCPlayer &&
+                            otherPlayer.getCollider() instanceof BoxCollider boxCOtherPlayer) {
+
+                        Rectangle2D.Double detectXBoundPlayer = new Rectangle2D.Double(
+                                boxCPlayer.getBounds().getX(),
+                                boxCPlayer.getBounds().getY() + boxCPlayer.getBounds().getHeight() * 0.15,
+                                boxCPlayer.getBounds().getWidth(),
+                                boxCPlayer.getBounds().getHeight() * 0.7
+                        );
+
+                        Rectangle2D.Double detectYBoundPlayer = new Rectangle2D.Double(
+                                boxCPlayer.getBounds().getX() + boxCPlayer.getBounds().getWidth() * 0.1,
+                                boxCPlayer.getBounds().getY() + player.getPhisicsComponent().getVelocityY(),
+                                boxCPlayer.getBounds().getWidth() * 0.8,
+                                boxCPlayer.getBounds().getHeight()
+                        );
+
+                        // Check if the players are colliding in the Y axis
+                        if (detectYBoundPlayer.intersects(boxCOtherPlayer.getBounds())) {
+//                            System.out.println("detectYBoundPlayer");
+
+                            // if both players is falling down
+                            if (player.getPhisicsComponent().getGravityDirection() > 0 &&
+                                    otherPlayer.getPhisicsComponent().getGravityDirection() > 0) {
+                                if (player.getPosY() < otherPlayer.getPosY()) {
+                                    // upper player
+                                    player.setPosY(otherPlayer.getPosY() - boxCOtherPlayer.getBounds().getHeight());
+                                    player.getPhisicsComponent().setAbleToUp(true);
+                                    player.getPhisicsComponent().setAbleToDown(false);
+                                    // downer other
+                                    otherPlayer.setDisableControls(true);
+                                    otherPlayer.getPhisicsComponent().setAbleToUp(false);
+                                    otherPlayer.getPhisicsComponent().setAbleToDown(true);
+                                }
+                            }
+                            // if both players is falling up
+                            else if (player.getPhisicsComponent().getGravityDirection() < 0 &&
+                                    otherPlayer.getPhisicsComponent().getGravityDirection() < 0) {
+                                if (player.getPosY() > otherPlayer.getPosY()) {
+                                    // downer player
+                                    player.setPosY(otherPlayer.getPosY() + boxCOtherPlayer.getBounds().getHeight());
+                                    player.getPhisicsComponent().setAbleToUp(false);
+                                    player.getPhisicsComponent().setAbleToDown(true);
+                                    // upper other
+                                    otherPlayer.setDisableControls(true);
+                                    otherPlayer.getPhisicsComponent().setAbleToUp(true);
+                                    otherPlayer.getPhisicsComponent().setAbleToDown(false);
+                                }
+                            }
+                            // if first and second has different velocity
+                            else if (player.getPhisicsComponent().getGravityDirection() < 0 &&
+                                    otherPlayer.getPhisicsComponent().getGravityDirection() > 0) {
+                                player.setPosY(player.getPosY() + 1);
+                                player.getPhisicsComponent().setVelocityY(0);
+                                player.getPhisicsComponent().setAbleToUp(false);
+                                player.getPhisicsComponent().setAbleToDown(true);
+
+                                otherPlayer.setPosY(otherPlayer.getPosY() - 1);
+                                player.getPhisicsComponent().setVelocityY(0);
+                                otherPlayer.getPhisicsComponent().setAbleToUp(true);
+                                otherPlayer.getPhisicsComponent().setAbleToDown(false);
+                            }
+                        }
+                        else{
+                            player.setDisableControls(false);
+                            otherPlayer.setDisableControls(false);
+                        }
+
+                        // Check if the players are colliding in the X axis
+                        if (detectXBoundPlayer.intersects(boxCOtherPlayer.getBounds())) {
+//                            System.out.println("detectXBoundPlayer");
+                            if(player.getPosX() <= otherPlayer.getPosX()) {
+                                player.setPosX(otherPlayer.getPosX() - boxCPlayer.getBounds().getWidth() - 1);
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -1,11 +1,11 @@
-package me.xmertsalov.gameWorld;
+package me.xmertsalov.world;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.gameObjects.powerUps.SpeedDown;
 import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.MovableSaw;
 import me.xmertsalov.gameObjects.saws.Saw;
-import me.xmertsalov.utils.Agragation;
+import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -13,11 +13,12 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class LevelsManager {
-    private Game game;
+    private PlayingScene playingScene;
     private BufferedImage[] tilesetAtlas;
     private ArrayList<Level> levels = new ArrayList<Level>();
 
     private ArrayList<Level> spawnLevels = new ArrayList<Level>(); // only in the start of game
+
 
     private ArrayList<Level> activeLevels;
     private int maxCurrentLevels = 3;
@@ -29,8 +30,8 @@ public class LevelsManager {
 
     private final static double speed = 0.8f * Game.SCALE;
 
-    public LevelsManager(Game game) {
-        this.game = game;
+    public LevelsManager(PlayingScene playingScene) {
+        this.playingScene = playingScene;
         importTilesetAtlas();
         String levelData = BundleLoader.getFileContent(BundleLoader.WORLD_DATA);
         parseLevelData(levelData);
@@ -121,8 +122,8 @@ public class LevelsManager {
                         levels.get(levelCount).setGameObject(saw);
                     }
                     else if (tileType.equals("MovableSaw")) {
-                        int dx = (Integer.parseInt(values[4]) - 0) * Game.TILES_SIZE;
-                        int dy = (Integer.parseInt(values[5]) - 0) * Game.TILES_SIZE;
+                        int dx = (Integer.parseInt(values[4])) * Game.TILES_SIZE;
+                        int dy = (Integer.parseInt(values[5])) * Game.TILES_SIZE;
                         MovableSaw movableSaw = new MovableSaw(x, y, dx, dy);
                         levels.get(levelCount).setGameObject(movableSaw);
                     }
@@ -147,8 +148,17 @@ public class LevelsManager {
     private void generateSpawnLevel(){
         if (activeLevels.isEmpty()){ // game have been started
             // add spawn levels
+
+            ArrayList<String> spawnLevelNames = new ArrayList<>();
+            spawnLevelNames.add("spawn_p1");
+            spawnLevelNames.add("spawn_p2");
+            spawnLevelNames.add("spawn_p3");
+            spawnLevelNames.add("spawn_p4");
+
+            int playerCount = playingScene.getPlayers().size();
+
             for (Level level : spawnLevels) {
-                if (level.getParams().startsWith("spawn_p1")) {
+                if (level.getParams().startsWith(spawnLevelNames.get(Math.abs(playerCount - 1)) )) {
                     System.out.println("Spawning " + level.getParams());
                     Level newLevel = level.copyLevel();
                     newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);

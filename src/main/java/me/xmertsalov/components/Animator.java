@@ -33,8 +33,6 @@ public class Animator implements IAnimator {
     private HashMap<String, List<Integer>> animationStates = new HashMap<>(); // first - animation state, second - number of frames in animation
 
 
-
-
     public Animator(String imageURL,
                     int spriteWidth,
                     int spriteHeight,
@@ -60,12 +58,45 @@ public class Animator implements IAnimator {
         loadAnimations();
     }
 
+    private Animator(
+            int spriteWidth,
+            int spriteHeight,
+            int rows,
+            int columns,
+            HashMap<String, List<Integer>> animationStates,
+            BufferedImage[][] animations,
+            String currentState
+    ){
+        this.spriteWidth = spriteWidth;
+        this.spriteHeight = spriteHeight;
+        this.rows = rows;
+        this.cols = columns;
+
+        this.animationStates = animationStates;
+        this.animations = animations;
+        this.animationState = currentState;
+    }
+
+    public Animator clone(){
+        return new Animator(
+                this.spriteWidth,
+                this.spriteHeight,
+                this.rows,
+                this.cols,
+                this.animationStates,
+                this.animations,
+                this.animationState
+        );
+    }
+
     public void update(){
         updateAnimationTick();
     }
 
     public void draw(Graphics g, double x, double y, int width, int height) {
         BufferedImage sprite = animations[animationStates.get(animationState).getFirst()][aniIndex];
+
+//        System.out.println(sprite.toString());
 
         g.drawImage(sprite,
                 (int) x, (int) y,

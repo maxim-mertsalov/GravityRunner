@@ -8,7 +8,7 @@ public class PhisicsComponent {
     private double acceleration_x, acceleration_y;
     private double velocity_x, velocity_y;
 
-    private double gravityScale = 4.8f;
+    private double gravityScale = 3.2f; // 4.8
     private double gravityDirection = 1;
 
     private double mass;
