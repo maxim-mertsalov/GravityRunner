@@ -70,6 +70,14 @@ public class BundleLoader {
     public static final String TEXT_VIEWER_MODE = "/res/UI/text viewer mode.png";
     public static final String EMPTY_BUTTON = "/res/UI/btn sprite.png";
 
+    // Score && Game Over
+    public static final String TEXT_PLAYER_INDEXES = "/res/UI/Score/players index.png";
+    public static final String BACKGROUND_GAME_OVER = "/res/UI/Score/background game over.png";
+    public static final String TEXT_GAME_OVER = "/res/UI/Score/text game over.png";
+
+    // Count Down
+    public static final String COUNT_DOWN_ATLAS = "/res/UI/count down.png";
+
 
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;

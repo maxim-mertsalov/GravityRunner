@@ -29,7 +29,11 @@ public class LevelsManager {
 
     private boolean left, right;
 
-    private final static double speed = 0.8f * Game.SCALE;
+    private double speed = 0.8f * Game.SCALE;
+
+    private final static double SECONDS_TO_SPEED = 6;
+
+    private int ticksBeforeIcreaseSpeed = 0;
 
     public LevelsManager(PlayingScene playingScene) {
         this.playingScene = playingScene;
@@ -212,12 +216,24 @@ public class LevelsManager {
     public void update() {
         generateLevels();
 
-        moveLevels(-speed);
+        if (playingScene.isIncreasedGameSpeedMode()) increaseSpeed();
 
-//        for (Level level : toAddActiveLevels) {level.update();}
+        moveLevels(-speed);
 
         toAddActiveLevels.clear();
         toRemoveActiveLevels.clear();
+    }
+
+
+    private void increaseSpeed(){
+        ticksBeforeIcreaseSpeed++;
+        if (playingScene.isIncreasedGameSpeedMode() && ticksBeforeIcreaseSpeed >= Game.UPS_LIMIT * SECONDS_TO_SPEED) {
+
+            if (speed >= 1.5) speed += 0.02 * Game.SCALE;
+            else speed += 0.08f * Game.SCALE;
+
+            ticksBeforeIcreaseSpeed = 0;
+        }
     }
 
     public BufferedImage getLevelSprite(int index) {
@@ -247,6 +263,13 @@ public class LevelsManager {
         activeLevels.clear();
         toRemoveActiveLevels.clear();
         toAddActiveLevels.clear();
+
+        // reset speed
+        if (playingScene.isSlowMode()) speed = 0.4f * Game.SCALE;
+        else if (playingScene.isIncreasedGameSpeedMode()) speed = 0.7f * Game.SCALE;
+        else speed = 0.8f * Game.TILES_SIZE;
+
+        System.out.println("Speed:" + speed);
     }
 
 }

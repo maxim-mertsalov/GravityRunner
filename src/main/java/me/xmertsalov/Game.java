@@ -9,15 +9,14 @@ import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.*;
+import me.xmertsalov.score.Score;
 
 public class Game implements Runnable {
-	// Game window and panel
-	private GameWindow gameWindow;
-	private GamePanel gamePanel;
+    private final GamePanel gamePanel;
 	private Thread gameThread;
 	private GraphicsDevice gd;
 
-	// Game loop
+	// Game loop settings
 	public final static int FPS_LIMIT = 120;
 	public final static int UPS_LIMIT = 200;
 
@@ -47,11 +46,11 @@ public class Game implements Runnable {
 
 	// Global game objects
 	private ArrayList<Player> players;
-//	private PlayerAnimator playerAnimator;
 	private BackgroundManager backgroundManager;
+	private Score score;
 
 	// Game Modes
-	private boolean increasedGameSpeedMode = false;
+	private boolean increasedGameSpeedMode = true;
 	private boolean ghostMode = false;
 	private boolean godMode = false;
 	private boolean slowMode = false;
@@ -64,7 +63,8 @@ public class Game implements Runnable {
 		startGame();
 
 		gamePanel = new GamePanel(this, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-		gameWindow = new GameWindow(gamePanel, this);
+        // Game window and panel
+        GameWindow gameWindow = new GameWindow(gamePanel, this);
 		gamePanel.requestFocus();
 
 		startGameLoop();
@@ -74,8 +74,6 @@ public class Game implements Runnable {
 	public void setScale(float width, float height) {
 		SCALE = height / GAME_HEIGHT;
 		TILES_SIZE = (int)Math.ceil(TILES_DEFAULT_SIZE * SCALE);
-
-		System.out.println("GAME WIDTH: " + GAME_WIDTH);
 
 		System.out.println(width + " x " + height + " | scale: " + SCALE);
 	}
@@ -100,6 +98,7 @@ public class Game implements Runnable {
 		menuScene = new MenuScene(this);
 		lobbyScene = new LobbyScene(this);
 
+		score = new Score(this);
 		backgroundManager = new BackgroundManager();
 	}
 
@@ -107,7 +106,10 @@ public class Game implements Runnable {
 	public void updateGame() {
 		backgroundManager.update();
 		switch (GameScene.scene){
-			case PLAYING -> playingScene.update();
+			case PLAYING -> {
+				playingScene.update();
+				score.update();
+            }
 			case MENU -> menuScene.update();
 			case LOBBY -> lobbyScene.update();
 			case EXIT -> System.exit(0);
@@ -178,9 +180,7 @@ public class Game implements Runnable {
 
 	public void windowFocusLost() {
 		if (GameScene.scene == GameScene.PLAYING) {
-			for (Player player : playingScene.getPlayers()) {
-				player.resetDirBooleans();
-			}
+			// logic for reset booleans when window is not focused
 		}
 	}
 
@@ -205,5 +205,5 @@ public class Game implements Runnable {
 
 	public ArrayList<Player> getPlayers() {return players;}
 
-
+	public Score getScore() {return score;}
 }

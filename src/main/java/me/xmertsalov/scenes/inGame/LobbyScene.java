@@ -14,6 +14,8 @@ public class LobbyScene extends Scene implements IScene {
     private Game game;
     private LobbyManager lobbyManager;
 
+    private boolean reseted = false;
+
     public LobbyScene(Game game) {
         super(game);
         this.game = game;
@@ -22,12 +24,21 @@ public class LobbyScene extends Scene implements IScene {
 
     @Override
     public void update() {
+        resetAll();
         lobbyManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
         lobbyManager.draw(g);
+    }
+
+    private void resetAll() {
+        if (reseted) return;
+
+        lobbyManager.reset();
+
+        reseted = true;
     }
 
     @Override
@@ -59,4 +70,6 @@ public class LobbyScene extends Scene implements IScene {
     public void keyReleased(KeyEvent e) {
         lobbyManager.keyReleased(e);
     }
+
+    public void reset() {reseted = false;}
 }

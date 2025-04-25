@@ -75,10 +75,6 @@ public class PhisicsComponent {
         return playerCollider.getBounds().getMinX();
     }
 
-    public double predictFuturePosY() {
-        return player.getPosY() + velocity_y;
-    }
-
     public void setVelocity(double velocity_x, double velocity_y) {
         this.velocity_x = velocity_x;
         this.velocity_y = velocity_y;

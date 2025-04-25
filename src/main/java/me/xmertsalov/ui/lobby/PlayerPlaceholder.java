@@ -83,10 +83,7 @@ public class PlayerPlaceholder {
 
         this.playerPlaceholderImage = playerPlaceholderImage;
 
-        player.setPosX(getXById() + 20 * Game.SCALE);
-        player.setPosY(placeholderY + 20 * Game.SCALE);
-        player.setDisableGravity(true);
-        player.setDisableControls(true);
+        resetPlayerStats();
     }
 
     public void draw(Graphics g) {
@@ -94,8 +91,9 @@ public class PlayerPlaceholder {
         for (IButton button : buttons) {
             button.draw(g);
         }
-        g.setColor(Color.black);
-        g.drawString(currentSkinName, (int)(getXById() + 30 * Game.SCALE), (int)(placeholderY + 117 * Game.SCALE));
+        g.setColor(new Color(51, 50, 61));
+        g.setFont(new Font("Arial", Font.BOLD, (int)(8 * Game.SCALE)));
+        g.drawString(currentSkinName, (int)(getXById() + 30 * Game.SCALE), (int)(placeholderY + 117.5 * Game.SCALE));
         player.render(g);
     }
 
@@ -121,6 +119,21 @@ public class PlayerPlaceholder {
             if (buttonDetectKey.getKeyCode() != player.getChangeGravityKey()){
                 player.setChangeGravityKey(buttonDetectKey.getKeyCode());
             }
+        }
+    }
+
+    public void resetPlayerStats(){
+        player.setPosX(getXById() + 20 * Game.SCALE);
+        player.setPosY(placeholderY + 20 * Game.SCALE);
+        player.setDisableGravity(true);
+        player.setDisableControls(true);
+        player.getPhisicsComponent().setVelocity(0, 0);
+        player.setDead(false, 0);
+
+        if (player.getPhisicsComponent().getGravityDirection() < 0){
+            player.getPhisicsComponent().setGravityDirection(1);
+            player.setFlipH(1);
+            player.setFlipY(0);
         }
     }
 

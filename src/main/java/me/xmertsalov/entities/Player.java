@@ -2,37 +2,15 @@ package me.xmertsalov.entities;
 
 import me.xmertsalov.components.*;
 import me.xmertsalov.Game;
-import me.xmertsalov.utils.BundleLoader;
-
-import static me.xmertsalov.components.PlayerState.*;
 
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class Player extends Entity {
-
-	// Player states
-	private HashMap<String, List<Integer>> playerStates;
-	private String playerState = "RUNNING";
-
-	private String playerSkin = "Adventure Boy A";
-
 	// Player attributes
-	private boolean isGodMode = false;
 	private boolean isDead = false;
 	private boolean inActive = false;
-
-	private boolean moving = false, attacking = false;
-
-	// Player controls
-	private boolean left, up, right, down, changedGravity;
-
-	// Player speed
-	private final float playerSpeed = 2.0f;
+	private boolean isTemporarilyDisabled = false;
+	private String playerSkin;
 
 	// Player dimensions
 	private final double playerWidth, playerHeight;
@@ -43,10 +21,10 @@ public class Player extends Entity {
 	private Animator animator;
 	PlayerAnimator playerAnimator;
 
-
 	// Other
 	private final double mass = 0.5f;
 	private boolean isConsumedBonus = false;
+	private int ticksBeforeTemporlyDisabled = 0;
 
 	// Player controls
 	private int changeGravityKey;
@@ -55,7 +33,9 @@ public class Player extends Entity {
 
 	// Player flip sprite
 	private double flipY = 0;
-	private double flipH = 1;
+	private int flipH = 1;
+
+	private double speed = 0;
 
 
 	public Player(float x, float y, int changeGravityKey, PlayerAnimator playerAnimator, String playerSkin) {
@@ -76,19 +56,18 @@ public class Player extends Entity {
 				playerWidth / 3,
 				playerHeight / 3
 		);
-//				24 * incrementIndex * 4,
-//				28 * incrementIndex * 4);
 
 		phisicsComponent = new PhisicsComponent(this, mass);
 	}
 
 	public void update() {
 		if (isDead) {
-			// Handle player death logic here
-			animator.setAnimationState("DEATH", true);
+			setPosX(getPosX() - speed);
 			return;
 		}
 		if (inActive) return;
+
+		resetTemporarilyDisabled();
 
 		phisicsComponent.setVelocityY(0);
 
@@ -100,15 +79,9 @@ public class Player extends Entity {
 		phisicsComponent.update();
 
 		flipPlayer();
-
-
-//		setAnimationState();
 	}
 
 	public void render(Graphics g) {
-//		g.drawImage(animations[playerState][aniIndex],
-//				(int) x, (int) y,
-//				256, 160, null);
 		if (inActive) return;
 
 		collider.draw(g);
@@ -126,153 +99,75 @@ public class Player extends Entity {
 		}
 	}
 
-	public void setAnimator(PlayerAnimator playerAnimator, String playerSkin) {
-        this.playerSkin = playerSkin;
-		animator = playerAnimator.getAnimator(playerSkin);
-		animator.setAnimationState("RUNNING");
-	}
+	private void resetTemporarilyDisabled(){
+		if (!isTemporarilyDisabled) return;
 
-	public void resetDirBooleans() {
-		left = false;
-		right = false;
-		up = false;
-		down = false;
+		ticksBeforeTemporlyDisabled++;
+		if (ticksBeforeTemporlyDisabled >= Game.UPS_LIMIT * 0.5){
+			ticksBeforeTemporlyDisabled = 0;
+			isTemporarilyDisabled = false;
+		}
 	}
 
 	public void changeGravity() {
-		if (disableControls) return;
+		if (disableControls || isTemporarilyDisabled) return;
 
 		phisicsComponent.setVelocityY(0);
 		phisicsComponent.setGravityDirection(-phisicsComponent.getGravityDirection());
 		phisicsComponent.setAbleToUp(true);
 		phisicsComponent.setAbleToDown(true);
-
-//		// Adjust player position after gravity flip
-//		if (phisicsComponent.getGravityDirection() > 0) {
-//			// Gravity is now downwards
-//			setPosY(getPosY() - playerHeight); // Move player up by playerHeight
-//		} else {
-//			// Gravity is now upwards
-//			setPosY(getPosY() + playerHeight); // Move player down by playerHeight
-//		}
+		isTemporarilyDisabled = true;
 	}
 
-	public void setAttacking(boolean attacking) {
-		this.attacking = attacking;
-	}
+	public Collider getCollider() {return collider;}
+	public PhisicsComponent getPhisicsComponent() {return phisicsComponent;}
 
-	public boolean isLeft() {return left;}
+	public double getPosX() {return x;}
+	public double getPosY() {return y;}
+	public void setPosX(double x) {this.x = x;}
+	public void setPosY(double y) {this.y = y;}
 
-	public void setLeft(boolean left) {
-		this.left = left;
-	}
-
-	public boolean isUp() {return up;}
-
-	public void setUp(boolean up) {
-		this.up = up;
-	}
-
-	public boolean isRight() {
-		return right;
-	}
-
-	public void setRight(boolean right) {
-		this.right = right;
-	}
-
-	public boolean isDown() {
-		return down;
-	}
-
-	public void setDown(boolean down) {
-		this.down = down;
-	}
-
-	public void setChangedGravity(boolean changedGravity) {
-		this.changedGravity = changedGravity;
-	}
-
-	public boolean isChangedGravity() {
-		return changedGravity;
-	}
-
-
-	public Collider getCollider() {
-		return collider;
-	}
-	public PhisicsComponent getPhisicsComponent() {
-		return phisicsComponent;
-	}
-
-	public double getPosX() {
-		return x;
-	}
-	public double getPosY() {
-		return y;
-	}
-	public void setPosX(double x) {
-		this.x = x;
-	}
-	public void setPosY(double y) {
-		this.y = y;
-	}
-
-	public double getSpeed() {
-		return playerSpeed;
-	}
-
-	public int getChangeGravityKey() {
-		return changeGravityKey;
-	}
-
-	public void setChangeGravityKey(int changeGravityKey) {
-		this.changeGravityKey = changeGravityKey;
-	}
-
-	public boolean isGodMode(){ return isGodMode; }
+	public int getChangeGravityKey() {return changeGravityKey;}
+	public void setChangeGravityKey(int changeGravityKey) {this.changeGravityKey = changeGravityKey;}
 
 	public boolean isDead(){ return isDead; }
-	public void setDead(boolean dead) { this.isDead = dead; }
-
-    public boolean isConsumedBonus() {
-        return isConsumedBonus;
-    }
-
-    public void setConsumedBonus(boolean consumedBonus) {
-        isConsumedBonus = consumedBonus;
-    }
-
-    public boolean isDisableControls() {
-        return disableControls;
-    }
-
-    public void setDisableControls(boolean disableControls) {
-        this.disableControls = disableControls;
-    }
-
-    public boolean isDisableGravity() {
-        return disableGravity;
-    }
-
-    public void setDisableGravity(boolean disableGravity) {
-        this.disableGravity = disableGravity;
-    }
-
-	public PlayerAnimator getPlayerAnimator() {
-		return playerAnimator;
+	public void setDead(boolean dead, double speed) {
+		this.isDead = dead;
+		this.speed = speed;
+		if (!dead){
+			animator.setAnimationState("RUNNING");
+		}
+		else{
+			animator.setAnimationState("DEATH", true);
+		}
 	}
 
-	public String getPlayerSkin() {
-		return playerSkin;
+    public boolean isConsumedBonus() {return isConsumedBonus;}
+    public void setConsumedBonus(boolean consumedBonus) {isConsumedBonus = consumedBonus;}
+
+    public void setDisableControls(boolean disableControls) {this.disableControls = disableControls;}
+
+    public boolean isDisableGravity() {return disableGravity;}
+
+    public void setDisableGravity(boolean disableGravity) {this.disableGravity = disableGravity;}
+
+	public PlayerAnimator getPlayerAnimator() {return playerAnimator;}
+
+	public void setAnimator(PlayerAnimator playerAnimator, String playerSkin) {
+		this.playerSkin = playerSkin;
+		animator = playerAnimator.getAnimator(playerSkin);
+		animator.setAnimationState("RUNNING");
 	}
+	public Animator getAnimator() {return animator;}
 
-    public boolean isInActive() {
-        return inActive;
-    }
+	public String getPlayerSkin() {return playerSkin;}
 
-    public void setInActive(boolean inActive) {
-        this.inActive = inActive;
-    }
+    public boolean isInActive() {return inActive;}
+    public void setInActive(boolean inActive) {this.inActive = inActive;}
+
+	public void setIsTemporarilyDisabled(boolean isTemporarylyDisabled) {this.isTemporarilyDisabled = isTemporarylyDisabled;}
+
+	public void setFlipH(int flipH){this.flipH = flipH;}
+	public void setFlipY(double flipY){this.flipY = flipY;}
 }
 

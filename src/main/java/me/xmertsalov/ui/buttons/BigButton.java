@@ -100,7 +100,7 @@ public class BigButton implements IButton {
     public void loadImage() {
         BufferedImage image = BundleLoader.getSpriteAtlas(BundleLoader.BIG_BUTTONS);
 
-        int rows = 5;
+        int rows = 7;
         int cols = 3;
         int width = 56;
         int height = 14;

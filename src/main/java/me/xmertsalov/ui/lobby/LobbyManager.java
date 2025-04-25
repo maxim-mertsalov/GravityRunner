@@ -64,9 +64,11 @@ public class LobbyManager implements UIManager {
     private final int paddingXText = (int)(28 * Game.SCALE);
     private final int paddingYText = (int)(6 * Game.SCALE);
 
+    private boolean reseted = true;
+
     public LobbyManager(Game game) {
         this.game = game;
-        this.players = new ArrayList<>();
+//        this.players = new ArrayList<>();
 
         loadPlayers();
 
@@ -107,12 +109,14 @@ public class LobbyManager implements UIManager {
 
     @Override
     public void update() {
+        resetAll();
         for (PlayerPlaceholder placeholder : playerPlaceholders) {
             placeholder.update();
         }
         for (IButton button : buttons) {
             button.update();
         }
+
         updateModes();
     }
 
@@ -129,6 +133,16 @@ public class LobbyManager implements UIManager {
         }
 
         drawText(g);
+    }
+
+    private void resetAll(){
+        if (reseted) return;
+
+        for (PlayerPlaceholder placeholder : playerPlaceholders) {
+            placeholder.resetPlayerStats();
+        }
+
+        reseted = true;
     }
 
     private void drawText(Graphics g) {
@@ -346,5 +360,7 @@ public class LobbyManager implements UIManager {
         textSlowModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_SLOW_MODE);
         textViewerModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_VIEWER_MODE);
     }
+
+    public void reset() {this.reseted = false;}
 
 }
