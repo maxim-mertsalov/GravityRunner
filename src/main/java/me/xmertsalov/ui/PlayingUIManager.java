@@ -25,6 +25,7 @@ public class PlayingUIManager implements UIManager {
 
     // Panels
     GameOverPanel gameOverPanel;
+    CountDownPanel countDownPanel;
 
     // Other
     private boolean alldead;
@@ -34,7 +35,7 @@ public class PlayingUIManager implements UIManager {
         this.playingScene = playingScene;
 
         gameOverPanel = new GameOverPanel(playingScene);
-//        gameOverPanel.show();
+        countDownPanel = new CountDownPanel(playingScene);
 
         loadImages();
         countPlayers = playingScene.getNumPlayers();
@@ -54,6 +55,7 @@ public class PlayingUIManager implements UIManager {
         }
 
         gameOverPanel.update();
+        countDownPanel.update();
     }
 
     @Override
@@ -68,6 +70,7 @@ public class PlayingUIManager implements UIManager {
             }
         }
 
+        countDownPanel.draw(g);
         gameOverPanel.draw(g);
     }
 
@@ -113,5 +116,9 @@ public class PlayingUIManager implements UIManager {
             textPlayers[row] = tempTextPlayers.getSubimage(0, row * height, width, height);
         }
 
+    }
+
+    public void startCountDown() {
+        countDownPanel.setShow(true);
     }
 }

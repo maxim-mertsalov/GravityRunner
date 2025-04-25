@@ -114,9 +114,10 @@ public class Animator implements IAnimator {
     }
 
     public void setAnimationState(String state, boolean inOneWay) {
-        if (state.equals(animationState) || !animationStates.containsKey(state)){
+        if (!animationStates.containsKey(state) || state.equals(animationState) && !inOneWay) {
             return;
         }
+
         this.inOneWay = inOneWay;
         resetAnimTick();
         animationState = state;

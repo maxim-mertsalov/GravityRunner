@@ -36,6 +36,11 @@ public class PlayingScene extends Scene implements IScene {
 
     // Nums
     private int numPlayers = 0;
+    private double reservedSpeed;
+
+    // States
+    private boolean canMove = false;
+    private boolean continuedSpeed = false;
 
 
     public PlayingScene(Game game) {
@@ -57,9 +62,26 @@ public class PlayingScene extends Scene implements IScene {
         for (Player player : players) {
             player.update();
         }
+        if (!canMove) {
+            reservedSpeed = levelsManager.getSpeed();
+            levelsManager.setSpeed(0);
+        }
+        else if (continuedSpeed) {
+            levelsManager.setSpeed(reservedSpeed);
+
+            if (isSlowMode()) levelsManager.setSpeed(0.4f * Game.SCALE);
+            else if (isIncreasedGameSpeedMode()) levelsManager.setSpeed(0.7f * Game.SCALE);
+            else levelsManager.setSpeed(0.8f * Game.SCALE);
+
+            players.forEach(player -> player.setDisableControls(false));
+
+            continuedSpeed = false;
+        }
+
         levelsManager.update();
         phisicsControler.update();
         uiManager.update();
+
     }
 
     @Override
@@ -74,12 +96,15 @@ public class PlayingScene extends Scene implements IScene {
     private void startGame(){
         if (reseted) return;
 
+        canMove = false;
+        continuedSpeed = false;
+
         players.clear();
 
         for (Player player : game.getPlayers()) {
             if (!player.isInActive()) {
                 player.setDisableGravity(false);
-                player.setDisableControls(false);
+//                player.setDisableControls(false);
                 player.setDead(false, 0);
                 players.add(player);
                 System.out.println("XX:" + player.getPosX() + ", " + player.getPosY());
@@ -137,6 +162,8 @@ public class PlayingScene extends Scene implements IScene {
                 players.get(3).setPosY(Game.TILES_SIZE * 10);
             }
         }
+
+        uiManager.startCountDown();
 
         game.getScore().setStarted(true);
 
@@ -204,4 +231,8 @@ public class PlayingScene extends Scene implements IScene {
     public int getNumPlayers() {return numPlayers;}
 
     public Game getGame() {return game;}
+
+    public boolean isReseted() {return reseted;}
+    public void setCanMove(boolean canMove) {this.canMove = canMove;}
+    public void setContinuedSpeed(boolean continuedSpeed) {this.continuedSpeed = continuedSpeed;}
 }

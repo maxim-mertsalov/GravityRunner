@@ -267,9 +267,11 @@ public class LevelsManager {
         // reset speed
         if (playingScene.isSlowMode()) speed = 0.4f * Game.SCALE;
         else if (playingScene.isIncreasedGameSpeedMode()) speed = 0.7f * Game.SCALE;
-        else speed = 0.8f * Game.TILES_SIZE;
+        else speed = 0.8f * Game.SCALE;
 
         System.out.println("Speed:" + speed);
     }
+
+    public void setSpeed(double speed) {this.speed = speed;}
 
 }
