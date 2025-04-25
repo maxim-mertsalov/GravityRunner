@@ -6,6 +6,8 @@ public enum GameScene {
     LOBBY,
     SETTINGS,
     EXIT,
+    PANORAMA,
+    TUTORIAL,
     CREDITS;
 
     public static GameScene scene = MENU;

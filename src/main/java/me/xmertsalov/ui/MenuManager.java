@@ -43,7 +43,7 @@ public class MenuManager implements UIManager {
 
         buttons = new ArrayList<>();
         buttons.add(bigButtonFactory.createButton(buttonsX, (int)(170 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 0));
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(205 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 1));
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(205 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 7));
         buttons.add(bigButtonFactory.createButton(buttonsX, (int)(240 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 2));
         buttons.add(bigButtonFactory.createButton(buttonsX, (int)(275 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 3));
 
@@ -51,7 +51,7 @@ public class MenuManager implements UIManager {
             GameScene.scene = GameScene.LOBBY;
         });
         buttons.get(1).setOnClickListener(() -> {
-            GameScene.scene = GameScene.SETTINGS;
+            GameScene.scene = GameScene.PANORAMA;
         });
         buttons.get(2).setOnClickListener(() -> {
             GameScene.scene = GameScene.CREDITS;

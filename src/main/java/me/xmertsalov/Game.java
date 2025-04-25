@@ -42,6 +42,8 @@ public class Game implements Runnable {
 	private LobbyScene lobbyScene;
 	private SettingsScene settingsScene;
 	private CreditsScene creditsScene;
+	private PanoramaScene panoramaScene;
+	private TutorialScene tutorialScene;
 
 
 	// Global game objects
@@ -99,6 +101,8 @@ public class Game implements Runnable {
 		lobbyScene = new LobbyScene(this);
 		creditsScene = new CreditsScene(this);
 		settingsScene = new SettingsScene(this);
+		tutorialScene = new TutorialScene(this);
+		panoramaScene = new PanoramaScene(this);
 
 		score = new Score(this);
 		backgroundManager = new BackgroundManager();
@@ -117,6 +121,8 @@ public class Game implements Runnable {
 			case SETTINGS -> settingsScene.update();
 			case CREDITS -> creditsScene.update();
 			case EXIT -> System.exit(0);
+			case PANORAMA -> panoramaScene.update();
+			case TUTORIAL -> tutorialScene.update();
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -130,6 +136,8 @@ public class Game implements Runnable {
 			case LOBBY -> lobbyScene.draw(g);
 			case SETTINGS -> settingsScene.draw(g);
 			case CREDITS -> creditsScene.draw(g);
+			case PANORAMA -> panoramaScene.draw(g);
+			case TUTORIAL -> tutorialScene.draw(g);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 
@@ -208,6 +216,8 @@ public class Game implements Runnable {
 	public MenuScene getMenuScene() {return menuScene;}
 	public LobbyScene getLobbyScene() {return lobbyScene;}
 	public SettingsScene getSettingsScene() {return settingsScene;}
+	public PanoramaScene getPanoramaScene() {return panoramaScene;}
+	public TutorialScene getTutorialScene() {return tutorialScene;}
 	public CreditsScene getCreditsScene() {return creditsScene;}
 
 	// Getters GameObjects
