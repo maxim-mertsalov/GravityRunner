@@ -6,6 +6,7 @@ import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.MovableSaw;
 import me.xmertsalov.gameObjects.saws.Saw;
 import me.xmertsalov.scenes.inGame.PlayingScene;
+import me.xmertsalov.utils.Agragation;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -37,7 +38,6 @@ public class LevelsManager {
         parseLevelData(levelData);
 
         activeLevels = new ArrayList<>();
-        generateSpawnLevel();
         toRemoveActiveLevels = new ArrayList<>();
         toAddActiveLevels = new ArrayList<>();
     }
@@ -145,7 +145,7 @@ public class LevelsManager {
         levels.removeAll(spawnLevels);
     }
 
-    private void generateSpawnLevel(){
+    public void generateSpawnLevel(int playerCount){
         if (activeLevels.isEmpty()){ // game have been started
             // add spawn levels
 
@@ -154,8 +154,6 @@ public class LevelsManager {
             spawnLevelNames.add("spawn_p2");
             spawnLevelNames.add("spawn_p3");
             spawnLevelNames.add("spawn_p4");
-
-            int playerCount = playingScene.getPlayers().size();
 
             for (Level level : spawnLevels) {
                 if (level.getParams().startsWith(spawnLevelNames.get(Math.abs(playerCount - 1)) )) {
@@ -191,7 +189,7 @@ public class LevelsManager {
 
     private void addNewRandomLevel() {
         int maxLevel = levels.size();
-        int random = 8;//new Agragation().getRandomNumber(0, maxLevel);
+        int random = Agragation.getRandomNumber(0, maxLevel);
 
         Level newLevel = levels.get(random).copyLevel();
         newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);
@@ -243,6 +241,12 @@ public class LevelsManager {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public void resetLevelManager(){
+        activeLevels.clear();
+        toRemoveActiveLevels.clear();
+        toAddActiveLevels.clear();
     }
 
 }

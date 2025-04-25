@@ -21,7 +21,7 @@ public class BackgroundManager {
     private Animator waterAnimator;
     private double waterSizeK = 2f;
 
-    private PlayingScene playingScene;
+//    private PlayingScene playingScene;
 
     private final int MAX_SMALL_CLOUDS = 4;
 
@@ -34,14 +34,13 @@ public class BackgroundManager {
     private ArrayList<Cloud> toAddBigCloudsList;
     private ArrayList<Cloud> toRemoveBigCloudsList;
 
-    private double smallCloudsSpeed = 0.9f * Game.SCALE;
-    private double bigCloudsSpeed = 1.2f * Game.SCALE;
+    private double smallCloudsSpeed = 0.15f * Game.SCALE;
+    private double bigCloudsSpeed = 0.45f * Game.SCALE;
 
     int smallCloudsTicks = 0;
 
 
-    public BackgroundManager(PlayingScene playingScene) {
-        this.playingScene = playingScene;
+    public BackgroundManager() {
 
         smallCloudsList = new ArrayList<>();
         bigCloudsList = new ArrayList<>();
@@ -85,7 +84,8 @@ public class BackgroundManager {
     }
 
     private void renderBigClouds(Graphics g) {
-        for (Cloud bigCloud : bigCloudsList) {
+        List<Cloud> cloudsCopy = new ArrayList<>(bigCloudsList);
+        for (Cloud bigCloud : cloudsCopy) {
             bigCloud.draw((Graphics2D) g);
         }
     }
@@ -126,11 +126,13 @@ public class BackgroundManager {
     private void generateSmallClouds(){
         int randomCloud = Agragation.getRandomNumber(0, smallClouds.length - 1);
         int randomY = Agragation.getRandomNumber((int) (Game.WINDOW_HEIGHT * 0.05), (int) (Game.WINDOW_HEIGHT * 0.5));
+        int randomX = Agragation.getRandomNumber((int) (Game.WINDOW_WIDTH * 0.01), (int) (Game.WINDOW_WIDTH * 0.1));
 
         smallCloudsTicks++;
 
-        if (smallCloudsList.size() < MAX_SMALL_CLOUDS && smallCloudsTicks == Game.UPS_LIMIT * 1.5) {
+        if (smallCloudsList.size() < MAX_SMALL_CLOUDS && smallCloudsTicks == Game.UPS_LIMIT * 4) {
             Cloud newCloud = smallClouds[randomCloud].clone();
+            newCloud.setX(Game.WINDOW_WIDTH + randomX);
             newCloud.setVelocity_x(-smallCloudsSpeed);
             newCloud.setY(randomY);
             toAddSmallCloudsList.add(newCloud);

@@ -38,7 +38,7 @@ public class PhisicsComponent {
 
     public void update() {
         // Apply gravity
-        if (ableToDown) {
+        if (ableToDown && !player.isDisableGravity()) {
             applyForce(0, gravityScale * gravityDirection * mass);
         }
 

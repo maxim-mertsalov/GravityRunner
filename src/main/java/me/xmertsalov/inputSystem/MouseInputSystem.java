@@ -21,6 +21,7 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 		switch (GameScene.scene){
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseMoved(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseMoved(e);
+			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseMoved(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -30,6 +31,7 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 		switch (GameScene.scene){
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseClicked(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseClicked(e);
+			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseClicked(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -39,6 +41,7 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 		switch (GameScene.scene){
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mousePressed(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mousePressed(e);
+			case LOBBY -> gamePanel.getGame().getLobbyScene().mousePressed(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -48,6 +51,7 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 		switch (GameScene.scene){
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseReleased(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseReleased(e);
+			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseReleased(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}

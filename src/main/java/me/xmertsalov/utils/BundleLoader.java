@@ -54,6 +54,22 @@ public class BundleLoader {
     public static final String POWER_UPS_ATLAS = "/res/Objects/power-ups.png";
     public static final String SAW_ATLAS = "/res/Objects/saw.png";
 
+    // UI && MENU
+    public static final String MENU_BACKGROUND = "/res/UI/background.png";
+    public static final String BIG_BUTTONS = "/res/UI/btn main.png";
+    public static final String SMALL_BUTTONS = "/res/UI/btn small.png";
+    public static final String ARROWS_BUTTONS = "/res/UI/btn arrows.png";
+    public static final String LOGO = "/res/UI/logo.png";
+    public static final String PLAYER_PLACEHOLDER = "/res/UI/player_placeholder.png";
+    public static final String MENU_BACKGROUND_LONG = "/res/UI/background long.png";
+    public static final String TEXT_BORDERLESS_MODE = "/res/UI/text borderless mode.png";
+    public static final String TEXT_GHOST_MODE = "/res/UI/text ghost mode.png";
+    public static final String TEXT_GOD_MODE = "/res/UI/text god mode.png";
+    public static final String TEXT_SLOW_MODE = "/res/UI/text slow mode.png";
+    public static final String TEXT_SPEED_MODE = "/res/UI/text speed mode.png";
+    public static final String TEXT_VIEWER_MODE = "/res/UI/text viewer mode.png";
+    public static final String EMPTY_BUTTON = "/res/UI/btn sprite.png";
+
 
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;

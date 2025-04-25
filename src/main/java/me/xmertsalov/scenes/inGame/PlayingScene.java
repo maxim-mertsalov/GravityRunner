@@ -1,7 +1,6 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.background.BackgroundManager;
 import me.xmertsalov.components.PhisicsControler;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.world.LevelsManager;
@@ -19,45 +18,96 @@ public class PlayingScene extends Scene implements IScene {
     private ArrayList<Player> players;
     private LevelsManager levelsManager;
     private PhisicsControler phisicsControler;
-    private BackgroundManager backgroundManager;
+
+    private boolean reseted = false;
 
     // States
     private boolean ghostMode = false;
 
-    public PlayingScene(Game game, ArrayList<Player> players) {
+    public PlayingScene(Game game) {
         super(game);
-
-        this.players = players;
 
         start();
     }
 
     private void start() {
-//        player = new Player( Game.TILES_SIZE * 12, Game.TILES_SIZE * 5, KeyEvent.VK_SPACE);
-
+        this.players = new ArrayList<>();
         levelsManager = new LevelsManager(this);
         phisicsControler = new PhisicsControler(this);
-        backgroundManager = new BackgroundManager(this);
     }
 
     @Override
     public void update() {
+        startGame();
         for (Player player : players) {
             player.update();
         }
         levelsManager.update();
         phisicsControler.update();
-        backgroundManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
-        backgroundManager.draw(g);
         for (Player player : players) {
             player.render(g);
         }
         levelsManager.render(g);
         phisicsControler.render(g);
+    }
+
+    private void startGame(){
+        if (reseted) return;
+
+        for (Player player : game.getPlayers()) {
+            if (!player.isInActive()) {
+                player.setDisableGravity(false);
+                player.setDisableControls(false);
+                players.add(player);
+            }
+        }
+        levelsManager.resetLevelManager();
+        levelsManager.generateSpawnLevel(players.size());
+
+        System.out.println(players.getFirst().getPosY());
+
+        switch (players.size()){
+            case 1 -> {
+                players.get(0).setPosX(Game.TILES_SIZE * 12);
+                players.get(0).setPosY(Game.TILES_SIZE * 6);
+            }
+            case 2 -> {
+                players.get(0).setPosX(Game.TILES_SIZE * 12);
+                players.get(0).setPosY(Game.TILES_SIZE * 6);
+
+                players.get(1).setPosX(Game.TILES_SIZE * 12);
+                players.get(1).setPosY(Game.TILES_SIZE * 10);
+            }
+            case 3 -> {
+                players.get(0).setPosX(Game.TILES_SIZE * 12);
+                players.get(0).setPosY(Game.TILES_SIZE * 3);
+
+                players.get(1).setPosX(Game.TILES_SIZE * 12);
+                players.get(1).setPosY(Game.TILES_SIZE * 7);
+
+                players.get(2).setPosX(Game.TILES_SIZE * 12);
+                players.get(2).setPosY(Game.TILES_SIZE * 10);
+            }
+            case 4 -> {
+                players.get(0).setPosX(Game.TILES_SIZE * 12);
+                players.get(0).setPosY(Game.TILES_SIZE * 2);
+
+                players.get(1).setPosX(Game.TILES_SIZE * 12);
+                players.get(1).setPosY(Game.TILES_SIZE * 5);
+
+                players.get(2).setPosX(Game.TILES_SIZE * 12);
+                players.get(2).setPosY(Game.TILES_SIZE * 8);
+
+                players.get(3).setPosX(Game.TILES_SIZE * 12);
+                players.get(3).setPosY(Game.TILES_SIZE * 10);
+            }
+        }
+
+        reseted = true;
     }
 
     @Override
@@ -95,7 +145,7 @@ public class PlayingScene extends Scene implements IScene {
     }
 
     public ArrayList<Player> getPlayers() {
-        return players;
+        return game.getPlayers();
     }
 
     public LevelsManager getLevelsManager() {
@@ -108,5 +158,9 @@ public class PlayingScene extends Scene implements IScene {
 
     public void setGhostMode(boolean ghostMode) {
         this.ghostMode = ghostMode;
+    }
+
+    public void reset(){
+        reseted = false;
     }
 }

@@ -24,6 +24,7 @@ public class Player extends Entity {
 	// Player attributes
 	private boolean isGodMode = false;
 	private boolean isDead = false;
+	private boolean inActive = false;
 
 	private boolean moving = false, attacking = false;
 
@@ -40,6 +41,7 @@ public class Player extends Entity {
 	private Collider collider;
 	private PhisicsComponent phisicsComponent;
 	private Animator animator;
+	PlayerAnimator playerAnimator;
 
 
 	// Other
@@ -47,8 +49,9 @@ public class Player extends Entity {
 	private boolean isConsumedBonus = false;
 
 	// Player controls
-	private final int changeGravityKey;
+	private int changeGravityKey;
 	private boolean disableControls = false;
+	private boolean disableGravity = false;
 
 	// Player flip sprite
 	private double flipY = 0;
@@ -64,6 +67,7 @@ public class Player extends Entity {
 
 		this.playerSkin = playerSkin;
 
+		this.playerAnimator = playerAnimator;
 		animator = playerAnimator.getAnimator(playerSkin);
 		animator.setAnimationState("RUNNING");
 
@@ -81,9 +85,11 @@ public class Player extends Entity {
 	public void update() {
 		if (isDead) {
 			// Handle player death logic here
-//			animator.setAnimationState("DEATH", true);
-//			return;
+			animator.setAnimationState("DEATH", true);
+			return;
 		}
+		if (inActive) return;
+
 		phisicsComponent.setVelocityY(0);
 
 		collider.updateBounds(
@@ -103,6 +109,7 @@ public class Player extends Entity {
 //		g.drawImage(animations[playerState][aniIndex],
 //				(int) x, (int) y,
 //				256, 160, null);
+		if (inActive) return;
 
 		collider.draw(g);
 		animator.draw(g, x, y + flipY, (int)(playerWidth), (int)(playerHeight * flipH));
@@ -219,6 +226,10 @@ public class Player extends Entity {
 		return changeGravityKey;
 	}
 
+	public void setChangeGravityKey(int changeGravityKey) {
+		this.changeGravityKey = changeGravityKey;
+	}
+
 	public boolean isGodMode(){ return isGodMode; }
 
 	public boolean isDead(){ return isDead; }
@@ -238,6 +249,30 @@ public class Player extends Entity {
 
     public void setDisableControls(boolean disableControls) {
         this.disableControls = disableControls;
+    }
+
+    public boolean isDisableGravity() {
+        return disableGravity;
+    }
+
+    public void setDisableGravity(boolean disableGravity) {
+        this.disableGravity = disableGravity;
+    }
+
+	public PlayerAnimator getPlayerAnimator() {
+		return playerAnimator;
+	}
+
+	public String getPlayerSkin() {
+		return playerSkin;
+	}
+
+    public boolean isInActive() {
+        return inActive;
+    }
+
+    public void setInActive(boolean inActive) {
+        this.inActive = inActive;
     }
 }
 

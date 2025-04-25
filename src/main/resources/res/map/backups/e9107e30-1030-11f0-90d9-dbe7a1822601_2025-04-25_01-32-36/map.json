@@ -82,7 +82,7 @@
 			"type": "Tiles",
 			"uid": 96,
 			"doc": null,
-			"uiColor": "#000000",
+			"uiColor": null,
 			"gridSize": 32,
 			"guideGridWid": 0,
 			"guideGridHei": 0,
@@ -3851,7 +3851,7 @@
 			"bgPivotX": 0.5,
 			"bgPivotY": 0.5,
 			"__smartColor": "#ADADB5",
-			"__bgPos": null,
+			"__bgPos": { "topLeftPx": [0,0], "scale": [1,1], "cropRect": [0,0,832,448] },
 			"externalRelPath": null,
 			"fieldInstances": [{ "__identifier": "settings", "__type": "String", "__value": "spawn_p1", "__tile": null, "defUid": 119, "realEditorValues": [{
 				"id": "V_String",
@@ -3882,6 +3882,22 @@
 					"overrideTilesetUid": null,
 					"gridTiles": [],
 					"entityInstances": [
+						{
+							"__identifier": "Saw",
+							"__grid": [24,11],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#3A11C7",
+							"iid": "9b253780-1030-11f0-905d-073f40023ca2",
+							"width": 50,
+							"height": 50,
+							"defUid": 127,
+							"px": [768,352],
+							"fieldInstances": [],
+							"__worldX": 768,
+							"__worldY": -320
+						},
 						{
 							"__identifier": "MovableSaw",
 							"__grid": [15,2],
@@ -3926,8 +3942,12 @@
 					"seed": 5901242,
 					"overrideTilesetUid": null,
 					"gridTiles": [
+						{ "px": [160,64], "src": [0,0], "f": 0, "t": 0, "d": [57], "a": 1 },
+						{ "px": [256,96], "src": [0,0], "f": 0, "t": 0, "d": [86], "a": 1 },
+						{ "px": [288,96], "src": [0,0], "f": 0, "t": 0, "d": [87], "a": 1 },
 						{ "px": [352,96], "src": [0,0], "f": 0, "t": 0, "d": [89], "a": 1 },
-						{ "px": [480,160], "src": [0,0], "f": 0, "t": 0, "d": [145], "a": 1 }
+						{ "px": [256,128], "src": [0,0], "f": 0, "t": 0, "d": [112], "a": 1 },
+						{ "px": [192,160], "src": [0,0], "f": 0, "t": 0, "d": [136], "a": 1 }
 					],
 					"entityInstances": []
 				},

@@ -2,7 +2,11 @@ package me.xmertsalov.scenes;
 
 public enum GameScene {
     MENU,
-    PLAYING;
+    PLAYING,
+    LOBBY,
+    SETTINGS,
+    EXIT,
+    CREDITS;
 
-    public static GameScene scene = PLAYING;
+    public static GameScene scene = MENU;
 }

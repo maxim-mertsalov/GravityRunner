@@ -4,11 +4,11 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import me.xmertsalov.background.BackgroundManager;
 import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.scenes.GameScene;
-import me.xmertsalov.scenes.inGame.MenuScene;
-import me.xmertsalov.scenes.inGame.PlayingScene;
+import me.xmertsalov.scenes.inGame.*;
 
 public class Game implements Runnable {
 	// Game window and panel
@@ -35,16 +35,28 @@ public class Game implements Runnable {
 	// Debug collisions
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
 	public final static Color DEBUG_COLOR_SECOND = new Color(255, 0, 0, 80);
-	public final static boolean DEBUG_ENABLED = true;
+	public final static boolean DEBUG_ENABLED = false;
 
 	// All scenes
 	private PlayingScene playingScene;
 	private MenuScene menuScene;
+	private LobbyScene lobbyScene;
+	private SettingsScene settingsScene;
+	private CreditsScene creditsScene;
 
 
 	// Global game objects
 	private ArrayList<Player> players;
-	private PlayerAnimator playerAnimator;
+//	private PlayerAnimator playerAnimator;
+	private BackgroundManager backgroundManager;
+
+	// Game Modes
+	private boolean increasedGameSpeedMode = false;
+	private boolean ghostMode = false;
+	private boolean godMode = false;
+	private boolean slowMode = false;
+	private boolean borderlessMode = false;
+	private boolean viewerMode = false;
 
 	public Game() {
 		setScale(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -77,31 +89,42 @@ public class Game implements Runnable {
 	// This method is called when the game starts one time
 	private void startGame() {
 		players = new ArrayList<>();
-		playerAnimator = new PlayerAnimator();
+		PlayerAnimator playerAnimator = new PlayerAnimator();
 
-		players.add(new Player(Game.TILES_SIZE * 12, Game.TILES_SIZE * 5, KeyEvent.VK_SHIFT, playerAnimator, "Adventure Boy A"));
-		players.add(new Player(Game.TILES_SIZE * 12, Game.TILES_SIZE * 3, KeyEvent.VK_C, playerAnimator, "Special Knight 1"));
+		players.add(new Player(0, 0, KeyEvent.VK_SHIFT, playerAnimator.clone(), "Adventure Boy A"));
+		players.add(new Player(0, 0, KeyEvent.VK_C, playerAnimator.clone(), "Special Knight 1"));
+		players.add(new Player(0, 0, KeyEvent.VK_N, playerAnimator.clone(), "Special Knight 2"));
+		players.add(new Player(0, 0, KeyEvent.VK_L, playerAnimator.clone(), "Adventure Boy B"));
 
-		playingScene = new PlayingScene(this, players);
+		playingScene = new PlayingScene(this);
 		menuScene = new MenuScene(this);
+		lobbyScene = new LobbyScene(this);
+
+		backgroundManager = new BackgroundManager();
 	}
 
 	// This method is called every tick to update the game
 	public void updateGame() {
+		backgroundManager.update();
 		switch (GameScene.scene){
 			case PLAYING -> playingScene.update();
 			case MENU -> menuScene.update();
+			case LOBBY -> lobbyScene.update();
+			case EXIT -> System.exit(0);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
 	// This method is called every frame to render the game
 	public void renderGame(Graphics g) {
+		backgroundManager.draw(g);
 		switch (GameScene.scene) {
 			case PLAYING -> playingScene.draw(g);
 			case MENU -> menuScene.draw(g);
+			case LOBBY -> lobbyScene.draw(g);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
+
 	}
 
 	@Override
@@ -161,9 +184,26 @@ public class Game implements Runnable {
 		}
 	}
 
+	public boolean isBorderlessMode() {return borderlessMode;}
+	public boolean isSlowMode() {return slowMode;}
+	public boolean isGodMode() {return godMode;}
+	public boolean isGhostMode() {return ghostMode;}
+	public boolean isIncreasedGameSpeedMode() {return increasedGameSpeedMode;}
+	public boolean isViewerMode() {return viewerMode;}
+	public void setGodMode(boolean godMode) {this.godMode = godMode;}
+	public void setViewerMode(boolean viewerMode) {this.viewerMode = viewerMode;}
+	public void setBorderlessMode(boolean borderlessMode) {this.borderlessMode = borderlessMode;}
+	public void setSlowMode(boolean slowMode) {this.slowMode = slowMode;}
+	public void setGhostMode(boolean ghostMode) {this.ghostMode = ghostMode;}
+	public void setIncreasedGameSpeedMode(boolean increasedGameSpeedMode) {this.increasedGameSpeedMode = increasedGameSpeedMode;}
+
 	public PlayingScene getPlayingScene() {return playingScene;}
 
 	public MenuScene getMenuScene() {return menuScene;}
+
+	public LobbyScene getLobbyScene() {return lobbyScene;}
+
+	public ArrayList<Player> getPlayers() {return players;}
 
 
 }

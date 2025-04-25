@@ -22,12 +22,27 @@ public class PlayerAnimator {
         loadAnimators();
     }
 
+    private PlayerAnimator(HashMap<String, Animator> animators){
+        loadAnimationStates();
+        loadAnimationURLs();
+        this.animators = animators;
+    }
+
+
+    public PlayerAnimator clone(){
+        HashMap<String, Animator> new_animators = new HashMap<>();
+        for (String skinName : animators.keySet()) {
+            new_animators.put(skinName, animators.get(skinName).clone());
+        }
+        return new PlayerAnimator(new_animators);
+    }
+
     public Animator getAnimator(String key) {
         if (animators.containsKey(key)) {
             return animators.get(key);
         } else {
-            System.out.println("Animator not found: " + key);
-            return null;
+//            System.out.println("Animator not found: " + key);
+            return animators.get("Adventure Boy A");
         }
     }
 
@@ -86,6 +101,14 @@ public class PlayerAnimator {
             animators.put(skinName, animator);
             System.out.println("Animator for " + skinName + " loaded");
         }
+    }
+
+    public HashMap<String, String> getSkinsURL() {
+        return skinsURL;
+    }
+
+    public HashMap<String, Animator> getAnimationStates() {
+        return animators;
     }
 
 
