@@ -97,6 +97,8 @@ public class Game implements Runnable {
 		playingScene = new PlayingScene(this);
 		menuScene = new MenuScene(this);
 		lobbyScene = new LobbyScene(this);
+		creditsScene = new CreditsScene(this);
+		settingsScene = new SettingsScene(this);
 
 		score = new Score(this);
 		backgroundManager = new BackgroundManager();
@@ -112,6 +114,8 @@ public class Game implements Runnable {
             }
 			case MENU -> menuScene.update();
 			case LOBBY -> lobbyScene.update();
+			case SETTINGS -> settingsScene.update();
+			case CREDITS -> creditsScene.update();
 			case EXIT -> System.exit(0);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
@@ -124,6 +128,8 @@ public class Game implements Runnable {
 			case PLAYING -> playingScene.draw(g);
 			case MENU -> menuScene.draw(g);
 			case LOBBY -> lobbyScene.draw(g);
+			case SETTINGS -> settingsScene.draw(g);
+			case CREDITS -> creditsScene.draw(g);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 
@@ -197,13 +203,14 @@ public class Game implements Runnable {
 	public void setGhostMode(boolean ghostMode) {this.ghostMode = ghostMode;}
 	public void setIncreasedGameSpeedMode(boolean increasedGameSpeedMode) {this.increasedGameSpeedMode = increasedGameSpeedMode;}
 
+	// Getters Scenes
 	public PlayingScene getPlayingScene() {return playingScene;}
-
 	public MenuScene getMenuScene() {return menuScene;}
-
 	public LobbyScene getLobbyScene() {return lobbyScene;}
+	public SettingsScene getSettingsScene() {return settingsScene;}
+	public CreditsScene getCreditsScene() {return creditsScene;}
 
+	// Getters GameObjects
 	public ArrayList<Player> getPlayers() {return players;}
-
 	public Score getScore() {return score;}
 }

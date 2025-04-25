@@ -75,6 +75,9 @@ public class BundleLoader {
     public static final String BACKGROUND_GAME_OVER = "/res/UI/Score/background game over.png";
     public static final String TEXT_GAME_OVER = "/res/UI/Score/text game over.png";
 
+    // Credits
+    public static final String CREDITS_BACKGROUND = "/res/UI/credits.png";
+
     // Count Down
     public static final String COUNT_DOWN_ATLAS = "/res/UI/count down.png";
 

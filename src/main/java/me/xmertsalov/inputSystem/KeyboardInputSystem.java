@@ -26,6 +26,8 @@ public class KeyboardInputSystem implements KeyListener {
 			case PLAYING -> gamePanel.getGame().getPlayingScene().keyReleased(e);
 			case MENU -> gamePanel.getGame().getMenuScene().keyReleased(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().keyReleased(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().keyReleased(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().keyReleased(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -37,6 +39,8 @@ public class KeyboardInputSystem implements KeyListener {
 			case PLAYING -> gamePanel.getGame().getPlayingScene().keyPressed(e);
 			case MENU -> gamePanel.getGame().getMenuScene().keyPressed(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().keyPressed(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().keyPressed(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().keyPressed(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}

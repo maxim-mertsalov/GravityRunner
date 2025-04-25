@@ -22,6 +22,8 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseMoved(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseMoved(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseMoved(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseMoved(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseMoved(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -32,6 +34,8 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseClicked(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseClicked(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseClicked(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseClicked(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseClicked(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -42,6 +46,8 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mousePressed(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mousePressed(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().mousePressed(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().mousePressed(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().mousePressed(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -52,6 +58,8 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseReleased(e);
 			case MENU -> gamePanel.getGame().getMenuScene().mouseReleased(e);
 			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseReleased(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseReleased(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseReleased(e);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}

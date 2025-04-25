@@ -1,6 +1,7 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.IScene;
 import me.xmertsalov.scenes.Scene;
 
@@ -27,7 +28,7 @@ public class SettingsScene extends Scene implements IScene {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        GameScene.scene = GameScene.MENU;
     }
 
     @Override
