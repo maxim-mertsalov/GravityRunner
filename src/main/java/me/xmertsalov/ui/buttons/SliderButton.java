@@ -1,6 +1,7 @@
 package me.xmertsalov.ui.buttons;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -70,6 +71,7 @@ public class SliderButton implements IButton{
             if (onClickListener != null) onClickListener.run();
             state = 1;
             dragging = false;
+//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

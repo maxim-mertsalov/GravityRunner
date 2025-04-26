@@ -1,16 +1,16 @@
 package me.xmertsalov.utils;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 
 public class BundleLoader {
     // Player's skins
-    public static final String PIRATE_ATLAS = "/res/pirate_sprites.png";
-    //Others
     public static final String PLAYER_BOY_ADVENTURE_A_ATLAS = "/res/Players/Boy_Adventure A.png";
     public static final String PLAYER_BOY_ADVENTURE_B_ATLAS = "/res/Players/Boy_Adventure B.png";
     public static final String PLAYER_BOY_ADVENTURE_C_ATLAS = "/res/Players/Boy_Adventure C.png";
@@ -71,6 +71,9 @@ public class BundleLoader {
     public static final String EMPTY_BUTTON = "/res/UI/btn sprite.png";
     public static final String SLIDER_BUTTON = "/res/UI/btn slider.png";
     public static final String SETTINGS_BACKGROUND = "/res/UI/background settings.png";
+
+    // Loading screen && First screen
+    public static final String LOADING_BACKGROUND = "/res/UI/loading.png";
 
     // Score && Game Over
     public static final String TEXT_PLAYER_INDEXES = "/res/UI/Score/players index.png";

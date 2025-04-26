@@ -4,27 +4,52 @@ import me.xmertsalov.Game;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.IScene;
 import me.xmertsalov.scenes.Scene;
+import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class LoadingScene extends Scene implements IScene {
 
+    // Images
+    private BufferedImage background;
+
+    // States
+    private final int timeToWait = 3;
+    private int currentTimeToWait = 0;
+
+    // Other
+    private int ticksToWait = 0;
+
+    // UI Settings
+    private int initLogoWidth = 76;
+    private int initLogoHeight = 25;
+
+    private int logoWidth = (int)(initLogoWidth * Game.SCALE * 3);
+    private int logoHeight = (int)(initLogoHeight * Game.SCALE * 3);
+
     public LoadingScene(Game game) {
         super(game);
+        background = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
     }
 
     @Override
     public void update() {
-        if (game.getMenuScene() != null) {
+        ticksToWait++;
+        if (ticksToWait >= Game.UPS_LIMIT) {
+            ticksToWait = 0;
+            currentTimeToWait++;
+        }
+        if (game.getMenuScene() != null && currentTimeToWait >= timeToWait) {
             GameScene.scene = GameScene.MENU;
         }
     }
 
     @Override
     public void draw(Graphics g) {
-        // nothing to draw
+        g.drawImage(background, (int)(Game.WINDOW_WIDTH / 2 - logoWidth / 2), (int)(Game.WINDOW_HEIGHT / 2 - logoHeight / 2), logoWidth, logoHeight, null);
     }
 
     @Override

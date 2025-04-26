@@ -1,5 +1,6 @@
 package me.xmertsalov.ui.buttons;
 
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -48,6 +49,7 @@ public class SmallButton implements IButton {
     public void mouseReleased(MouseEvent e) {
         if (rectangle.contains(e.getX(), e.getY())) {
             state = 1;
+//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

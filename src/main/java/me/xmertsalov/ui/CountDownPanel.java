@@ -1,6 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.components.Animator;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.utils.BundleLoader;
@@ -22,6 +23,7 @@ public class CountDownPanel {
 
     private boolean show;
     private boolean setMove = false;
+    private boolean sounded = false;
 
     double k = 3.5;
 
@@ -38,31 +40,41 @@ public class CountDownPanel {
 
     public void update() {
         if (show) {
+            if (!sounded) {
+                playingScene.getGame().getAudioPlayer().playSfx(AudioPlayer.SFX_COUNTDOWN_F);
+                sounded = true;
+            }
             ticks++;
             if (ticks >= ticksPerSecond) {
                 ticks = 0;
-                System.out.println(3 - currentTime);
+
+                if (currentTime == 3) playingScene.getGame().getAudioPlayer().playSfx(AudioPlayer.SFX_COUNTDOWN_S);
+                else if(currentTime != 4) playingScene.getGame().getAudioPlayer().playSfx(AudioPlayer.SFX_COUNTDOWN_F);
+
+                System.out.println(currentTime);
                 currentTime++;
             }
         }
         else currentTime = 0;
 
-        if (!setMove && currentTime == 2 && ticks >= ticksPerSecond / 1.1) {
+        if (!setMove && currentTime >= 3 && ticks >= ticksPerSecond * 0.9) {
             playingScene.setCanMove(true);
             playingScene.setContinuedSpeed(true);
             setMove = true;
         }
 
-        if (currentTime > 3) {
-            currentTime = 3;
+        if (currentTime > 4) {
+            currentTime = 4;
             setMove = false;
             show = false;
         }
+
+//        sounded = false;
     }
 
     public void draw(Graphics g) {
-        if (show) {
-            g.drawImage(countDownImages[currentTime],
+        if (show && currentTime != 0) {
+            g.drawImage(countDownImages[currentTime - 1],
                     (int)(Game.WINDOW_WIDTH / 2 - width / 2),
                     (int)(Game.WINDOW_HEIGHT / 2 - height / 2),
                     width, height, null);

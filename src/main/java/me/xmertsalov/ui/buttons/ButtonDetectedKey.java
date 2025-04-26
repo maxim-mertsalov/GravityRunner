@@ -1,5 +1,6 @@
 package me.xmertsalov.ui.buttons;
 
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -100,9 +101,9 @@ public class ButtonDetectedKey implements IButton{
             if (newCode != this.keyCode) {
                 this.keyCode = newCode;
             }
-//            System.out.println("keyCode: " + KeyEvent.getKeyText(keyCode));
             state = 0;
             listening = false;
+//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

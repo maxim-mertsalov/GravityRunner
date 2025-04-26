@@ -11,5 +11,5 @@ public enum GameScene {
     CREDITS,
     LOADING;
 
-    public static GameScene scene = MENU;
+    public static GameScene scene = LOADING;
 }

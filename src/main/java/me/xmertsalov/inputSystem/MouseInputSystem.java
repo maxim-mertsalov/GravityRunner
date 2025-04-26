@@ -23,7 +23,10 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseDragged(e);
 			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseDragged(e);
 			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseDragged(e);
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+            case LOADING -> {
+                break;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -37,6 +40,9 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseMoved(e);
 			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseMoved(e);
 			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseMoved(e);
+			case LOADING -> {
+				break;
+			}
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -51,6 +57,9 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseClicked(e);
 			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseClicked(e);
 			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseClicked(e);
+			case LOADING -> {
+				break;
+			}
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -65,6 +74,9 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case CREDITS -> gamePanel.getGame().getCreditsScene().mousePressed(e);
 			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mousePressed(e);
 			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mousePressed(e);
+			case LOADING -> {
+				break;
+			}
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -79,6 +91,9 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseReleased(e);
 			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseReleased(e);
 			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseReleased(e);
+			case LOADING -> {
+				break;
+			}
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}

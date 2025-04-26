@@ -1,6 +1,7 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.components.PhysicsController;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.score.Score;
@@ -164,6 +165,8 @@ public class PlayingScene extends Scene implements IScene {
         }
 
         uiManager.startCountDown();
+        game.getAudioPlayer().playNextMusic();
+//        game.getAudioPlayer().playSfx(AudioPlayer.SFX_COUNTDOWN);
 
         game.getScore().setStarted(true);
 
@@ -202,6 +205,8 @@ public class PlayingScene extends Scene implements IScene {
     public void keyReleased(KeyEvent e) {
         for (Player player : players) {
             if (e.getKeyCode() == player.getChangeGravityKey()){
+                game.getAudioPlayer().setSfxCurrentVolume(AudioPlayer.SFX_JUMP,0.6f);
+                game.getAudioPlayer().playSfx(AudioPlayer.SFX_JUMP);
                 player.changeGravity();
             }
         }

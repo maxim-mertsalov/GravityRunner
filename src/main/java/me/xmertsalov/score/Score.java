@@ -1,6 +1,7 @@
 package me.xmertsalov.score;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.world.LevelsManager;
 
@@ -15,6 +16,7 @@ public class Score {
 
     private boolean loadedPlayers = false;
     private boolean started = false;
+    private boolean playedSound = false;
 
 
     public Score(Game game) {
@@ -33,8 +35,16 @@ public class Score {
         for (int i = 0; i < players.size(); i++) {
             if (!players.get(i).isDead() && started) {
                 scores.set(i, scores.get(i) + levelsManager.getSpeed() / 10);
+
+                // Check if the score is a multiple of 10000 call the sound
+                if (scores.get(i) == 10000 && !playedSound) {
+                    game.getAudioPlayer().playSfx(AudioPlayer.SFX_COIN);
+                    playedSound = true;
+                }
             }
         }
+
+        playedSound = false;
     }
 
     private void loadPlayers() {

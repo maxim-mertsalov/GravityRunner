@@ -176,6 +176,7 @@ public class SettingsManager implements UIManager{
         buttons.get(2).setData(musicVolume);
         buttons.get(2).setOnClickListener(() -> {
             musicVolume = buttons.get(2).getData();
+            game.getAudioPlayer().setMusicVolume((float) musicVolume / 100);
         });
 
         // SFX slider
@@ -189,6 +190,7 @@ public class SettingsManager implements UIManager{
         buttons.get(3).setData(sfxVolume);
         buttons.get(3).setOnClickListener(() -> {
             sfxVolume = buttons.get(3).getData();
+            game.getAudioPlayer().setSfxVolume((float) sfxVolume / 100);
         });
 
         // Menu button

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.background.BackgroundManager;
 import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.config.Config;
@@ -66,6 +67,9 @@ public class Game implements Runnable {
 
 	// Config
 	private Config config;
+
+	// Music
+	private AudioPlayer audioPlayer;
 
 	public Game() {
 		graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -132,6 +136,10 @@ public class Game implements Runnable {
 	// This method is called when the game starts one time
 	private void startGame() {
 		backgroundManager = new BackgroundManager();
+		audioPlayer = new AudioPlayer();
+
+		audioPlayer.setMusicVolume((float) Config.getMusicVolume() / 100);
+		audioPlayer.setSfxVolume((float) Config.getSfxVolume() / 100);
 
 		players = new ArrayList<>();
 		PlayerAnimator playerAnimator = new PlayerAnimator();
@@ -157,6 +165,8 @@ public class Game implements Runnable {
 	// This method is called every tick to update the game
 	public void updateGame() {
 		backgroundManager.update();
+		audioPlayer.update();
+		audioPlayer.autoGenerateMusic();
 		switch (GameScene.scene){
 			case PLAYING -> {
 				playingScene.update();
@@ -176,7 +186,10 @@ public class Game implements Runnable {
 
 	// This method is called every frame to render the game
 	public void renderGame(Graphics g) {
+		if (menuScene == null || backgroundManager == null) return;
+
 		backgroundManager.draw(g);
+
 		switch (GameScene.scene) {
 			case PLAYING -> playingScene.draw(g);
 			case MENU -> menuScene.draw(g);
@@ -266,10 +279,12 @@ public class Game implements Runnable {
 	public SettingsScene getSettingsScene() {return settingsScene;}
 	public PanoramaScene getPanoramaScene() {return panoramaScene;}
 	public TutorialScene getTutorialScene() {return tutorialScene;}
+	public LoadingScene getLoadingScene() {return loadingScene;}
 	public CreditsScene getCreditsScene() {return creditsScene;}
 
 	// Getters GameObjects
 	public ArrayList<Player> getPlayers() {return players;}
 	public Score getScore() {return score;}
 	public Config getConfig() {return config;}
+	public AudioPlayer getAudioPlayer() {return audioPlayer;}
 }

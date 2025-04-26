@@ -42,6 +42,9 @@ public class MenuScene extends Scene implements IScene {
     @Override
     public void mouseClicked(MouseEvent e) {
         menuManager.mouseClicked(e);
+        if (e.getX() >= 0 && e.getX() <= 50 * Game.SCALE && e.getY() >= 0 && e.getY() <= 50 * Game.SCALE) {
+            GameScene.scene = GameScene.PANORAMA;
+        }
     }
 
     @Override
