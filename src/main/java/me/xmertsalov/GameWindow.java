@@ -27,20 +27,6 @@ public class GameWindow {
 
 		jFrame.setResizable(false);
 
-//		jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//
-//		jFrame.setJMenuBar(new JMenuBar());
-
-//		if (device.isFullScreenSupported()) {
-//			device.setFullScreenWindow(jFrame);
-//			jFrame.setUndecorated(true);
-//		}
-//		else{
-//			jFrame.setSize(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
-//		}
-
-//		game.setScale(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
-
 		jFrame.addWindowFocusListener(new WindowFocusListener() {
 			@Override
 			public void windowLostFocus(WindowEvent e) {

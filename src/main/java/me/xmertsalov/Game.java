@@ -76,28 +76,36 @@ public class Game implements Runnable {
 		WINDOW_WIDTH = config.getResolutionWidth();
 		WINDOW_HEIGHT = config.getResolutionHeight();
 
+
 		// Game window and panel
 		gamePanel = new GamePanel(this, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		GameWindow gameWindow = new GameWindow(gamePanel, this);
-		gamePanel.requestFocus();
 
-
-
+		// if fullscreen mode is enabled
 		if (WINDOW_WIDTH == 0 && WINDOW_HEIGHT == 0){
+			// if fullscreen mode supported by the device -> set fullscreen
 			if (device.isFullScreenSupported()) {
 				gameWindow.getJFrame().setUndecorated(true);
 				device.setFullScreenWindow(gameWindow.getJFrame());
 			}
+
+			// else set maximum resolution
 			else{
 				gameWindow.getJFrame().setSize(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
 			}
+
+			// update window size
 			WINDOW_WIDTH = device.getDisplayMode().getWidth();
 			WINDOW_HEIGHT = device.getDisplayMode().getHeight();
 			gamePanel.setPanelSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		}
 
+		// set window visible
 		gameWindow.getJFrame().pack();
 		gameWindow.getJFrame().setVisible(true);
+
+		// request focus for inputs
+		gamePanel.requestFocus();
 
 		setScale(WINDOW_WIDTH, WINDOW_HEIGHT);
 
