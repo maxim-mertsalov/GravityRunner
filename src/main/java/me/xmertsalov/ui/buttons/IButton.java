@@ -15,6 +15,7 @@ public interface IButton {
     void mouseMoved(MouseEvent e);
     void mouseEntered(MouseEvent e);
     void mouseExited(MouseEvent e);
+    void mouseDragged(MouseEvent e);
 
     void keyPressed(KeyEvent e);
     void keyReleased(KeyEvent e);
@@ -27,4 +28,7 @@ public interface IButton {
     void loadImage();
 
     Rectangle2D getRectangle();
+
+    int getData();
+    void setData(int data);
 }

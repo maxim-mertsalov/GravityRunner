@@ -73,8 +73,8 @@ public class PlayerPlaceholder {
         );
 
         if (buttons.get(2) instanceof ButtonDetectedKey buttonDetectKey) {
-            if (buttonDetectKey.getKeyCode() != player.getChangeGravityKey()){
-                buttonDetectKey.setKeyCode(player.getChangeGravityKey());
+            if (buttonDetectKey.getData() != player.getChangeGravityKey()){
+                buttonDetectKey.setData(player.getChangeGravityKey());
             }
         }
 
@@ -91,9 +91,11 @@ public class PlayerPlaceholder {
         for (IButton button : buttons) {
             button.draw(g);
         }
+
         g.setColor(new Color(51, 50, 61));
         g.setFont(new Font("Arial", Font.BOLD, (int)(8 * Game.SCALE)));
         g.drawString(currentSkinName, (int)(getXById() + 30 * Game.SCALE), (int)(placeholderY + 117.5 * Game.SCALE));
+
         player.render(g);
     }
 
@@ -116,8 +118,8 @@ public class PlayerPlaceholder {
         }
 
         if (buttons.get(2) instanceof ButtonDetectedKey buttonDetectKey) {
-            if (buttonDetectKey.getKeyCode() != player.getChangeGravityKey()){
-                player.setChangeGravityKey(buttonDetectKey.getKeyCode());
+            if (buttonDetectKey.getData() != player.getChangeGravityKey()){
+                player.setChangeGravityKey(buttonDetectKey.getData());
             }
         }
     }

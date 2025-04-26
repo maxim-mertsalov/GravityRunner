@@ -6,15 +6,19 @@ import java.util.ArrayList;
 
 import me.xmertsalov.background.BackgroundManager;
 import me.xmertsalov.components.PlayerAnimator;
+import me.xmertsalov.config.Config;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.*;
 import me.xmertsalov.score.Score;
 
+import javax.swing.*;
+
 public class Game implements Runnable {
     private final GamePanel gamePanel;
 	private Thread gameThread;
-	private GraphicsDevice gd;
+	private GraphicsEnvironment graphics;
+	private GraphicsDevice device;
 
 	// Game loop settings
 	public final static int FPS_LIMIT = 120;
@@ -28,8 +32,8 @@ public class Game implements Runnable {
 	public static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
 	public static int GAME_WIDTH = TILES_DEFAULT_SIZE * TILES_IN_WIDTH;
 	public static int GAME_HEIGHT = TILES_DEFAULT_SIZE * TILES_IN_HEIGHT;
-	public final static int WINDOW_WIDTH = 1440; // 1440
-	public final static int WINDOW_HEIGHT = 900; // 900
+	public static int WINDOW_WIDTH = 1440; // 1440
+	public static int WINDOW_HEIGHT = 900; // 900
 
 	// Debug collisions
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
@@ -59,15 +63,45 @@ public class Game implements Runnable {
 	private boolean borderlessMode = false;
 	private boolean viewerMode = false;
 
+	// Config
+	private Config config;
+
 	public Game() {
+		graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		device = graphics.getDefaultScreenDevice();
+
+		// Load config
+		config = new Config();
+		config.loadConfig();
+		WINDOW_WIDTH = config.getResolutionWidth();
+		WINDOW_HEIGHT = config.getResolutionHeight();
+
+		// Game window and panel
+		gamePanel = new GamePanel(this, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		GameWindow gameWindow = new GameWindow(gamePanel, this);
+		gamePanel.requestFocus();
+
+
+
+		if (WINDOW_WIDTH == 0 && WINDOW_HEIGHT == 0){
+			if (device.isFullScreenSupported()) {
+				gameWindow.getJFrame().setUndecorated(true);
+				device.setFullScreenWindow(gameWindow.getJFrame());
+			}
+			else{
+				gameWindow.getJFrame().setSize(device.getDisplayMode().getWidth(), device.getDisplayMode().getHeight());
+			}
+			WINDOW_WIDTH = device.getDisplayMode().getWidth();
+			WINDOW_HEIGHT = device.getDisplayMode().getHeight();
+			gamePanel.setPanelSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+		}
+
+		gameWindow.getJFrame().pack();
+		gameWindow.getJFrame().setVisible(true);
+
 		setScale(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		startGame();
-
-		gamePanel = new GamePanel(this, new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        // Game window and panel
-        GameWindow gameWindow = new GameWindow(gamePanel, this);
-		gamePanel.requestFocus();
 
 		startGameLoop();
 	}
@@ -223,4 +257,5 @@ public class Game implements Runnable {
 	// Getters GameObjects
 	public ArrayList<Player> getPlayers() {return players;}
 	public Score getScore() {return score;}
+	public Config getConfig() {return config;}
 }

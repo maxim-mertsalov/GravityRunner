@@ -47,7 +47,7 @@ public class SmallButton implements IButton {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (rectangle.contains(e.getX(), e.getY())) {
-            state = 0;
+            state = 1;
         }
     }
 
@@ -68,6 +68,11 @@ public class SmallButton implements IButton {
     @Override
     public void mouseExited(MouseEvent e) {
         state = 0;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
     }
 
     @Override
@@ -116,4 +121,12 @@ public class SmallButton implements IButton {
     public Rectangle2D getRectangle() {
         return rectangle;
     }
+
+    @Override
+    public int getData() {
+        return 0;
+    }
+
+    @Override
+    public void setData(int data) {}
 }

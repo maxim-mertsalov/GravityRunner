@@ -62,6 +62,11 @@ public class LobbyScene extends Scene implements IScene {
     }
 
     @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         lobbyManager.keyPressed(e);
     }

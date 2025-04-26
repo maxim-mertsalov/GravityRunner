@@ -69,6 +69,8 @@ public class BundleLoader {
     public static final String TEXT_SPEED_MODE = "/res/UI/text speed mode.png";
     public static final String TEXT_VIEWER_MODE = "/res/UI/text viewer mode.png";
     public static final String EMPTY_BUTTON = "/res/UI/btn sprite.png";
+    public static final String SLIDER_BUTTON = "/res/UI/btn slider.png";
+    public static final String SETTINGS_BACKGROUND = "/res/UI/background settings.png";
 
     // Score && Game Over
     public static final String TEXT_PLAYER_INDEXES = "/res/UI/Score/players index.png";

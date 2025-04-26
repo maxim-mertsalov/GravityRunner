@@ -26,12 +26,10 @@ public class GameWindow {
 		jFrame.setLocationRelativeTo(null);
 
 		jFrame.setResizable(false);
+
 //		jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+//
 //		jFrame.setJMenuBar(new JMenuBar());
-
-		jFrame.pack();
-		jFrame.setVisible(true);
 
 //		if (device.isFullScreenSupported()) {
 //			device.setFullScreenWindow(jFrame);
@@ -52,7 +50,10 @@ public class GameWindow {
 			@Override
 			public void windowGainedFocus(WindowEvent e) {}
 		});
+	}
 
+	public JFrame getJFrame() {
+		return jFrame;
 	}
 
 }

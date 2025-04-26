@@ -1,7 +1,7 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.PhisicsControler;
+import me.xmertsalov.components.PhysicsController;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.score.Score;
 import me.xmertsalov.ui.PlayingUIManager;
@@ -19,7 +19,7 @@ public class PlayingScene extends Scene implements IScene {
     // Game objects
     private ArrayList<Player> players;
     private LevelsManager levelsManager;
-    private PhisicsControler phisicsControler;
+    private PhysicsController phisicsControler;
 
     private boolean reseted = false;
 
@@ -53,7 +53,7 @@ public class PlayingScene extends Scene implements IScene {
     private void start() {
         this.players = new ArrayList<>();
         levelsManager = new LevelsManager(this);
-        phisicsControler = new PhisicsControler(this);
+        phisicsControler = new PhysicsController(this);
     }
 
     @Override
@@ -188,6 +188,11 @@ public class PlayingScene extends Scene implements IScene {
     @Override
     public void mouseMoved(MouseEvent e) {
         uiManager.mouseMoved(e);
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
     }
 
     @Override

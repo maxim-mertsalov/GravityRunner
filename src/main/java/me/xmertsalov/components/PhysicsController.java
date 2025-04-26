@@ -11,12 +11,12 @@ import me.xmertsalov.scenes.inGame.PlayingScene;
 import java.awt.geom.Rectangle2D;
 
 
-public class PhisicsControler {
+public class PhysicsController {
     private final PlayingScene playingScene;
 
     private int ticks;
 
-    public PhisicsControler(PlayingScene playingScene) {
+    public PhysicsController(PlayingScene playingScene) {
         this.playingScene = playingScene;
     }
 

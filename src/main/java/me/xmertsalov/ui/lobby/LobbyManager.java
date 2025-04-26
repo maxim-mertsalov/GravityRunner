@@ -94,7 +94,7 @@ public class LobbyManager implements UIManager {
         buttons.add(smallButtonFactory.createButton(
                 (int) ((Game.WINDOW_WIDTH - 200) / 2) - sizeTogleBtn - (int)(6 * Game.SCALE), (int) (392 * Game.SCALE), sizeTogleBtn, sizeTogleBtn, 0
         ));
-        buttons.get(7).setOnClickListener(() -> {
+        buttons.get(6).setOnClickListener(() -> {
             GameScene.scene = GameScene.MENU;
         });
 
@@ -151,7 +151,7 @@ public class LobbyManager implements UIManager {
         g.drawImage(textGodModeImage, (firstColBtnX + paddingXText), (thirdRowBtnY + paddingYText), (int)(textGodModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textGodModeImage.getHeight() * btn_scale * Game.SCALE), null);
         g.drawImage(textSlowModeImage, (secondColBtnX + paddingXText), (firstRowBtnY + paddingYText), (int)(textSlowModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textSlowModeImage.getHeight() * btn_scale * Game.SCALE), null);
         g.drawImage(textBorderlessModeImage, (secondColBtnX + paddingXText), (secondRowBtnY + paddingYText), (int)(textBorderlessModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textBorderlessModeImage.getHeight() * btn_scale * Game.SCALE), null);
-        g.drawImage(textViewerModeImage, (secondColBtnX + paddingXText), (thirdRowBtnY + paddingYText), (int)(textViewerModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textViewerModeImage.getHeight() * btn_scale * Game.SCALE), null);
+//        g.drawImage(textViewerModeImage, (secondColBtnX + paddingXText), (thirdRowBtnY + paddingYText), (int)(textViewerModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textViewerModeImage.getHeight() * btn_scale * Game.SCALE), null);
     }
 
     private void loadModes(){
@@ -324,19 +324,19 @@ public class LobbyManager implements UIManager {
         });
 
         // viewer mode
-        buttons.add(smallButtonFactory.createButton(
-                secondColBtnX, thirdRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
-        ));
-        buttons.get(6).setOnClickListener(() -> {
-            if (viewerMode) {
-                viewerMode = false;
-                buttons.get(6).setVariant(4);
-            } else {
-                viewerMode = true;
-                buttons.get(6).setVariant(3);
-            }
-            buttons.get(6).setState(1);
-        });
+//        buttons.add(smallButtonFactory.createButton(
+//                secondColBtnX, thirdRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+//        ));
+//        buttons.get(6).setOnClickListener(() -> {
+//            if (viewerMode) {
+//                viewerMode = false;
+//                buttons.get(6).setVariant(4);
+//            } else {
+//                viewerMode = true;
+//                buttons.get(6).setVariant(3);
+//            }
+//            buttons.get(6).setState(1);
+//        });
     }
 
     private void loadPlayers(){

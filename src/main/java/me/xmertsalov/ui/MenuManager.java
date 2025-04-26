@@ -42,21 +42,34 @@ public class MenuManager implements UIManager {
         bigButtonFactory = new BigButtonFactory();
 
         buttons = new ArrayList<>();
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(170 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 0));
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(205 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 7));
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(240 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 2));
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(275 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 3));
 
+        // Play button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(160 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 0));
         buttons.get(0).setOnClickListener(() -> {
             GameScene.scene = GameScene.LOBBY;
         });
+
+        // Tutorial button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(195 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 6));
         buttons.get(1).setOnClickListener(() -> {
-            GameScene.scene = GameScene.PANORAMA;
+            GameScene.scene = GameScene.TUTORIAL;
         });
+
+        // Settings button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(230 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 1));
         buttons.get(2).setOnClickListener(() -> {
+            GameScene.scene = GameScene.SETTINGS;
+        });
+
+        // Credits button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(265 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 2));
+        buttons.get(3).setOnClickListener(() -> {
             GameScene.scene = GameScene.CREDITS;
         });
-        buttons.get(3).setOnClickListener(() -> {
+
+        // Exit button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(300 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 3));
+        buttons.get(4).setOnClickListener(() -> {
             GameScene.scene = GameScene.EXIT;
         });
 

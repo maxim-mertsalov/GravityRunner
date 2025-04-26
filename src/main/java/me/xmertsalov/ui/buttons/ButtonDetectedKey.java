@@ -84,6 +84,11 @@ public class ButtonDetectedKey implements IButton{
     }
 
     @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
 
     }
@@ -134,15 +139,18 @@ public class ButtonDetectedKey implements IButton{
         }
     }
 
-    public int getKeyCode() {
-        return keyCode; // Placeholder for the key code
-    }
-    public void setKeyCode(int keyCode) {
-        this.keyCode = keyCode;
-    }
-
     @Override
     public Rectangle2D getRectangle() {
         return rectangle;
+    }
+
+    @Override
+    public int getData() {
+        return keyCode;
+    }
+
+    @Override
+    public void setData(int data) {
+        this.keyCode = data;
     }
 }

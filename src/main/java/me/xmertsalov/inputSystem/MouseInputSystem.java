@@ -14,7 +14,18 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) {
+		switch (GameScene.scene){
+			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseDragged(e);
+			case MENU -> gamePanel.getGame().getMenuScene().mouseDragged(e);
+			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseDragged(e);
+			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseDragged(e);
+			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseDragged(e);
+			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseDragged(e);
+			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseDragged(e);
+			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+		}
+	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {

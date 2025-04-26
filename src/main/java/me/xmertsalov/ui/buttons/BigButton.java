@@ -47,7 +47,7 @@ public class BigButton implements IButton {
     @Override
     public void mouseReleased(MouseEvent e) {
        if (rectangle.contains(e.getX(), e.getY())) {
-            state = 0;
+            state = 1;
         }
     }
 
@@ -69,6 +69,11 @@ public class BigButton implements IButton {
     @Override
     public void mouseExited(MouseEvent e) {
         state = 0;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
     }
 
     @Override
@@ -100,7 +105,7 @@ public class BigButton implements IButton {
     public void loadImage() {
         BufferedImage image = BundleLoader.getSpriteAtlas(BundleLoader.BIG_BUTTONS);
 
-        int rows = 8;
+        int rows = 9;
         int cols = 3;
         int width = 56;
         int height = 14;
@@ -117,4 +122,12 @@ public class BigButton implements IButton {
     public Rectangle2D getRectangle() {
         return rectangle;
     }
+
+    @Override
+    public int getData() {
+        return 0;
+    }
+
+    @Override
+    public void setData(int data) {}
 }

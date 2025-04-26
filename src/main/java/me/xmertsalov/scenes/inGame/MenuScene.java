@@ -60,6 +60,11 @@ public class MenuScene extends Scene implements IScene {
     }
 
     @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
             GameScene.scene = GameScene.PLAYING;

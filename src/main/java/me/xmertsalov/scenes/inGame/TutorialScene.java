@@ -47,6 +47,11 @@ public class TutorialScene extends Scene implements IScene {
     }
 
     @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
 
     }
