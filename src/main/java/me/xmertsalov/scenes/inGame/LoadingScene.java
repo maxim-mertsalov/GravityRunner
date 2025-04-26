@@ -4,50 +4,47 @@ import me.xmertsalov.Game;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.IScene;
 import me.xmertsalov.scenes.Scene;
-import me.xmertsalov.ui.TutorialManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class TutorialScene extends Scene implements IScene {
+public class LoadingScene extends Scene implements IScene {
 
-    // UI
-    TutorialManager tutorialManager;
-
-    public TutorialScene(Game game) {
+    public LoadingScene(Game game) {
         super(game);
-        tutorialManager = new TutorialManager();
     }
 
     @Override
     public void update() {
-        tutorialManager.update();
+        if (game.getMenuScene() != null) {
+            GameScene.scene = GameScene.MENU;
+        }
     }
 
     @Override
     public void draw(Graphics g) {
-        tutorialManager.draw(g);
+        // nothing to draw
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        tutorialManager.mouseClicked(e);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        tutorialManager.mousePressed(e);
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        tutorialManager.mouseReleased(e);
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        tutorialManager.mouseMoved(e);
+
     }
 
     @Override

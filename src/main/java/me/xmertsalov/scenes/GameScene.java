@@ -8,7 +8,8 @@ public enum GameScene {
     EXIT,
     PANORAMA,
     TUTORIAL,
-    CREDITS;
+    CREDITS,
+    LOADING;
 
     public static GameScene scene = MENU;
 }

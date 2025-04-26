@@ -48,6 +48,7 @@ public class Game implements Runnable {
 	private CreditsScene creditsScene;
 	private PanoramaScene panoramaScene;
 	private TutorialScene tutorialScene;
+	private LoadingScene loadingScene;
 
 
 	// Global game objects
@@ -130,6 +131,8 @@ public class Game implements Runnable {
 
 	// This method is called when the game starts one time
 	private void startGame() {
+		backgroundManager = new BackgroundManager();
+
 		players = new ArrayList<>();
 		PlayerAnimator playerAnimator = new PlayerAnimator();
 
@@ -145,9 +148,10 @@ public class Game implements Runnable {
 		settingsScene = new SettingsScene(this);
 		tutorialScene = new TutorialScene(this);
 		panoramaScene = new PanoramaScene(this);
+		loadingScene = new LoadingScene(this);
 
 		score = new Score(this);
-		backgroundManager = new BackgroundManager();
+
 	}
 
 	// This method is called every tick to update the game
@@ -165,6 +169,7 @@ public class Game implements Runnable {
 			case EXIT -> System.exit(0);
 			case PANORAMA -> panoramaScene.update();
 			case TUTORIAL -> tutorialScene.update();
+			case LOADING -> loadingScene.update();
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
@@ -180,6 +185,7 @@ public class Game implements Runnable {
 			case CREDITS -> creditsScene.draw(g);
 			case PANORAMA -> panoramaScene.draw(g);
 			case TUTORIAL -> tutorialScene.draw(g);
+			case LOADING -> loadingScene.draw(g);
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 

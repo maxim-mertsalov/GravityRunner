@@ -83,6 +83,11 @@ public class BundleLoader {
     // Count Down
     public static final String COUNT_DOWN_ATLAS = "/res/UI/count down.png";
 
+    // Tutorial
+    public static final String TUTORIAL_BACKGROUND = "/res/UI/Tutorial/background tutorial.png";
+    public static final String TUTORIAL_TEXTS = "/res/UI/Tutorial/texts tutorial.png";
+    public static final String TUTORIAL_IMAGES = "/res/UI/Tutorial/images tutorial.png";
+
 
     public static BufferedImage getSpriteAtlas(String fileName) {
         BufferedImage img = null;
