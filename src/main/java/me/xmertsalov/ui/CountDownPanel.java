@@ -2,15 +2,12 @@ package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
-import me.xmertsalov.components.Animator;
 import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.List;
 
 public class CountDownPanel {
 

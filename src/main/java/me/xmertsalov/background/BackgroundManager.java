@@ -1,7 +1,8 @@
 package me.xmertsalov.background;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.Animator;
+import me.xmertsalov.components.Animator.Animator;
+import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.Agragation;
 import me.xmertsalov.utils.BundleLoader;
@@ -64,6 +65,7 @@ public class BackgroundManager {
                 .setAnimationStates(waterStates)
                 .setCurrentState("WATER")
                 .setAnimationSpeed(-1)
+                .setAnimationStrategy(new LoopingAnimationStrategy())
                 .build_and_load();
 
 

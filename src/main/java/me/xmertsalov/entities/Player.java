@@ -2,6 +2,9 @@ package me.xmertsalov.entities;
 
 import me.xmertsalov.components.*;
 import me.xmertsalov.Game;
+import me.xmertsalov.components.Animator.Animator;
+import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
+import me.xmertsalov.components.Animator.OneWayAnimationStrategy;
 import me.xmertsalov.components.phisics.colliders.BoxCollider;
 import me.xmertsalov.components.phisics.colliders.Collider;
 import me.xmertsalov.components.phisics.PhisicsComponent;
@@ -139,9 +142,11 @@ public class Player extends Entity {
 		this.speed = speed;
 		if (!dead){
 			animator.setAnimationState("RUNNING");
+			animator.setAnimationStrategy(new LoopingAnimationStrategy());
 		}
 		else{
-			animator.setAnimationState("DEATH", true);
+			animator.setAnimationState("DEATH");
+			animator.setAnimationStrategy(new OneWayAnimationStrategy());
 		}
 	}
 

@@ -1,6 +1,9 @@
 package me.xmertsalov.components;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.components.Animator.AnimationStrategy;
+import me.xmertsalov.components.Animator.Animator;
+import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.util.ArrayList;
@@ -100,6 +103,7 @@ public class PlayerAnimator {
                     .setAnimationStates(animationStates)
                     .setCurrentState("IDLE")
                     .setAnimationSpeed(25)
+                    .setAnimationStrategy(new LoopingAnimationStrategy())
                     .build_and_load();
 
             animators.put(skinName, animator);

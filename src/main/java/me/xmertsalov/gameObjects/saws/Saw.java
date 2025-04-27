@@ -1,7 +1,8 @@
 package me.xmertsalov.gameObjects.saws;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.Animator;
+import me.xmertsalov.components.Animator.Animator;
+import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.gameObjects.GameObject;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -38,6 +39,7 @@ public class Saw extends GameObject {
                 .setAnimationStates(animationStates)
                 .setCurrentState(animationState)
                 .setAnimationSpeed(5)
+                .setAnimationStrategy(new LoopingAnimationStrategy())
                 .build_and_load();
     }
 
@@ -54,8 +56,11 @@ public class Saw extends GameObject {
     }
 
     public void draw(Graphics g){
-        g.setColor(Game.DEBUG_COLOR);
-        g.fillOval((int) x, (int) y, (int) bounds.getWidth(), (int) bounds.getHeight());
+        if (Game.DEBUG_COLLIDERS) {
+            g.setColor(Game.DEBUG_COLOR);
+            g.fillOval((int) x, (int) y, (int) bounds.getWidth(), (int) bounds.getHeight());
+        }
+
         animator.draw(g, x, y, (int) bounds.getWidth(), (int) bounds.getHeight());
     }
 

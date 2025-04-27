@@ -1,7 +1,8 @@
 package me.xmertsalov.gameObjects.powerUps;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.Animator;
+import me.xmertsalov.components.Animator.Animator;
+import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.gameObjects.GameObject;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -41,6 +42,7 @@ public abstract class PowerUp extends GameObject {
                 .setAnimationStates(animationStates)
                 .setCurrentState("IDLE")
                 .setAnimationSpeed(20)
+                .setAnimationStrategy(new LoopingAnimationStrategy())
                 .build_and_load();
     }
 

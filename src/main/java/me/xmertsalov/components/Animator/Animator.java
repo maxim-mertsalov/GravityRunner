@@ -1,4 +1,4 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.Animator;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.exeptions.AnimatorCreatingException;
@@ -28,12 +28,18 @@ public class Animator implements IAnimator {
     private BufferedImage[][] animations;
 
     // Animation variables
-    private int aniTick, aniIndex, aniSpeed = 25;
-    private boolean inOneWay = false; // if true, animation will be played only once
+    protected int aniTick;
+    protected int aniIndex;
+    protected int aniSpeed = 25;
+
+    // States
+    private AnimationStrategy animationStrategy;
+    protected boolean inOneWay = false; // if true, animation will be played only once
 
     // Animation states
-    private String animationState;
-    private HashMap<String, List<Integer>> animationStates; // first - animation state, second - number of frames in animation
+    protected String animationState;
+    protected HashMap<String, List<Integer>> animationStates; // first - animation state, second - number of frames in animation
+
 
     // Constructor for loading from file
     private Animator(Builder builder) throws AnimatorCreatingException {
@@ -51,6 +57,8 @@ public class Animator implements IAnimator {
         this.spriteHeight = builder.spriteHeight;
         this.rows = builder.rows;
         this.cols = builder.columns;
+
+        this.aniSpeed = builder.animationSpeed;
 
         this.animationStates = builder.animationStates;
         this.animationState = builder.currentState;
@@ -74,6 +82,8 @@ public class Animator implements IAnimator {
         this.animationStates = builder.animationStates;
         this.animationState = builder.currentState;
 
+        this.aniSpeed = builder.animationSpeed;
+
         this.animations = animations;
     }
 
@@ -89,45 +99,27 @@ public class Animator implements IAnimator {
                 width, height, null);
     }
 
-    // if animation states that we want exists and this animation state is changed we change animation
-    public void setAnimationState(String state) {
-        if (state.equals(animationState) || !animationStates.containsKey(state)){
-            return;
-        }
-        this.inOneWay = false;
-        resetAnimTick();
-        animationState = state;
+    // Set strategy for animation (looping or one way)
+    public void setAnimationStrategy(AnimationStrategy animationStrategy) {
+        this.animationStrategy = animationStrategy;
     }
 
-    public void setAnimationState(String state, boolean inOneWay) {
-        if (!animationStates.containsKey(state) || state.equals(animationState) && !inOneWay) {
+    // set animation state (other animation)
+    public void setAnimationState(String state) {
+        if (!animationStates.containsKey(state) || state.equals(animationState)) {
             return;
         }
 
-        this.inOneWay = inOneWay;
         resetAnimTick();
         animationState = state;
     }
 
     private void updateAnimationTick() {
-        aniTick++;
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-
-            if (!inOneWay) {
-                if (aniIndex < animationStates.get(animationState).get(1) - 1) {
-                    aniIndex++;
-                } else {
-                    aniIndex = 0;
-                }
-            }// in one way animation
-            else {
-                if (aniIndex < animationStates.get(animationState).get(1) - 1) {
-                    aniIndex++;
-                } else {
-                    aniIndex = animationStates.get(animationState).get(1) - 1;
-                }
-            }
+        if (animationStrategy != null) {
+            animationStrategy.updateAnimationTick(this);
+        }
+        else {
+            animationStrategy = new LoopingAnimationStrategy();
         }
     }
 
@@ -173,6 +165,7 @@ public class Animator implements IAnimator {
         private HashMap<String, List<Integer>> animationStates; // first - animation state, second - number of frames in animation
         private String currentState;
         private int animationSpeed = 25;
+        private AnimationStrategy animationStrategy;
 
         private BufferedImage[][] animations;
 
@@ -218,11 +211,16 @@ public class Animator implements IAnimator {
         }
 
         public Builder setAnimationSpeed(int animationSpeed) {
-            if (animationSpeed != -1) {
+            if (animationSpeed <= -1) {
                 this.animationSpeed = 25;
             }
             else this.animationSpeed = animationSpeed;
 
+            return this;
+        }
+
+        public Builder setAnimationStrategy(AnimationStrategy animationStrategy) {
+            this.animationStrategy = animationStrategy;
             return this;
         }
 
