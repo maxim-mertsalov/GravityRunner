@@ -47,7 +47,7 @@ public class Game implements Runnable {
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
 	public final static Color DEBUG_COLOR_SECOND = new Color(255, 0, 0, 80);
 	public static boolean DEBUG_COLLIDERS = false;
-	private static boolean DEBUG_FPS = false;
+	public static boolean DEBUG_FPS = false;
 
 	// All scenes
 	private PlayingScene playingScene;

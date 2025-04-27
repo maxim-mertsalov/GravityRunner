@@ -71,6 +71,9 @@ public class Player extends Entity {
 		this.playerSkin = playerSkin;
 
 		this.playerAnimator = playerAnimator;
+		if (playerAnimator == null) {
+			throw new NullPointerException("PlayerAnimator is null");
+		}
 		animator = playerAnimator.getAnimator(playerSkin);
 		animator.setAnimationState("RUNNING");
 
