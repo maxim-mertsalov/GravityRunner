@@ -76,8 +76,7 @@ public class Game implements Runnable {
 		device = graphics.getDefaultScreenDevice();
 
 		// Load config
-		config = new Config();
-		config.loadConfig();
+		config = Config.loadConfig();
 		WINDOW_WIDTH = config.getResolutionWidth();
 		WINDOW_HEIGHT = config.getResolutionHeight();
 
@@ -138,8 +137,8 @@ public class Game implements Runnable {
 		backgroundManager = new BackgroundManager();
 		audioPlayer = new AudioPlayer();
 
-		audioPlayer.setMusicVolume((float) Config.getMusicVolume() / 100);
-		audioPlayer.setSfxVolume((float) Config.getSfxVolume() / 100);
+		audioPlayer.setMusicVolume((float) config.getMusicVolume() / 100);
+		audioPlayer.setSfxVolume((float) config.getSfxVolume() / 100);
 
 		players = new ArrayList<>();
 		PlayerAnimator playerAnimator = new PlayerAnimator();

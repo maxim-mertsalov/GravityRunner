@@ -51,12 +51,12 @@ public class SettingsManager implements UIManager{
         smallButtonFactory = new SmallButtonFactory();
 
         // Load resolutions
-        resolutions = Config.getResolutions();
-        currentResolutionIndex = Config.getResolutionIndex();
+        resolutions = game.getConfig().getResolutions();
+        currentResolutionIndex = game.getConfig().getResolutionIndex();
 
         // load sounds
-        sfxVolume = Config.getSfxVolume();
-        musicVolume = Config.getMusicVolume();
+        sfxVolume = game.getConfig().getSfxVolume();
+        musicVolume = game.getConfig().getMusicVolume();
 
         // Load images
         loadImages();
@@ -202,7 +202,7 @@ public class SettingsManager implements UIManager{
                 0
         ));
         buttons.get(4).setOnClickListener(() -> {
-            currentResolutionIndex = Config.getResolutionIndex();
+            currentResolutionIndex = game.getConfig().getResolutionIndex();
             GameScene.scene = GameScene.MENU;
         });
 
@@ -222,8 +222,8 @@ public class SettingsManager implements UIManager{
 
     private void applySettings() {
         game.getConfig().setResolution(resolutions.get(currentResolutionIndex));
-        game.getConfig().setMusicVolume(musicVolume);
-        game.getConfig().setSfxVolume(sfxVolume);
-        game.getConfig().applySettings();
+        game.getConfig().setSoundVolume(musicVolume, sfxVolume);
+        game.getConfig().saveConfig();
+        System.exit(1);
     }
 }

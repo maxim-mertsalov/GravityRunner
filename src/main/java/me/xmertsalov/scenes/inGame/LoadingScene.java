@@ -49,7 +49,7 @@ public class LoadingScene extends Scene implements IScene {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(background, (int)(Game.WINDOW_WIDTH / 2 - logoWidth / 2), (int)(Game.WINDOW_HEIGHT / 2 - logoHeight / 2), logoWidth, logoHeight, null);
+        g.drawImage(background, (int)(Game.WINDOW_WIDTH / 2 - logoWidth / 2), (int)(Game.WINDOW_HEIGHT / 2 - logoHeight / 2 - 25 * Game.SCALE), logoWidth, logoHeight, null);
     }
 
     @Override
