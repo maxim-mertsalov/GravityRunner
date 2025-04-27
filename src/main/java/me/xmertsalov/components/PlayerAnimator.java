@@ -1,5 +1,6 @@
 package me.xmertsalov.components;
 
+import me.xmertsalov.Game;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PlayerAnimator {
         if (animators.containsKey(key)) {
             return animators.get(key);
         } else {
-//            System.out.println("Animator not found: " + key);
+            Game.logger.error("Animator for {} not found", key);
             return animators.get("Adventure Boy A");
         }
     }
@@ -99,8 +100,8 @@ public class PlayerAnimator {
                     "IDLE",
                     25);
             animators.put(skinName, animator);
-            System.out.println("Animator for " + skinName + " loaded");
         }
+        Game.logger.info("Loaded {} characters", animators.size());
     }
 
     public HashMap<String, String> getSkinsURL() {

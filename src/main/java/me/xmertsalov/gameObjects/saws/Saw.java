@@ -11,11 +11,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Saw extends GameObject {
+    protected Ellipse2D.Double bounds;
+
+    // Dependencies
+    protected Animator animator;
+
+    // States
     protected String animationState = "ROTATING";
     protected HashMap<String, List<Integer>> animationStates;
 
-    protected Ellipse2D.Double bounds;
-    protected Animator animator;
 
     public Saw(double x, double y) {
         super(x, y);
@@ -47,21 +51,14 @@ public class Saw extends GameObject {
         bounds.y = y;
     }
 
-
     public void draw(Graphics g){
         g.setColor(Game.DEBUG_COLOR);
         g.fillOval((int) x, (int) y, (int) bounds.getWidth(), (int) bounds.getHeight());
         animator.draw(g, x, y, (int) bounds.getWidth(), (int) bounds.getHeight());
     }
 
-    public Ellipse2D.Double getBounds() {
-        return bounds;
-    }
-
-
-    public Saw clone() {
-        return new Saw(this.x, this.y);
-    }
+    public Ellipse2D.Double getBounds() {return bounds;}
+    public Saw clone() {return new Saw(this.x, this.y);}
 
     @Override
     public void setX(double x) {

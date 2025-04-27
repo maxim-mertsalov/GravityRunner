@@ -2,6 +2,7 @@ package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.entities.Player;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
@@ -43,80 +44,49 @@ public class GameOverPanel {
     // Storage
     private ArrayList<IButton> buttons;
 
-    // Other
-//    private int ticksToShowStats = 0;
-
 
     public GameOverPanel(PlayingScene playingScene) {
         this.playingScene = playingScene;
+
         loadImages();
+
         bigButtonFactory = new BigButtonFactory();
         smallButtonFactory = new SmallButtonFactory();
 
-        // Retry button
-        buttons = new ArrayList<>();
-        buttons.add(bigButtonFactory.createButton(
-                xBtn,
-                yBtns,
-                (int)(56 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 5));
-        buttons.get(0).setOnClickListener(() -> {
-                playingScene.reset();
-                for (Player player : playingScene.getPlayers()) {
-                    player.setDisableControls(true);
-                }
-                isShown = false;
-        });
-
-
-        // Home button
-        buttons.add(smallButtonFactory.createButton(
-                (int)(xBtn - (14 * 1.8 * Game.SCALE) - (Game.SCALE * 3)),
-                yBtns,
-                (int)(14 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 0));
-        buttons.get(1).setOnClickListener(() -> {
-            for (Player player : playingScene.getPlayers()) {
-                playingScene.getGame().getLobbyScene().reset();
-            }
-            isShown = false;
-            GameScene.scene = GameScene.MENU;
-        });
+        createButtons();
     }
 
 
     public void draw(Graphics g) {
-        if (isShown) {
-            g.drawImage(background,
-                    (int)(Game.WINDOW_WIDTH / 2 - (128 * 2 * Game.SCALE) / 2),
-                    yBackground,
-                    (int)(128 * 2 * Game.SCALE),
-                    (int)(96 * 2 * Game.SCALE), null);
+        if (!isShown) return;
 
-            g.drawImage(gameOverText,
-                    (int)(Game.WINDOW_WIDTH / 2 - (43 * 2 * Game.SCALE) / 2),
-                    yText,
-                    (int)(43 * 2 * Game.SCALE),
-                    (int)(25 * 2 * Game.SCALE), null);
+        g.drawImage(background,
+                (int)(Game.WINDOW_WIDTH / 2 - (128 * 2 * Game.SCALE) / 2),
+                yBackground,
+                (int)(128 * 2 * Game.SCALE),
+                (int)(96 * 2 * Game.SCALE), null);
 
-            for (int i = 0; i < playingScene.getNumPlayers(); i++) {
-                g.drawImage(playerIndexesTexts[i],
-                        xMargin,
-                        yMargin + (i * (6 + yGap)),
-                        (int)(52 * Game.SCALE) ,
-                        (int)(6 * Game.SCALE), null);
-                g.setColor(new Color(51, 50, 61));
-                g.setFont(new Font("Arial", Font.BOLD, (int)(8 * Game.SCALE)));
-                g.drawString(String.valueOf(Math.round(playingScene.getScore().getScore(i))),
-                        xMargin + (int)(52 * Game.SCALE) + xGap,
-                        yMargin + (i * (6 + yGap)) + (int)(5.5 * Game.SCALE));
-            }
+        g.drawImage(gameOverText,
+                (int)(Game.WINDOW_WIDTH / 2 - (43 * 2 * Game.SCALE) / 2),
+                yText,
+                (int)(43 * 2 * Game.SCALE),
+                (int)(25 * 2 * Game.SCALE), null);
 
-            for(IButton button : buttons) {
-                button.draw(g);
-            }
+        for (int i = 0; i < playingScene.getNumPlayers(); i++) {
+            g.drawImage(playerIndexesTexts[i],
+                    xMargin,
+                    yMargin + (i * (6 + yGap)),
+                    (int)(52 * Game.SCALE) ,
+                    (int)(6 * Game.SCALE), null);
+            g.setColor(new Color(51, 50, 61));
+            g.setFont(new Font("Arial", Font.BOLD, (int)(8 * Game.SCALE)));
+            g.drawString(String.valueOf(Math.round(playingScene.getScore().getScore(i))),
+                    xMargin + (int)(52 * Game.SCALE) + xGap,
+                    yMargin + (i * (6 + yGap)) + (int)(5.5 * Game.SCALE));
+        }
 
-
+        for(IButton button : buttons) {
+            button.draw(g);
         }
     }
 
@@ -126,13 +96,7 @@ public class GameOverPanel {
         for (IButton button : buttons) {
             button.update();
         }
-
     }
-
-
-
-    public void show() {isShown = true;}
-
 
     public void mouseClicked(MouseEvent e) {
         for (IButton button : buttons) {
@@ -158,12 +122,50 @@ public class GameOverPanel {
         }
     }
 
-    private void loadImages(){
-        background = BundleLoader.getSpriteAtlas(BundleLoader.BACKGROUND_GAME_OVER);
-        gameOverText = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GAME_OVER);
+    private void createButtons() {
+        buttons = new ArrayList<>();
 
-        BufferedImage tempPlayerIndexesTexts = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_PLAYER_INDEXES);
+        // Retry button
+        buttons.add(bigButtonFactory.createButton(
+                xBtn,
+                yBtns,
+                (int)(56 * 1.8 * Game.SCALE),
+                (int)(14 * 1.8 * Game.SCALE), 5));
+        buttons.get(0).setOnClickListener(() -> {
+            playingScene.reset();
+            for (Player player : playingScene.getPlayers()) {
+                player.setDisableControls(true);
+            }
+            isShown = false;
+        });
+
+
+        // Home button
+        buttons.add(smallButtonFactory.createButton(
+                (int)(xBtn - (14 * 1.8 * Game.SCALE) - (Game.SCALE * 3)),
+                yBtns,
+                (int)(14 * 1.8 * Game.SCALE),
+                (int)(14 * 1.8 * Game.SCALE), 0));
+        buttons.get(1).setOnClickListener(() -> {
+            for (Player player : playingScene.getPlayers()) {
+                playingScene.getGame().getLobbyScene().reset();
+            }
+            isShown = false;
+            GameScene.scene = GameScene.MENU;
+        });
+    }
+
+    private void loadImages(){
         playerIndexesTexts = new BufferedImage[4];
+        BufferedImage tempPlayerIndexesTexts;
+
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.BACKGROUND_GAME_OVER);
+            gameOverText = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GAME_OVER);
+            tempPlayerIndexesTexts = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_PLAYER_INDEXES);
+        } catch (BundleLoadException e) {
+            throw new RuntimeException(e);
+        }
 
         int rows = 4;
         int width = 52;
@@ -173,4 +175,6 @@ public class GameOverPanel {
             playerIndexesTexts[row] = tempPlayerIndexesTexts.getSubimage(0, row * height, width, height);
         }
     }
+
+    public void show() {isShown = true;}
 }

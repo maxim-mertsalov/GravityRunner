@@ -1,6 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
 import me.xmertsalov.ui.buttons.IButton;
@@ -202,12 +203,21 @@ public class TutorialManager implements UIManager{
     }
 
     private void loadImages(){
-        background = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_BACKGROUND);
         texts = new BufferedImage[countCases];
         images = new BufferedImage[countCases];
 
-        BufferedImage bigTextsImg = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_TEXTS);
-        BufferedImage bigImagesImg = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_IMAGES);
+        BufferedImage bigTextsImg, bigImagesImg;
+
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_BACKGROUND);
+
+            bigTextsImg = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_TEXTS);
+            bigImagesImg = BundleLoader.getSpriteAtlas(BundleLoader.TUTORIAL_IMAGES);
+
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         int imgWidth = 1710;
         int imgHeight = 1112;

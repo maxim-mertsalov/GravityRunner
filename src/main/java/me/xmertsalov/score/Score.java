@@ -8,12 +8,16 @@ import me.xmertsalov.world.LevelsManager;
 import java.util.ArrayList;
 
 public class Score {
-    private ArrayList<Double> scores;
+
+    // Dependencies
     private Game game;
     private LevelsManager levelsManager;
 
+    // Storage
+    private ArrayList<Double> scores;
     private ArrayList<Player> players;
 
+    // States
     private boolean loadedPlayers = false;
     private boolean started = false;
     private boolean playedSound = false;

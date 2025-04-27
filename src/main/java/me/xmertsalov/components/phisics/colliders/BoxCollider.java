@@ -1,4 +1,4 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics.colliders;
 
 import me.xmertsalov.Game;
 
@@ -21,7 +21,7 @@ public class BoxCollider extends Collider {
     }
 
     public void draw(Graphics g) {
-        if (!Game.DEBUG_ENABLED) return;
+        if (!Game.DEBUG_COLLIDERS) return;
 
         g.setColor(Game.DEBUG_COLOR);
         g.fillRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());

@@ -1,6 +1,8 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.components.phisics.colliders.BoxCollider;
+import me.xmertsalov.components.phisics.colliders.Collider;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.gameObjects.powerUps.PowerUp;
 import me.xmertsalov.gameObjects.powerUps.SpeedDown;
@@ -222,7 +224,6 @@ public class PhysicsController {
 
                         // Check if the players are colliding in the Y axis
                         if (detectYBoundPlayer.intersects(boxCOtherPlayer.getBounds())) {
-//                            System.out.println("detectYBoundPlayer");
 
                             // if both players is falling down
                             if (player.getPhisicsComponent().getGravityDirection() > 0 &&

@@ -2,7 +2,7 @@ package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
-import me.xmertsalov.components.PhysicsController;
+import me.xmertsalov.components.phisics.PhysicsController;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.score.Score;
 import me.xmertsalov.ui.PlayingUIManager;
@@ -194,9 +194,7 @@ public class PlayingScene extends Scene implements IScene {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {}

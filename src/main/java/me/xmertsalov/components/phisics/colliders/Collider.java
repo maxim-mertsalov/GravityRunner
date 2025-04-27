@@ -1,7 +1,6 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics.colliders;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 public abstract class Collider {
     public abstract void draw(Graphics g);

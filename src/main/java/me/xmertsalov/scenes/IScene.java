@@ -5,16 +5,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public interface IScene {
-    // start function is private and calls by the constructor
-    public void update(); // update function
-    public void draw(Graphics g); // render function
+    void update(); // update function
+    void draw(Graphics g); // render function
 
-    public void mouseClicked(MouseEvent e);
-    public void mousePressed(MouseEvent e);
-    public void mouseReleased(MouseEvent e);
-    public void mouseMoved(MouseEvent e);
-    public void mouseDragged(MouseEvent e);
+    void mouseClicked(MouseEvent e);
+    void mousePressed(MouseEvent e);
+    void mouseReleased(MouseEvent e);
+    void mouseMoved(MouseEvent e);
+    void mouseDragged(MouseEvent e);
 
-    public void keyPressed(KeyEvent e);
-    public void keyReleased(KeyEvent e);
+    void keyPressed(KeyEvent e);
+    void keyReleased(KeyEvent e);
 }

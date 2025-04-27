@@ -1,11 +1,10 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
-import me.xmertsalov.ui.buttons.ArrowsButtonFactory;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
 import me.xmertsalov.ui.buttons.IButton;
-import me.xmertsalov.ui.buttons.SmallButtonFactory;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -15,66 +14,38 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MenuManager implements UIManager {
+
+    // Dependencies
+    private final BigButtonFactory bigButtonFactory;
+
+    // Storage
     private ArrayList<IButton> buttons;
 
+    // Images
     private BufferedImage background;
+    private BufferedImage logo;
+
+    // Constants
+    private final double btn_scale = 2;
+
+    // UI Settings
     double backgroundWidth = (96 * Game.SCALE) * 2;
     double backgroundHeight =(128 * Game.SCALE) * 2;
     int backgroundY = (int)(120 * Game.SCALE);
 
-    private BufferedImage logo;
     double logoWidth = (76 * Game.SCALE) * 2;
     double logoHeight = (25 * Game.SCALE) * 2;
     int logoY = (int)(60 * Game.SCALE);
 
-    private final double btn_scale = 2;
+    private int buttonsX = (int)((double) Game.WINDOW_WIDTH / 2 - (56 * btn_scale * Game.SCALE) / 2);
 
-    private int buttonsX = (int)(Game.WINDOW_WIDTH / 2 - (56 * btn_scale * Game.SCALE) / 2);
-
-
-    private ArrowsButtonFactory arrowsButtonFactory;
-    private SmallButtonFactory smallButtonFactory;
-    private BigButtonFactory bigButtonFactory;
 
     public MenuManager() {
-        arrowsButtonFactory = new ArrowsButtonFactory();
-        smallButtonFactory = new SmallButtonFactory();
         bigButtonFactory = new BigButtonFactory();
 
-        buttons = new ArrayList<>();
+        createButtons();
 
-        // Play button
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(160 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 0));
-        buttons.get(0).setOnClickListener(() -> {
-            GameScene.scene = GameScene.LOBBY;
-        });
-
-        // Tutorial button
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(195 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 6));
-        buttons.get(1).setOnClickListener(() -> {
-            GameScene.scene = GameScene.TUTORIAL;
-        });
-
-        // Settings button
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(230 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 1));
-        buttons.get(2).setOnClickListener(() -> {
-            GameScene.scene = GameScene.SETTINGS;
-        });
-
-        // Credits button
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(265 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 2));
-        buttons.get(3).setOnClickListener(() -> {
-            GameScene.scene = GameScene.CREDITS;
-        });
-
-        // Exit button
-        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(300 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 3));
-        buttons.get(4).setOnClickListener(() -> {
-            GameScene.scene = GameScene.EXIT;
-        });
-
-        loadBackground();
-        loadLogo();
+        loadImages();
     }
 
 
@@ -85,20 +56,23 @@ public class MenuManager implements UIManager {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(background, (int)(Game.WINDOW_WIDTH / 2 - backgroundWidth / 2), backgroundY, (int)backgroundWidth, (int)backgroundHeight, null);
-        g.drawImage(logo, (int)(Game.WINDOW_WIDTH / 2 - logoWidth / 2), logoY , (int)logoWidth, (int)logoHeight, null);
+        g.drawImage(background, (int)((double) Game.WINDOW_WIDTH / 2 - backgroundWidth / 2), backgroundY, (int)backgroundWidth, (int)backgroundHeight, null);
+        g.drawImage(logo, (int)((double) Game.WINDOW_WIDTH / 2 - logoWidth / 2), logoY , (int)logoWidth, (int)logoHeight, null);
 
         for (IButton button : buttons) {
             button.draw(g);
         }
     }
 
-    private void loadLogo() {
-        logo = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
-    }
+    private void loadImages() {
+        try {
+            logo = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
 
-    private void loadBackground() {
-        background = BundleLoader.getSpriteAtlas(BundleLoader.MENU_BACKGROUND);
+            background = BundleLoader.getSpriteAtlas(BundleLoader.MENU_BACKGROUND);
+
+        } catch (BundleLoadException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -126,13 +100,33 @@ public class MenuManager implements UIManager {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {}
 
+    private void createButtons() {
+        buttons = new ArrayList<>();
+
+        // Play button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(160 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 0));
+        buttons.get(0).setOnClickListener(() -> GameScene.scene = GameScene.LOBBY);
+
+        // Tutorial button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(195 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 6));
+        buttons.get(1).setOnClickListener(() -> GameScene.scene = GameScene.TUTORIAL);
+
+        // Settings button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(230 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 1));
+        buttons.get(2).setOnClickListener(() -> GameScene.scene = GameScene.SETTINGS);
+
+        // Credits button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(265 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 2));
+        buttons.get(3).setOnClickListener(() -> GameScene.scene = GameScene.CREDITS);
+
+        // Exit button
+        buttons.add(bigButtonFactory.createButton(buttonsX, (int)(300 * Game.SCALE), (int) (56 * btn_scale * Game.SCALE), (int) (14 * btn_scale * Game.SCALE), 3));
+        buttons.get(4).setOnClickListener(() -> GameScene.scene = GameScene.EXIT);
     }
 
 }

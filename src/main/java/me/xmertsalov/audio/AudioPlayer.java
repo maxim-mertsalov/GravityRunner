@@ -1,7 +1,7 @@
 package me.xmertsalov.audio;
 
+import me.xmertsalov.Game;
 import me.xmertsalov.scenes.GameScene;
-import me.xmertsalov.utils.BundleLoader;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
@@ -125,7 +125,7 @@ public class AudioPlayer {
         try{
             gainControl.setValue((float) value);
         } catch (Exception e) {
-            e.printStackTrace();
+            Game.logger.error(e.getMessage());
         }
     }
     private void updateSfxVolume() {
@@ -135,7 +135,7 @@ public class AudioPlayer {
             try{
                 gainControl.setValue((float) value);
             } catch (Exception e) {
-                e.printStackTrace();
+                Game.logger.error(e.getMessage());
             }
         }
     }
@@ -149,7 +149,7 @@ public class AudioPlayer {
             try{
                 gainControl.setValue((float) value);
             } catch (Exception e) {
-                e.printStackTrace();
+                Game.logger.error(e.getMessage());
             }
         }
     }
@@ -177,6 +177,11 @@ public class AudioPlayer {
         URL url = getClass().getResource(fileName);
         AudioInputStream audioInputStream;
 
+        if (url == null) {
+            Game.logger.error("Audio file not found: {}", fileName);
+            return null;
+        }
+
         try {
             audioInputStream = AudioSystem.getAudioInputStream(url);
             Clip clip = AudioSystem.getClip();
@@ -184,7 +189,7 @@ public class AudioPlayer {
 //            clip.start();
             return clip;
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
+            Game.logger.error(e.getMessage());
         }
         return null;
     }

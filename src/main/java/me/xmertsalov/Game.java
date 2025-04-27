@@ -12,18 +12,20 @@ import me.xmertsalov.entities.Player;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.*;
 import me.xmertsalov.score.Score;
-
-import javax.swing.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Game implements Runnable {
     private final GamePanel gamePanel;
 	private Thread gameThread;
-	private GraphicsEnvironment graphics;
-	private GraphicsDevice device;
+	private final GraphicsEnvironment graphics;
+	private final GraphicsDevice device;
 
 	// Game loop settings
 	public final static int FPS_LIMIT = 120;
 	public final static int UPS_LIMIT = 200;
+
+	private int frameCount = 0;
 
 	// Game dimensions
 	public final static int TILES_DEFAULT_SIZE = 32;
@@ -36,10 +38,11 @@ public class Game implements Runnable {
 	public static int WINDOW_WIDTH = 1440; // 1440
 	public static int WINDOW_HEIGHT = 900; // 900
 
-	// Debug collisions
+	// Debug
 	public final static Color DEBUG_COLOR = new Color(238, 130, 238, 75);
 	public final static Color DEBUG_COLOR_SECOND = new Color(255, 0, 0, 80);
-	public final static boolean DEBUG_ENABLED = false;
+	public static boolean DEBUG_COLLIDERS = false;
+	private static boolean DEBUG_FPS = false;
 
 	// All scenes
 	private PlayingScene playingScene;
@@ -66,12 +69,18 @@ public class Game implements Runnable {
 	private boolean viewerMode = false;
 
 	// Config
-	private Config config;
+	private final Config config;
 
 	// Music
 	private AudioPlayer audioPlayer;
 
-	public Game() {
+	// Logger
+	public static final Logger logger = LogManager.getLogger(Game.class);
+
+	public Game(boolean showColliders, boolean showFPS) {
+		DEBUG_FPS = showFPS;
+		DEBUG_COLLIDERS = showColliders;
+
 		graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		device = graphics.getDefaultScreenDevice();
 
@@ -123,7 +132,7 @@ public class Game implements Runnable {
 		SCALE = height / GAME_HEIGHT;
 		TILES_SIZE = (int)Math.ceil(TILES_DEFAULT_SIZE * SCALE);
 
-		System.out.println(width + " x " + height + " | scale: " + SCALE);
+        logger.info("Game started with {}x{} resolution and scale: {}", (int)width, (int)height, SCALE);
 	}
 
 	// This method is called to start the game loop
@@ -201,6 +210,12 @@ public class Game implements Runnable {
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 
+		if (DEBUG_FPS) {
+			g.setColor(Color.GREEN);
+			g.setFont(new Font("Arial", Font.BOLD, (int)(8 * Game.SCALE)));
+			g.drawString("FPS: " + frameCount, (int)(Game.WINDOW_WIDTH - 42 * Game.SCALE), (int)(12 * Game.SCALE));
+		}
+
 	}
 
 	@Override
@@ -244,6 +259,7 @@ public class Game implements Runnable {
 			if (System.currentTimeMillis() - lastCheck >= 1000) {
 				lastCheck = System.currentTimeMillis();
 //				System.out.println("FPS: " + frameCount + " | UPS: " + updateCount);
+				this.frameCount = frameCount;
 				frameCount = 0;
 				updateCount = 0;
 

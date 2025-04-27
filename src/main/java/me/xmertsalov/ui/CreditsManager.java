@@ -1,6 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.buttons.IButton;
 import me.xmertsalov.ui.buttons.SmallButtonFactory;
@@ -19,24 +20,15 @@ public class CreditsManager implements UIManager {
     // Storage
     private ArrayList<IButton> buttons;
 
-    // Assets
+    // Images
     private BufferedImage background;
+
 
     public CreditsManager() {
         loadImages();
         smallButtonFactory = new SmallButtonFactory();
 
-        buttons = new ArrayList<>();
-
-        buttons.add(smallButtonFactory.createButton(
-                (int)(Game.WINDOW_WIDTH / 2 - 80 * Game.SCALE),
-                (int)(Game.WINDOW_HEIGHT - 120 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 0
-        ));
-        buttons.get(0).setOnClickListener(() -> {
-            GameScene.scene = GameScene.MENU;
-        });
+        createButtons();
     }
 
     @Override
@@ -53,6 +45,7 @@ public class CreditsManager implements UIManager {
                 (int)(Game.WINDOW_HEIGHT / 2 - Game.SCALE * 125),
                 (int)(1.8 * Game.SCALE * background.getWidth()),
                 (int)(1.8 * Game.SCALE * background.getHeight()), null);
+
         for (IButton button : buttons) {
             button.draw(g);
         }
@@ -87,16 +80,31 @@ public class CreditsManager implements UIManager {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e) {}
 
+    private void createButtons() {
+        buttons = new ArrayList<>();
+
+        buttons.add(smallButtonFactory.createButton(
+                (int)(Game.WINDOW_WIDTH / 2 - 80 * Game.SCALE),
+                (int)(Game.WINDOW_HEIGHT - 120 * Game.SCALE),
+                (int)(14 * 1.8 * Game.SCALE),
+                (int)(14 * 1.8 * Game.SCALE), 0
+        ));
+        buttons.get(0).setOnClickListener(() -> {
+            GameScene.scene = GameScene.MENU;
+        });
     }
 
     private void loadImages(){
-        background = BundleLoader.getSpriteAtlas(BundleLoader.CREDITS_BACKGROUND);
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.CREDITS_BACKGROUND);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,8 +1,10 @@
 package me.xmertsalov.entities;
 
-import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.components.*;
 import me.xmertsalov.Game;
+import me.xmertsalov.components.phisics.colliders.BoxCollider;
+import me.xmertsalov.components.phisics.colliders.Collider;
+import me.xmertsalov.components.phisics.PhisicsComponent;
 
 import java.awt.Graphics;
 
@@ -112,8 +114,6 @@ public class Player extends Entity {
 
 	public void changeGravity() {
 		if (disableControls || isTemporarilyDisabled) return;
-
-//		AudioPlayer.playSfx(AudioPlayer.SFX_JUMP);
 
 		phisicsComponent.setVelocityY(0);
 		phisicsComponent.setGravityDirection(-phisicsComponent.getGravityDirection());

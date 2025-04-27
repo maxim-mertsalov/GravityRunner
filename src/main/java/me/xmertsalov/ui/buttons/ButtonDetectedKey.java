@@ -1,6 +1,8 @@
 package me.xmertsalov.ui.buttons;
 
+import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -124,7 +126,13 @@ public class ButtonDetectedKey implements IButton{
 
     @Override
     public void loadImage() {
-        BufferedImage image = BundleLoader.getSpriteAtlas(BundleLoader.EMPTY_BUTTON);
+        BufferedImage image = null;
+        try {
+            image = BundleLoader.getSpriteAtlas(BundleLoader.EMPTY_BUTTON);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         int rows = 1;
         int cols = 3;

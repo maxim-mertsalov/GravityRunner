@@ -23,19 +23,16 @@ public class MenuScene extends Scene implements IScene {
     }
 
     private void start() {
-//        backgroundManager = new BackgroundManager();
         menuManager = new MenuManager();
     }
 
     @Override
     public void update() {
-//        backgroundManager.update();
         menuManager.update();
     }
 
     @Override
     public void draw(Graphics g) {
-//        backgroundManager.draw(g);
         menuManager.draw(g);
     }
 
@@ -63,9 +60,7 @@ public class MenuScene extends Scene implements IScene {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -74,7 +69,5 @@ public class MenuScene extends Scene implements IScene {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }

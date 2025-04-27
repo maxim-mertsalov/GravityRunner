@@ -1,4 +1,4 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics;
 
 import me.xmertsalov.gameObjects.Tile;
 

@@ -1,6 +1,8 @@
 package me.xmertsalov.ui.buttons;
 
+import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -105,7 +107,13 @@ public class BigButton implements IButton {
 
     @Override
     public void loadImage() {
-        BufferedImage image = BundleLoader.getSpriteAtlas(BundleLoader.BIG_BUTTONS);
+        BufferedImage image = null;
+        try {
+            image = BundleLoader.getSpriteAtlas(BundleLoader.BIG_BUTTONS);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         int rows = 12;
         int cols = 3;

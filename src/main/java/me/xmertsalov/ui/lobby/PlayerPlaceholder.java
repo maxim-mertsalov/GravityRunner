@@ -201,7 +201,6 @@ public class PlayerPlaceholder {
         }
 
         currentSkinName = player.getPlayerAnimator().getAnimationStates().keySet().toArray()[currentSkin].toString();
-        System.out.println(currentSkinName);
     }
 
     private void setPrevSkin() {
@@ -212,7 +211,6 @@ public class PlayerPlaceholder {
         }
 
         currentSkinName = player.getPlayerAnimator().getAnimationStates().keySet().toArray()[Math.abs(currentSkin)].toString();
-        System.out.println(currentSkinName);
     }
 
 }

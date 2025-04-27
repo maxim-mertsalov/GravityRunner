@@ -1,12 +1,11 @@
 package me.xmertsalov.ui.lobby;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.entities.Player;
+import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exeptions.LobbyException;
 import me.xmertsalov.scenes.GameScene;
-import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.ui.UIManager;
-import me.xmertsalov.ui.buttons.ArrowsButtonFactory;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
 import me.xmertsalov.ui.buttons.IButton;
 import me.xmertsalov.ui.buttons.SmallButtonFactory;
@@ -20,19 +19,23 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class LobbyManager implements UIManager {
+
+    // General
     private Game game;
-    private ArrayList<Player> players;
 
-    private ArrayList<IButton> buttons;
-
-    private ArrowsButtonFactory arrowsButtonFactory;
+    // Dependencies
     private BigButtonFactory bigButtonFactory;
     private SmallButtonFactory smallButtonFactory;
+    
+    // Storage
+    private ArrayList<Player> players;
+    private ArrayList<IButton> buttons;
+    private ArrayList<PlayerPlaceholder> playerPlaceholders;
 
-
+    // Images
     private BufferedImage playerPlaceholderImage;
     private BufferedImage longBackgoundImage;
-
+    
     private BufferedImage textBorderlessModeImage;
     private BufferedImage textGhostModeImage;
     private BufferedImage textGodModeImage;
@@ -40,10 +43,10 @@ public class LobbyManager implements UIManager {
     private BufferedImage textSlowModeImage;
     private BufferedImage textViewerModeImage;
 
+    // Constants
     private final double btn_scale = 1.5;
-
-    private ArrayList<PlayerPlaceholder> playerPlaceholders;
-
+    
+    // States
     private boolean borderlessMode = false;
     private boolean ghostMode = false;
     private boolean godMode = false;
@@ -51,8 +54,10 @@ public class LobbyManager implements UIManager {
     private boolean slowMode = false;
     private boolean viewerMode = false;
 
+    private boolean reset = true;
 
-    private int sizeTogleBtn =  (int)(16 * btn_scale * Game.SCALE);
+    // UI Settings
+    private int sizeToggleBtn =  (int)(16 * btn_scale * Game.SCALE);
 
     private final int firstColBtnX = (int)(Game.SCALE * 24 + 100);
     private final int secondColBtnX = (int)(Game.SCALE * 450);
@@ -63,44 +68,28 @@ public class LobbyManager implements UIManager {
 
     private final int paddingXText = (int)(28 * Game.SCALE);
     private final int paddingYText = (int)(6 * Game.SCALE);
-
-    private boolean reseted = true;
+    
 
     public LobbyManager(Game game) {
         this.game = game;
-//        this.players = new ArrayList<>();
 
+        // Load players
         loadPlayers();
 
-        arrowsButtonFactory = new ArrowsButtonFactory();
+        // Initialize factories
         smallButtonFactory = new SmallButtonFactory();
         bigButtonFactory = new BigButtonFactory();
 
-        buttons = new ArrayList<>();
-        buttons.add(bigButtonFactory.createButton(
-                (int) ((Game.WINDOW_WIDTH - 200) / 2), (int) (392 * Game.SCALE), (int)(56 * btn_scale * Game.SCALE), (int)(14 * btn_scale * Game.SCALE), 4
-        ));
+        playerPlaceholders = new ArrayList<>(4);
 
-        buttons.getFirst().setOnClickListener(() -> {
-            game.getPlayingScene().reset();
-            GameScene.scene = GameScene.PLAYING;
-        });
+        // Create buttons
+        createButtons();
 
-        setStateBtns();
-
+        // Load modes
         loadModes();
 
-        // menu page(back btn)
-        buttons.add(smallButtonFactory.createButton(
-                (int) ((Game.WINDOW_WIDTH - 200) / 2) - sizeTogleBtn - (int)(6 * Game.SCALE), (int) (392 * Game.SCALE), sizeTogleBtn, sizeTogleBtn, 0
-        ));
-        buttons.get(6).setOnClickListener(() -> {
-            GameScene.scene = GameScene.MENU;
-        });
-
+        // Load images
         loadImages();
-
-        playerPlaceholders = new ArrayList<>(4);
 
         for (int i = 0; i < 4; i++) {
             playerPlaceholders.add(new PlayerPlaceholder(ListUtils.getOrDefault(players, i, null), i, playerPlaceholderImage, this));
@@ -136,13 +125,13 @@ public class LobbyManager implements UIManager {
     }
 
     private void resetAll(){
-        if (reseted) return;
+        if (reset) return;
 
         for (PlayerPlaceholder placeholder : playerPlaceholders) {
             placeholder.resetPlayerStats();
         }
 
-        reseted = true;
+        reset = true;
     }
 
     private void drawText(Graphics g) {
@@ -246,11 +235,26 @@ public class LobbyManager implements UIManager {
         }
     }
 
-    private void setStateBtns(){
-        // index starts from 1
+    private void createButtons(){
+        buttons = new ArrayList<>();
+
+        // ready button
+        buttons.add(bigButtonFactory.createButton(
+                (int) ((Game.WINDOW_WIDTH - 200) / 2), (int) (392 * Game.SCALE), (int)(56 * btn_scale * Game.SCALE), (int)(14 * btn_scale * Game.SCALE), 4
+        ));
+        buttons.get(0).setOnClickListener(() -> {
+
+            int readyPlayers = (int) players.stream().filter(player -> !player.isInActive()).count();
+
+            if (readyPlayers == 0) return;
+
+            game.getPlayingScene().reset();
+            GameScene.scene = GameScene.PLAYING;
+        });
+
         // increase speed mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, firstRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+                firstColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
         ));
         buttons.get(1).setOnClickListener(() -> {
             if (speedMode) {
@@ -265,7 +269,7 @@ public class LobbyManager implements UIManager {
 
         // ghost mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, secondRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+                firstColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
         ));
         buttons.get(2).setOnClickListener(() -> {
             if (ghostMode) {
@@ -280,7 +284,7 @@ public class LobbyManager implements UIManager {
 
         // god mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, thirdRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+                firstColBtnX, thirdRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
         ));
         buttons.get(3).setOnClickListener(() -> {
             if (godMode) {
@@ -295,7 +299,7 @@ public class LobbyManager implements UIManager {
 
         // slow mode
         buttons.add(smallButtonFactory.createButton(
-                secondColBtnX, firstRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+                secondColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
         ));
         buttons.get(4).setOnClickListener(() -> {
             if (slowMode) {
@@ -310,7 +314,7 @@ public class LobbyManager implements UIManager {
 
         // borderless mode
         buttons.add(smallButtonFactory.createButton(
-                secondColBtnX, secondRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+                secondColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
         ));
         buttons.get(5).setOnClickListener(() -> {
             if (borderlessMode) {
@@ -337,6 +341,14 @@ public class LobbyManager implements UIManager {
 //            }
 //            buttons.get(6).setState(1);
 //        });
+
+        // menu page(back btn)
+        buttons.add(smallButtonFactory.createButton(
+                (int) ((Game.WINDOW_WIDTH - 200) / 2) - sizeToggleBtn - (int)(6 * Game.SCALE), (int) (392 * Game.SCALE), sizeToggleBtn, sizeToggleBtn, 0
+        ));
+        buttons.get(6).setOnClickListener(() -> {
+            GameScene.scene = GameScene.MENU;
+        });
     }
 
     private void loadPlayers(){
@@ -344,23 +356,29 @@ public class LobbyManager implements UIManager {
             this.players = game.getPlayers();
         }
         else{
-            throw new IllegalStateException("No players found in the game.");
+            throw new LobbyException("No players found in the game.");
         }
     }
 
     private void loadImages(){
-        playerPlaceholderImage = BundleLoader.getSpriteAtlas(BundleLoader.PLAYER_PLACEHOLDER);
+        try {
+            playerPlaceholderImage = BundleLoader.getSpriteAtlas(BundleLoader.PLAYER_PLACEHOLDER);
 
-        longBackgoundImage = BundleLoader.getSpriteAtlas(BundleLoader.MENU_BACKGROUND_LONG);
+            longBackgoundImage = BundleLoader.getSpriteAtlas(BundleLoader.MENU_BACKGROUND_LONG);
 
-        textBorderlessModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_BORDERLESS_MODE);
-        textGhostModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GHOST_MODE);
-        textGodModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GOD_MODE);
-        textSpeedModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_SPEED_MODE);
-        textSlowModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_SLOW_MODE);
-        textViewerModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_VIEWER_MODE);
+            textBorderlessModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_BORDERLESS_MODE);
+            textGhostModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GHOST_MODE);
+            textGodModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_GOD_MODE);
+            textSpeedModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_SPEED_MODE);
+            textSlowModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_SLOW_MODE);
+            textViewerModeImage = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_VIEWER_MODE);
+
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
-    public void reset() {this.reseted = false;}
+    public void reset() {this.reset = false;}
 
 }

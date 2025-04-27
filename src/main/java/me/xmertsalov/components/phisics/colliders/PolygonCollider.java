@@ -1,4 +1,4 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics.colliders;
 
 import me.xmertsalov.Game;
 
@@ -13,7 +13,7 @@ public class PolygonCollider extends Collider {
 
     @Override
     public void draw(Graphics g) {
-        if (!Game.DEBUG_ENABLED) return;
+        if (!Game.DEBUG_COLLIDERS) return;
         g.setColor(Game.DEBUG_COLOR);
         g.fillPolygon(polygon);
 

@@ -1,0 +1,74 @@
+2025-04-27 03:31:05 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:31:05 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:31:05 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:31:18 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:31:19 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:31:19 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:32:07 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:32:07 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:32:07 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:32:24 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:32:24 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:32:24 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:32:33 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:32:34 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:32:34 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:32:46 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:32:47 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:32:47 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:32:59 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:32:59 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:32:59 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:33:09 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:33:10 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:33:10 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:33:56 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:33:57 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:33:57 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:34:24 INFO  Game:134 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:34:24 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:34:24 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:41:30 INFO  Game:137 - Game started with 1280.0x800.0 resolution and scale: 1.7857143
+2025-04-27 03:41:33 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:41:33 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:42:36 INFO  Game:137 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 03:42:38 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:42:38 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:44:34 INFO  Game:137 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 03:44:34 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:44:34 INFO  Game:153 - Loaded 17 levels
+2025-04-27 03:50:44 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 03:50:47 INFO  Game:104 - Loaded 20 characters
+2025-04-27 03:50:47 INFO  Game:153 - Loaded 17 levels
+2025-04-27 04:31:21 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 04:31:24 INFO  Game:104 - Loaded 20 characters
+2025-04-27 04:31:24 INFO  Game:185 - Loaded 17 levels
+2025-04-27 04:31:29 ERROR Game:45 - Animator for None not found
+2025-04-27 04:31:29 ERROR Game:45 - Animator for None not found
+2025-04-27 04:31:29 ERROR Game:45 - Animator for None not found
+2025-04-27 04:31:29 ERROR Game:45 - Animator for None not found
+2025-04-27 04:31:31 INFO  Game:207 - Spawn level added: spawn_p1
+2025-04-27 04:31:31 INFO  Game:244 - New level added: 1
+2025-04-27 04:31:31 INFO  Game:244 - New level added: 3
+2025-04-27 04:31:32 INFO  Game:63 - Game starts in 4 seconds
+2025-04-27 04:31:34 INFO  Game:63 - Game starts in 3 seconds
+2025-04-27 04:31:35 INFO  Game:63 - Game starts in 2 seconds
+2025-04-27 04:31:36 INFO  Game:63 - Game starts in 1 seconds
+2025-04-27 04:31:37 INFO  Game:63 - Game starts in 0 seconds
+2025-04-27 04:31:41 INFO  Game:244 - New level added: 11
+2025-04-27 04:31:46 INFO  Game:244 - New level added: 11
+2025-04-27 04:31:51 INFO  Game:244 - New level added: 12
+2025-04-27 04:31:56 INFO  Game:244 - New level added: 12
+2025-04-27 04:32:01 INFO  Game:244 - New level added: 8
+2025-04-27 04:32:05 INFO  Game:244 - New level added: 11
+2025-04-27 04:32:10 INFO  Game:244 - New level added: 2
+2025-04-27 04:32:14 INFO  Game:244 - New level added: 7
+2025-04-27 04:32:19 INFO  Game:244 - New level added: 10
+2025-04-27 04:32:23 INFO  Game:244 - New level added: 8
+2025-04-27 04:32:27 INFO  Game:244 - New level added: 12
+2025-04-27 04:32:32 INFO  Game:244 - New level added: 8
+2025-04-27 04:32:36 INFO  Game:244 - New level added: 0
+2025-04-27 04:32:40 INFO  Game:244 - New level added: 1
+2025-04-27 04:32:44 INFO  Game:244 - New level added: 1
+2025-04-27 04:32:48 INFO  Game:244 - New level added: 10
+2025-04-27 04:32:52 INFO  Game:244 - New level added: 10

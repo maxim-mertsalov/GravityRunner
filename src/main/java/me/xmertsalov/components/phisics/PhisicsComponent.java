@@ -1,5 +1,6 @@
-package me.xmertsalov.components;
+package me.xmertsalov.components.phisics;
 
+import me.xmertsalov.components.phisics.colliders.BoxCollider;
 import me.xmertsalov.entities.Player;
 
 public class PhisicsComponent {

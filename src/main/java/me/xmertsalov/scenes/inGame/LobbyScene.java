@@ -10,11 +10,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class LobbyScene extends Scene implements IScene {
-
+    // Dependencies
     private Game game;
     private LobbyManager lobbyManager;
 
+    // States
     private boolean reseted = false;
+
 
     public LobbyScene(Game game) {
         super(game);
@@ -62,9 +64,7 @@ public class LobbyScene extends Scene implements IScene {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {

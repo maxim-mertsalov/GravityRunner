@@ -2,7 +2,6 @@ package me.xmertsalov.gameObjects.powerUps;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.components.Animator;
-import me.xmertsalov.entities.Player;
 import me.xmertsalov.gameObjects.GameObject;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -12,13 +11,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class PowerUp extends GameObject {
-    protected boolean isConsumed = false;
-    protected Rectangle2D.Double bounds; // Special collider for player consume detection
-    // Size of power-up is tile size
-
+    // Dependencies
     protected Animator animator;
+
+    /*
+    Size of power-up is tile size
+    Special collider for player consume detection
+     */
+    protected Rectangle2D.Double bounds;
+
+
+    // States
     protected HashMap<String, List<Integer>> animationStates;
-    protected String animationState;
 
     protected PowerUp(double x, double y){
         super(x, y);

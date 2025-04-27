@@ -6,11 +6,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Cloud {
+    // Position && Size
     private double x, y;
-    private double width, height;
+    private final double width;
+    private final double height;
+
+    // Image
     private BufferedImage image;
 
+    // States
     private double velocity_x;
+
 
     public Cloud(double x, double y, double velocity_x, BufferedImage image) {
         this.x = x;

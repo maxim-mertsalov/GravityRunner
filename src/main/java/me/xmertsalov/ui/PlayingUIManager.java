@@ -1,6 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -10,7 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class PlayingUIManager implements UIManager {
-    // Main
+    // General
     private PlayingScene playingScene;
     private int countPlayers;
 
@@ -27,7 +28,7 @@ public class PlayingUIManager implements UIManager {
     GameOverPanel gameOverPanel;
     CountDownPanel countDownPanel;
 
-    // Other
+    // States
     private boolean alldead;
 
 
@@ -95,18 +96,21 @@ public class PlayingUIManager implements UIManager {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 
     private void loadImages(){
         textPlayers = new BufferedImage[4];
-        BufferedImage tempTextPlayers = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_PLAYER_INDEXES);
+        BufferedImage tempTextPlayers;
+
+        try {
+            tempTextPlayers = BundleLoader.getSpriteAtlas(BundleLoader.TEXT_PLAYER_INDEXES);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         int rows = 4;
         int width = 52;
@@ -118,7 +122,5 @@ public class PlayingUIManager implements UIManager {
 
     }
 
-    public void startCountDown() {
-        countDownPanel.setShow(true);
-    }
+    public void startCountDown() {countDownPanel.setShow(true);}
 }

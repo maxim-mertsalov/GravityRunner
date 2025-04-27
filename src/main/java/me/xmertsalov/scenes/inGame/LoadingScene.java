@@ -1,6 +1,7 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.IScene;
 import me.xmertsalov.scenes.Scene;
@@ -32,7 +33,12 @@ public class LoadingScene extends Scene implements IScene {
 
     public LoadingScene(Game game) {
         super(game);
-        background = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -53,37 +59,23 @@ public class LoadingScene extends Scene implements IScene {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }

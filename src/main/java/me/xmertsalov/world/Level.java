@@ -23,6 +23,7 @@ public class Level {
     // dependencies
     private final LevelsManager levelsManager;
 
+    // for copying levels
     public Level(LevelsManager levelsManager, ArrayList<Tile> lvlData, String params) {
         this.lvlData = lvlData;
         this.levelsManager = levelsManager;
@@ -43,7 +44,6 @@ public class Level {
     }
 
     public Level(LevelsManager levelsManager, String params) {
-//        this.lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
         this.lvlData = new ArrayList<Tile>(Game.TILES_IN_WIDTH * Game.TILES_IN_HEIGHT);
         this.levelsManager = levelsManager;
         this.params = params;
@@ -58,7 +58,7 @@ public class Level {
     public void render(Graphics g) {
         for (Tile tile : lvlData) {
             int index = Math.max(tile.getTileIndex() - 1, 0);
-            tile.render(g, levelsManager.getLevelSprite(index));
+            tile.drawImage(g, levelsManager.getLevelSprite(index));
         }
         for (GameObject gameObject : gameObjects) {
             gameObject.draw(g);
@@ -67,7 +67,6 @@ public class Level {
 
     public void update() {
         for (Tile tile : lvlData) {
-//            tile.updatePos(tile.getX() + xOffsetVelocity, tile.getY());
             tile.getTilePhisicsComponents().setVelocity_x(xOffsetVelocity);
             tile.update();
         }

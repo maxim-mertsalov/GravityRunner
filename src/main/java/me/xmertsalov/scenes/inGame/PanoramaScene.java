@@ -11,20 +11,15 @@ import java.awt.event.MouseEvent;
 
 public class PanoramaScene extends Scene implements IScene {
 
-
     public PanoramaScene(Game game) {
         super(game);
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
-    public void draw(Graphics g) {
-
-    }
+    public void draw(Graphics g) {}
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -32,32 +27,20 @@ public class PanoramaScene extends Scene implements IScene {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {GameScene.scene = GameScene.MENU;}
 }

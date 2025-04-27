@@ -2,6 +2,7 @@ package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.config.Config;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.SettingsScene;
 import me.xmertsalov.ui.buttons.*;
@@ -118,17 +119,18 @@ public class SettingsManager implements UIManager{
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 
     private void loadImages() {
-        background = BundleLoader.getSpriteAtlas(BundleLoader.SETTINGS_BACKGROUND);
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.SETTINGS_BACKGROUND);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     private void createButtons() {

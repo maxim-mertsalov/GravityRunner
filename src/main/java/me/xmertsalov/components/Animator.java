@@ -1,36 +1,38 @@
 package me.xmertsalov.components;
 
+import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static me.xmertsalov.components.PlayerState.*;
-
 interface IAnimator {
-    public void setAnimationState(String state);
-    public void draw(Graphics g, double x, double y, int width, int height);
-    public void update();
+    void setAnimationState(String state);
+    void draw(Graphics g, double x, double y, int width, int height);
+    void update();
 }
 
 public class Animator implements IAnimator {
-    private BufferedImage image;
+    // Sprite Atlas Settings
     private String imageURL;
-    private int spriteWidth = 64;
-    private int spriteHeight = 40;
-    private int rows = 9;
-    private int cols = 6;
+    private int spriteWidth;
+    private int spriteHeight;
+    private int rows;
+    private int cols;
 
+    // Animation frames
     private BufferedImage[][] animations;
 
+    // Animation variables
     private int aniTick, aniIndex, aniSpeed = 25;
     private boolean inOneWay = false; // if true, animation will be played only once
 
-    private String animationState = "RUNNING";
-    private HashMap<String, List<Integer>> animationStates = new HashMap<>(); // first - animation state, second - number of frames in animation
+    // Animation states
+    private String animationState;
+    private HashMap<String, List<Integer>> animationStates; // first - animation state, second - number of frames in animation
 
 
     public Animator(String imageURL,
@@ -96,8 +98,6 @@ public class Animator implements IAnimator {
     public void draw(Graphics g, double x, double y, int width, int height) {
         BufferedImage sprite = animations[animationStates.get(animationState).getFirst()][aniIndex];
 
-//        System.out.println(sprite.toString());
-
         g.drawImage(sprite,
                 (int) x, (int) y,
                 width, height, null);
@@ -151,7 +151,15 @@ public class Animator implements IAnimator {
     }
 
     private void loadAnimations() {
-        image = BundleLoader.getSpriteAtlas(imageURL);
+        // Sprite Atlas
+        BufferedImage image;
+
+        try {
+            image = BundleLoader.getSpriteAtlas(imageURL);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         int imgWidth = image.getWidth();
         int imgHeight = image.getHeight();
@@ -164,7 +172,7 @@ public class Animator implements IAnimator {
                 if (x + spriteWidth <= imgWidth && y + spriteHeight <= imgHeight) {
                     animations[j][i] = image.getSubimage(x, y, spriteWidth, spriteHeight);
                 } else {
-                    System.err.println("ERR: Subimage coordinates are out of bounds: (" + x + ", " + y + ")");
+                    Game.logger.warn("ERR: Sub-image coordinates are out of bounds: ({}, {})", x, y);
                 }
             }
         }

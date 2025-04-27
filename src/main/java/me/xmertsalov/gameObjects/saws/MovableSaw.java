@@ -5,7 +5,7 @@ import me.xmertsalov.Game;
 import java.awt.*;
 
 public class MovableSaw extends Saw {
-    private double speed = 1.5;
+    private final double speed = 1.5;
 
     private double velocityX;
     private double velocityY;
@@ -82,8 +82,10 @@ public class MovableSaw extends Saw {
     @Override
     public void draw(Graphics g) {
         super.draw(g);
-        g.setColor(Game.DEBUG_COLOR);
-        g.drawLine((int) sx, (int) sy, (int) dx, (int) dy);
+        if (Game.DEBUG_COLLIDERS) {
+            g.setColor(Game.DEBUG_COLOR);
+            g.drawLine((int) sx, (int) sy, (int) dx, (int) dy);
+        }
     }
 
     @Override
@@ -100,17 +102,10 @@ public class MovableSaw extends Saw {
         this.velocityY = velocityY;
     }
 
-    public double getVelocityX() {
-        return velocityX;
-    }
+    public double getVelocityX() {return velocityX;}
+    public double getVelocityY() {return velocityY;}
 
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    public MovableSaw clone() {
-        return new MovableSaw(x, y, dx, dy);
-    }
+    public MovableSaw clone() {return new MovableSaw(x, y, dx, dy);}
 
     public void setVelocityOffset(double offsetX) {
         this.velocityXOffset = offsetX;

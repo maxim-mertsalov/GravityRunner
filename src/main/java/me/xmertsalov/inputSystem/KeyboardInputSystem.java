@@ -14,10 +14,9 @@ public class KeyboardInputSystem implements KeyListener {
 		this.gamePanel = gamePanel;
 	}
 
+	// Don't work or I don't know how to use it
 	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	// Key up
 	@Override

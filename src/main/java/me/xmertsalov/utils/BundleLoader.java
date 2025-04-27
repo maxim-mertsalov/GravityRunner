@@ -1,13 +1,13 @@
 package me.xmertsalov.utils;
 
+import me.xmertsalov.exeptions.BundleLoadException;
+
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 
 public class BundleLoader {
     // Player's skins
@@ -72,9 +72,6 @@ public class BundleLoader {
     public static final String SLIDER_BUTTON = "/res/UI/btn slider.png";
     public static final String SETTINGS_BACKGROUND = "/res/UI/background settings.png";
 
-    // Loading screen && First screen
-    public static final String LOADING_BACKGROUND = "/res/UI/loading.png";
-
     // Score && Game Over
     public static final String TEXT_PLAYER_INDEXES = "/res/UI/Score/players index.png";
     public static final String BACKGROUND_GAME_OVER = "/res/UI/Score/background game over.png";
@@ -92,39 +89,39 @@ public class BundleLoader {
     public static final String TUTORIAL_IMAGES = "/res/UI/Tutorial/images tutorial.png";
 
 
-    public static BufferedImage getSpriteAtlas(String fileName) {
-        BufferedImage img = null;
+    public static BufferedImage getSpriteAtlas(String fileName) throws BundleLoadException {
+        BufferedImage img;
         try {
             InputStream inputStream = BundleLoader.class.getResourceAsStream(fileName);
             if (inputStream != null) {
                 img = ImageIO.read(inputStream);
                 inputStream.close();
             } else {
-                throw new IOException("Resource not found: " + fileName);
+                throw new BundleLoadException("Resource not found", fileName);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BundleLoadException(e, fileName);
         }
         return img;
     }
 
-    public static String getFileContent(String fileName) {
+    public static String getFileContent(String fileName) throws BundleLoadException {
         StringBuilder content = new StringBuilder();
         try {
             InputStream inputStream = BundleLoader.class.getResourceAsStream(fileName);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
             if (inputStream != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
                 String line;
                 while ((line = reader.readLine()) != null) {
                     content.append(line).append("\n");
                 }
             } else {
-                throw new IOException("Resource not found: " + fileName);
+                throw new BundleLoadException("Resource not found", fileName);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BundleLoadException(e, fileName);
         }
         return content.toString();
     }

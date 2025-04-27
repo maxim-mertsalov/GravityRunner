@@ -1,6 +1,8 @@
 package me.xmertsalov.world;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exeptions.LevelLoadingException;
 import me.xmertsalov.gameObjects.powerUps.SpeedDown;
 import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.MovableSaw;
@@ -14,45 +16,87 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class LevelsManager {
+    // General
     private PlayingScene playingScene;
+
+    // Images
     private BufferedImage[] tilesetAtlas;
-    private ArrayList<Level> levels = new ArrayList<Level>();
 
-    private ArrayList<Level> spawnLevels = new ArrayList<Level>(); // only in the start of game
+    // Constants
+    private final int maxCurrentLevels = 3;
+    private double speed = 0.8f * Game.SCALE;
+    private final static double SECONDS_TO_SPEED = 6;
 
+    // Storage
+    private ArrayList<Level> levels; // unique levels
+
+    private ArrayList<Level> spawnLevels; // unique levels, but only in the start of game
 
     private ArrayList<Level> activeLevels;
-    private int maxCurrentLevels = 3;
 
     private ArrayList<Level> toRemoveActiveLevels;
     private ArrayList<Level> toAddActiveLevels;
 
-    private boolean left, right;
-
-    private double speed = 0.8f * Game.SCALE;
-
-    private final static double SECONDS_TO_SPEED = 6;
-
-    private int ticksBeforeIcreaseSpeed = 0;
+    // Other
+    private int ticksBeforeIncreaseSpeed = 0;
 
     public LevelsManager(PlayingScene playingScene) {
         this.playingScene = playingScene;
+
+        levels = new ArrayList<>();
+        spawnLevels = new ArrayList<>();
+
+
         importTilesetAtlas();
-        String levelData = BundleLoader.getFileContent(BundleLoader.WORLD_DATA);
-        parseLevelData(levelData);
+
+
+        try {
+            String levelData = BundleLoader.getFileContent(BundleLoader.WORLD_DATA);
+            parseLevelData(levelData);
+
+        } catch (BundleLoadException | LevelLoadingException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         activeLevels = new ArrayList<>();
         toRemoveActiveLevels = new ArrayList<>();
         toAddActiveLevels = new ArrayList<>();
     }
 
+
+    public void render(Graphics g) {
+        ArrayList<Level> levelsToRender = new ArrayList<>(activeLevels);
+
+        for (Level level : levelsToRender) {
+            level.render(g);
+        }
+    }
+
+    public void update() {
+        generateLevels();
+
+        if (playingScene.isIncreasedGameSpeedMode()) increaseSpeed();
+
+        moveLevels(-speed);
+
+        toAddActiveLevels.clear();
+        toRemoveActiveLevels.clear();
+    }
+
     private void importTilesetAtlas() {
-        BufferedImage img = BundleLoader.getSpriteAtlas(BundleLoader.TILESET_ATLAS);
+        BufferedImage img = null;
+        try {
+            img = BundleLoader.getSpriteAtlas(BundleLoader.TILESET_ATLAS);
+        } catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
         int columns = img.getWidth() / Game.TILES_DEFAULT_SIZE;
         int rows = img.getHeight() / Game.TILES_DEFAULT_SIZE;
 
         if (img.getWidth() % Game.TILES_DEFAULT_SIZE != 0 || img.getHeight() % Game.TILES_DEFAULT_SIZE != 0) {
-            System.err.println("Warning: Tileset image dimensions are not divisible by the tile size.");
+            Game.logger.warn("Tileset image dimensions are not divisible by the tile size.");
         }
 
         tilesetAtlas = new BufferedImage[columns * rows];
@@ -65,46 +109,43 @@ public class LevelsManager {
                     int index = j * columns + i;
                     tilesetAtlas[index] = img.getSubimage(x, y, Game.TILES_DEFAULT_SIZE, Game.TILES_DEFAULT_SIZE);
                 } catch (Exception e) {
-                    System.err.println("Error: " + e.getMessage());
+                    Game.logger.error(e.getMessage());
                 }
             }
     }
 
-    private void parseLevelData(String data) {
+    private void parseLevelData(String data) throws LevelLoadingException {
         String[] lines = data.split("\n");
         int levelCount = -1;
-//        ArrayList<Level> levels = new ArrayList<Level>(2);
 
-        for (int i = 0; i < lines.length; i++) {
+        for (String line : lines) {
             // Start of a new level: line like: #level-0,"Some data"
-            if (lines[i].startsWith("#level-")) {
+            if (line.startsWith("#level-")) {
                 levelCount++;
 
-                String[] levelData = lines[i].split(",");
+                String[] levelData = line.split(",");
 
                 String params = levelData[1].substring(1, levelData[1].length() - 1); // get params and remove quotes
 
                 levels.add(new Level(this, params));
-                System.out.println("Level " + levelCount + " loaded" + " with params: " + params);
                 continue;
             }
 
             // End of all levels
-            if (lines[i].startsWith("\n")) {
+            if (line.startsWith("\n")) {
                 break;
             }
 
             // if there are no level beginning string - incorrect data
             if (levelCount < 0) {
-                System.err.println("Error: Level data not found");
-                break;
+                throw new LevelLoadingException("Level data not found");
             }
 
-            // Tile data: line like: position X,position Y,TileType,"Special params"
+            // Tile data: line like: <position X>,<position Y>,<TileType>,"<Special params>"
             {
-                String[] values = lines[i].split(","); // 0 - x, 1 - y, 2 - spriteIndex, 3 - params
+                String[] values = line.split(","); // 0 - x, 1 - y, 2 - spriteIndex, 3 - params
                 if (values.length < 4) {
-                    throw new RuntimeException("Invalid level data");
+                    throw new LevelLoadingException("Invalid level data");
                 }
                 int x = (Integer.parseInt(values[0]) - 1) * Game.TILES_SIZE;
                 int y = (Integer.parseInt(values[1]) - 1) * Game.TILES_SIZE;
@@ -112,24 +153,26 @@ public class LevelsManager {
                 String tileType = values[3].substring(1, values[3].length() - 1); // remove quotes
 
                 // Special elements like entities, power-ups and other
-                if (spriteIndex < 0){
-                    if (tileType.equals("SpeedUp")) {
-                        SpeedUp speedUp = new SpeedUp(x, y);
-                        levels.get(levelCount).setGameObject(speedUp);
-                    }
-                    else if (tileType.equals("SpeedDown")) {
-                        SpeedDown speedDown = new SpeedDown(x, y);
-                        levels.get(levelCount).setGameObject(speedDown);
-                    }
-                    else if (tileType.equals("Saw")) {
-                        Saw saw = new Saw(x, y);
-                        levels.get(levelCount).setGameObject(saw);
-                    }
-                    else if (tileType.equals("MovableSaw")) {
-                        int dx = (Integer.parseInt(values[4])) * Game.TILES_SIZE;
-                        int dy = (Integer.parseInt(values[5])) * Game.TILES_SIZE;
-                        MovableSaw movableSaw = new MovableSaw(x, y, dx, dy);
-                        levels.get(levelCount).setGameObject(movableSaw);
+                if (spriteIndex < 0) {
+                    switch (tileType) {
+                        case "SpeedUp" -> {
+                            SpeedUp speedUp = new SpeedUp(x, y);
+                            levels.get(levelCount).setGameObject(speedUp);
+                        }
+                        case "SpeedDown" -> {
+                            SpeedDown speedDown = new SpeedDown(x, y);
+                            levels.get(levelCount).setGameObject(speedDown);
+                        }
+                        case "Saw" -> {
+                            Saw saw = new Saw(x, y);
+                            levels.get(levelCount).setGameObject(saw);
+                        }
+                        case "MovableSaw" -> {
+                            int dx = (Integer.parseInt(values[4])) * Game.TILES_SIZE;
+                            int dy = (Integer.parseInt(values[5])) * Game.TILES_SIZE;
+                            MovableSaw movableSaw = new MovableSaw(x, y, dx, dy);
+                            levels.get(levelCount).setGameObject(movableSaw);
+                        }
                     }
                     continue;
                 }
@@ -139,7 +182,7 @@ public class LevelsManager {
             }
         }
 
-        System.out.println("Levels loaded: " + levels.size());
+        Game.logger.info("Loaded {} levels", levels.size());
 
         for (Level level : levels) {
             if (level.getParams().startsWith("spawn")) {
@@ -161,7 +204,7 @@ public class LevelsManager {
 
             for (Level level : spawnLevels) {
                 if (level.getParams().startsWith(spawnLevelNames.get(Math.abs(playerCount - 1)) )) {
-                    System.out.println("Spawning " + level.getParams());
+                    Game.logger.info("Spawn level added: {}", level.getParams());
                     Level newLevel = level.copyLevel();
                     newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);
                     activeLevels.add(newLevel);
@@ -181,10 +224,8 @@ public class LevelsManager {
     private void moveLevels(double velocity_x){
         for (Level level : activeLevels) {
             level.setXOffsetVelocity(velocity_x);
-//            System.out.println(level.getXOffsetVelocity());
 
             if (level.getXOffset() <= Game.TILES_SIZE * Game.TILES_IN_WIDTH * -1){
-//                activeLevels.remove(level);
                 toRemoveActiveLevels.add(level);
             }
         }
@@ -200,63 +241,18 @@ public class LevelsManager {
 
         toAddActiveLevels.add(newLevel);
 
-        System.out.println("New level added: " + random);
+        Game.logger.info("New level added: {}", random);
     }
-
-    public void render(Graphics g) {
-//        activeLevels.get(1).render(g);
-
-        ArrayList<Level> levelsToRender = new ArrayList<>(activeLevels);
-
-        for (Level level : levelsToRender) {
-            level.render(g);
-        }
-    }
-
-    public void update() {
-        generateLevels();
-
-        if (playingScene.isIncreasedGameSpeedMode()) increaseSpeed();
-
-        moveLevels(-speed);
-
-        toAddActiveLevels.clear();
-        toRemoveActiveLevels.clear();
-    }
-
 
     private void increaseSpeed(){
-        ticksBeforeIcreaseSpeed++;
-        if (playingScene.isIncreasedGameSpeedMode() && ticksBeforeIcreaseSpeed >= Game.UPS_LIMIT * SECONDS_TO_SPEED) {
+        ticksBeforeIncreaseSpeed++;
+        if (playingScene.isIncreasedGameSpeedMode() && ticksBeforeIncreaseSpeed >= Game.UPS_LIMIT * SECONDS_TO_SPEED) {
 
             if (speed >= 1.5) speed += 0.02 * Game.SCALE;
             else speed += 0.08f * Game.SCALE;
 
-            ticksBeforeIcreaseSpeed = 0;
+            ticksBeforeIncreaseSpeed = 0;
         }
-    }
-
-    public BufferedImage getLevelSprite(int index) {
-        return tilesetAtlas[index];
-    }
-
-    public ArrayList<Level> getActiveLevels() {
-        return activeLevels;
-    }
-
-    public ArrayList<Level> getLevels() {
-        return levels;
-    }
-
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public double getSpeed() {
-        return speed;
     }
 
     public void resetLevelManager(){
@@ -268,10 +264,16 @@ public class LevelsManager {
         if (playingScene.isSlowMode()) speed = 0.4f * Game.SCALE;
         else if (playingScene.isIncreasedGameSpeedMode()) speed = 0.7f * Game.SCALE;
         else speed = 0.8f * Game.SCALE;
-
-        System.out.println("Speed:" + speed);
     }
 
+    public BufferedImage getLevelSprite(int index) {
+        return tilesetAtlas[index];
+    }
+    public ArrayList<Level> getActiveLevels() {
+        return activeLevels;
+    }
+    public ArrayList<Level> getLevels() {return levels;}
+    public double getSpeed() {return speed;}
     public void setSpeed(double speed) {this.speed = speed;}
 
 }

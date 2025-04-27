@@ -2,7 +2,7 @@ package me.xmertsalov.background;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.components.Animator;
-import me.xmertsalov.scenes.inGame.PlayingScene;
+import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.Agragation;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -13,18 +13,20 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BackgroundManager {
-    private BufferedImage background; // 1st layer
+    // Dependencies
+    private final Animator waterAnimator;
 
+    // Images
+    private BufferedImage background; // 1st layer
     private Cloud[] smallClouds; // 2nd layer
     private Cloud bigCloud; // 3rd layer
 
-    private Animator waterAnimator;
-    private double waterSizeK = 2f;
 
-//    private PlayingScene playingScene;
-
+    // Constants
+    private final double waterSizeK = 2f;
     private final int MAX_SMALL_CLOUDS = 4;
 
+    // Storage
     private ArrayList<Cloud> smallCloudsList;
     private ArrayList<Cloud> bigCloudsList;
 
@@ -34,14 +36,15 @@ public class BackgroundManager {
     private ArrayList<Cloud> toAddBigCloudsList;
     private ArrayList<Cloud> toRemoveBigCloudsList;
 
+    // Position settings
     private double smallCloudsSpeed = 0.15f * Game.SCALE;
     private double bigCloudsSpeed = 0.45f * Game.SCALE;
 
+    // Other
     int smallCloudsTicks = 0;
 
 
     public BackgroundManager() {
-
         smallCloudsList = new ArrayList<>();
         bigCloudsList = new ArrayList<>();
         toAddSmallCloudsList = new ArrayList<>();
@@ -98,7 +101,7 @@ public class BackgroundManager {
             if (bigCloudsList.isEmpty()) {
                 newCloud.setX(0);
             } else {
-                Cloud lastCloud = bigCloudsList.get(bigCloudsList.size() - 1);
+                Cloud lastCloud = bigCloudsList.getLast();
                 newCloud.setX(lastCloud.getX() + lastCloud.getWidth() - 1); // Subtract 1 to overlap slightly
             }
             toAddBigCloudsList.add(newCloud);
@@ -154,15 +157,21 @@ public class BackgroundManager {
     }
 
     private void loadAssets() {
-        background = BundleLoader.getSpriteAtlas(BundleLoader.BACKGROUND_ATLAS);
-
         smallClouds = new Cloud[3];
 
-        smallClouds[0] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_1_ATLAS));
-        smallClouds[1] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_2_ATLAS));
-        smallClouds[2] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_3_ATLAS));
+        try {
+            background = BundleLoader.getSpriteAtlas(BundleLoader.BACKGROUND_ATLAS);
 
-        bigCloud = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.BIG_CLOUDS_ATLAS));
+            smallClouds[0] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_1_ATLAS));
+            smallClouds[1] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_2_ATLAS));
+            smallClouds[2] = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.SMALL_CLOUDS_3_ATLAS));
+
+            bigCloud = new Cloud(Game.WINDOW_WIDTH, 0, 0, BundleLoader.getSpriteAtlas(BundleLoader.BIG_CLOUDS_ATLAS));
+        }
+        catch (BundleLoadException e) {
+            Game.logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
 

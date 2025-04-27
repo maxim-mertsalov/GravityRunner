@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Config implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L; // For versioning during serialization
     private static final String CONFIG_FILE = "settings.ser";
 

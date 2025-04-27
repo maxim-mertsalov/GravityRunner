@@ -10,8 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public class CreditsScene extends Scene implements IScene {
-
-
     // UI
      private CreditsManager creditsManager;
 
@@ -52,17 +50,11 @@ public class CreditsScene extends Scene implements IScene {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
+    public void keyPressed(KeyEvent e) {}
 
     @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }
