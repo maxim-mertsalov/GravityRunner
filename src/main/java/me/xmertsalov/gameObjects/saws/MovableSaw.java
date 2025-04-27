@@ -5,27 +5,41 @@ import me.xmertsalov.gameObjects.GameObject;
 
 import java.awt.*;
 
+/**
+ * Represents a movable saw object in the game.
+ * The saw moves back and forth between two points (start and destination).
+ * The movement is determined by a velocity vector, and the saw reverses direction
+ * when it reaches either the start or destination point.
+ */
 public class MovableSaw extends Saw {
-    private final double speed = 1.5;
+    private final double speed = 1.5; // Base speed of the saw.
 
-    private double velocityX;
-    private double velocityY;
+    private double velocityX; // Current velocity in the X direction.
+    private double velocityY; // Current velocity in the Y direction.
 
-    private double velocityXOffset = 0;
+    private double velocityXOffset = 0; // Offset applied to the X velocity.
 
-    private double baseVelocityX;
-    private double baseVelocityY;
+    private double baseVelocityX; // Base velocity in the X direction.
+    private double baseVelocityY; // Base velocity in the Y direction.
 
-    private double lengthBetweenStartX = 0;
-    private double lengthBetweenStartY = 0;
+    private double lengthBetweenStartX = 0; // Distance traveled from the start point in the X direction.
+    private double lengthBetweenStartY = 0; // Distance traveled from the start point in the Y direction.
 
-    private boolean direction = true; // true = right, false = left
+    private boolean direction = true; // Current direction of movement (true = toward destination, false = toward start).
 
-    private double dx, dy;
-    private double sx, sy;
+    private double dx, dy; // Destination coordinates.
+    private double sx, sy; // Start coordinates.
 
-    private double lengthX, lengthY;
+    private double lengthX, lengthY; // Distance between start and destination in X and Y directions.
 
+    /**
+     * Constructs a MovableSaw object.
+     *
+     * @param x  The starting X coordinate.
+     * @param y  The starting Y coordinate.
+     * @param dx The destination X coordinate.
+     * @param dy The destination Y coordinate.
+     */
     public MovableSaw(double x, double y, double dx, double dy) {
         super(x, y);
 
@@ -45,6 +59,10 @@ public class MovableSaw extends Saw {
         this.velocityY = baseVelocityY;
     }
 
+    /**
+     * Updates the position of the saw based on its velocity.
+     * Checks if the saw has reached its destination or start point and reverses direction if necessary.
+     */
     @Override
     public void update() {
         checkPosition();
@@ -60,6 +78,10 @@ public class MovableSaw extends Saw {
         animator.update();
     }
 
+    /**
+     * Checks the current position of the saw and reverses its direction
+     * if it reaches the destination or start point.
+     */
     private void checkPosition() {
         if (direction) {
             // Moving toward (dx, dy)
@@ -80,6 +102,12 @@ public class MovableSaw extends Saw {
         }
     }
 
+    /**
+     * Draws the saw on the screen.
+     * If debug mode is enabled, it also draws a line representing the movement path.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     public void draw(Graphics g) {
         super.draw(g);
@@ -89,6 +117,12 @@ public class MovableSaw extends Saw {
         }
     }
 
+    /**
+     * Updates the position of the saw and recalculates its start and destination points.
+     *
+     * @param x The new X coordinate.
+     * @param y The new Y coordinate.
+     */
     @Override
     public void updatePos(double x, double y) {
         super.updatePos(x, y);
@@ -98,19 +132,51 @@ public class MovableSaw extends Saw {
         this.dy = y -lengthBetweenStartY + lengthY;
     }
 
+    /**
+     * Sets the velocity of the saw.
+     *
+     * @param velocityX The new velocity in the X direction.
+     * @param velocityY The new velocity in the Y direction.
+     */
     public void setVelocity(double velocityX, double velocityY) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
     }
 
-    public double getVelocityX() {return velocityX;}
-    public double getVelocityY() {return velocityY;}
+    /**
+     * Gets the current velocity in the X direction.
+     *
+     * @return The X velocity.
+     */
+    public double getVelocityX() {
+        return velocityX;
+    }
 
+    /**
+     * Gets the current velocity in the Y direction.
+     *
+     * @return The Y velocity.
+     */
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    /**
+     * Creates a clone of the MovableSaw object.
+     *
+     * @return A new MovableSaw object with the same properties.
+     */
     @Override
-    public GameObject clone() {return new MovableSaw(x, y, dx, dy);}
+    public GameObject clone() {
+        return new MovableSaw(x, y, dx, dy);
+    }
 
+    /**
+     * Sets an offset for the X velocity.
+     *
+     * @param offsetX The offset to apply to the X velocity.
+     */
     public void setVelocityOffset(double offsetX) {
         this.velocityXOffset = offsetX;
     }
 }
-

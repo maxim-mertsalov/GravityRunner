@@ -1,6 +1,6 @@
 package me.xmertsalov.utils;
 
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -9,6 +9,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * The {@code BundleLoader} class provides utility methods for loading various game resources,
+ * such as sprite atlases, text files, and other assets required by the game.
+ * It also defines constants for resource file paths used throughout the game.
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Loading sprite atlas images as {@link BufferedImage} objects.</li>
+ *   <li>Reading the content of text files as {@link String} objects.</li>
+ * </ul>
+ *
+ * <p>All resource paths are defined as constants to ensure consistency and ease of access.
+ * If a resource cannot be found or an I/O error occurs, a {@link BundleLoadException} is thrown.
+ */
 public class BundleLoader {
     // Player's skins
     public static final String PLAYER_BOY_ADVENTURE_A_ATLAS = "/res/Players/Boy_Adventure A.png";
@@ -88,7 +102,13 @@ public class BundleLoader {
     public static final String TUTORIAL_TEXTS = "/res/UI/Tutorial/texts tutorial.png";
     public static final String TUTORIAL_IMAGES = "/res/UI/Tutorial/images tutorial.png";
 
-
+    /**
+     * Loads a sprite atlas image from the specified file path.
+     *
+     * @param fileName the path to the sprite atlas resource.
+     * @return the loaded {@link BufferedImage}.
+     * @throws BundleLoadException if the resource cannot be found or an I/O error occurs.
+     */
     public static BufferedImage getSpriteAtlas(String fileName) throws BundleLoadException {
         BufferedImage img;
         try {
@@ -105,6 +125,13 @@ public class BundleLoader {
         return img;
     }
 
+    /**
+     * Reads the content of a text file from the specified file path.
+     *
+     * @param fileName the path to the text file resource.
+     * @return the content of the file as a {@link String}.
+     * @throws BundleLoadException if the resource cannot be found or an I/O error occurs.
+     */
     public static String getFileContent(String fileName) throws BundleLoadException {
         StringBuilder content = new StringBuilder();
         try {

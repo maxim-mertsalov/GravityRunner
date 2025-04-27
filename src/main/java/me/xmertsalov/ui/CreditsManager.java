@@ -1,7 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.buttons.IButton;
 import me.xmertsalov.ui.buttons.SmallButtonFactory;
@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * The CreditsManager class manages the credits screen UI of the game.
+ * It handles the display of the credits background and navigation buttons.
+ */
 public class CreditsManager implements UIManager {
     // Dependencies
     private SmallButtonFactory smallButtonFactory;
@@ -24,7 +28,11 @@ public class CreditsManager implements UIManager {
     // Images
     private BufferedImage background;
 
-
+    /**
+     * Constructs a CreditsManager instance.
+     *
+     * @param game The Game instance to which this manager belongs.
+     */
     public CreditsManager(Game game) {
         this.game = game;
         loadImages();
@@ -33,6 +41,9 @@ public class CreditsManager implements UIManager {
         createButtons();
     }
 
+    /**
+     * Updates the state of the credits UI.
+     */
     @Override
     public void update() {
         for (IButton button : buttons) {
@@ -40,6 +51,11 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Renders the credits UI components on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(background,
@@ -53,6 +69,11 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse click events for credits buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse click.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         for (IButton button : buttons) {
@@ -60,6 +81,11 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse press events for credits buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse press.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         for (IButton button : buttons) {
@@ -67,6 +93,11 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse release events for credits buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse release.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         for (IButton button : buttons) {
@@ -74,6 +105,11 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse movement events for credits buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse movement.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         for (IButton button : buttons) {
@@ -81,12 +117,25 @@ public class CreditsManager implements UIManager {
         }
     }
 
+    /**
+     * Handles key press events. Currently not implemented.
+     *
+     * @param e The KeyEvent object containing details about the key press.
+     */
     @Override
     public void keyPressed(KeyEvent e) {}
 
+    /**
+     * Handles key release events. Currently not implemented.
+     *
+     * @param e The KeyEvent object containing details about the key release.
+     */
     @Override
     public void keyReleased(KeyEvent e) {}
 
+    /**
+     * Creates the navigation buttons for the credits screen.
+     */
     private void createButtons() {
         buttons = new ArrayList<>();
 
@@ -101,6 +150,9 @@ public class CreditsManager implements UIManager {
         });
     }
 
+    /**
+     * Loads the images used in the credits UI.
+     */
     private void loadImages(){
         try {
             background = BundleLoader.getSpriteAtlas(BundleLoader.CREDITS_BACKGROUND);

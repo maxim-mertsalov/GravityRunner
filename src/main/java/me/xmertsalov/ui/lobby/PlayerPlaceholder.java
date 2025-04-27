@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The PlayerPlaceholder class represents a UI element in the lobby for a single player.
+ * It displays the player's avatar, allows skin selection, and manages player-specific settings.
+ */
 public class PlayerPlaceholder {
     // Dependencies
     private Game game;
@@ -43,7 +47,15 @@ public class PlayerPlaceholder {
 
     private int offsetXBetween;
 
-
+    /**
+     * Constructs a PlayerPlaceholder instance.
+     * Initializes buttons, player settings, and UI configurations.
+     *
+     * @param player               The player associated with this placeholder.
+     * @param id                   The unique ID of the placeholder.
+     * @param playerPlaceholderImage The image used for the placeholder background.
+     * @param lobbyManager         The lobby manager instance managing this placeholder.
+     */
     public PlayerPlaceholder(Player player, int id, BufferedImage playerPlaceholderImage, LobbyManager lobbyManager) {
         this.player = player;
         this.id = id;
@@ -87,6 +99,11 @@ public class PlayerPlaceholder {
         resetPlayerStats();
     }
 
+    /**
+     * Draws the player placeholder, including the background, buttons, and player avatar.
+     *
+     * @param g The Graphics object used for rendering.
+     */
     public void draw(Graphics g) {
         g.drawImage(playerPlaceholderImage, getXById(), placeholderY, placeholderWidth, placeholderHeight, null);
         for (IButton button : buttons) {
@@ -100,6 +117,9 @@ public class PlayerPlaceholder {
         player.render(g);
     }
 
+    /**
+     * Updates the state of the player placeholder, including buttons and player settings.
+     */
     public void update() {
         for (IButton button : buttons) {
             button.update();
@@ -125,6 +145,9 @@ public class PlayerPlaceholder {
         }
     }
 
+    /**
+     * Resets the player's stats to their initial state.
+     */
     public void resetPlayerStats(){
         player.setPosX(getXById() + 20 * Game.SCALE);
         player.setPosY(placeholderY + 20 * Game.SCALE);
@@ -140,6 +163,11 @@ public class PlayerPlaceholder {
         }
     }
 
+    /**
+     * Calculates the X-coordinate of the placeholder based on its ID.
+     *
+     * @return The X-coordinate of the placeholder.
+     */
     private int getXById() {
         switch (id) {
             case 0 -> {

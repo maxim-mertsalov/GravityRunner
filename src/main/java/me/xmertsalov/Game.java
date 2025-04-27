@@ -15,6 +15,11 @@ import me.xmertsalov.score.Score;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The {@code Game} class serves as the main entry point for the GravityRunner game.
+ * It initializes the game, manages the game loop, and handles rendering and updates.
+ * This class also manages global game settings, scenes, and modes.
+ */
 public class Game implements Runnable {
     private final GamePanel gamePanel;
 	private Thread gameThread;
@@ -77,6 +82,12 @@ public class Game implements Runnable {
 	// Logger
 	public static final Logger logger = LogManager.getLogger(Game.class);
 
+	/**
+	 * Constructs a new {@code Game} instance with specified debug settings.
+	 *
+	 * @param showColliders whether to display collision boundaries for debugging
+	 * @param showFPS       whether to display the current frames per second (FPS) for debugging
+	 */
 	public Game(boolean showColliders, boolean showFPS) {
 		DEBUG_FPS = showFPS;
 		DEBUG_COLLIDERS = showColliders;
@@ -127,7 +138,13 @@ public class Game implements Runnable {
 		startGameLoop();
 	}
 
-	// Change scale with resolution
+	/**
+	 * Adjusts the game's scale based on the given width and height.
+	 * Updates the tile size and logs the new scale.
+	 *
+	 * @param width  the width of the game window
+	 * @param height the height of the game window
+	 */
 	public void setScale(float width, float height) {
 		SCALE = height / GAME_HEIGHT;
 		TILES_SIZE = (int)Math.ceil(TILES_DEFAULT_SIZE * SCALE);
@@ -135,13 +152,19 @@ public class Game implements Runnable {
         logger.info("Game started with {}x{} resolution and scale: {}", (int)width, (int)height, SCALE);
 	}
 
-	// This method is called to start the game loop
+	/**
+	 * Starts the game loop in a separate thread.
+	 * This method initializes the game thread and begins execution.
+	 */
 	private void startGameLoop() {
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
 
-	// This method is called when the game starts one time
+	/**
+	 * Initializes the game by setting up background, audio, players, scenes, and score.
+	 * This method is called once when the game starts.
+	 */
 	private void startGame() {
 		backgroundManager = new BackgroundManager();
 		audioPlayer = new AudioPlayer();
@@ -170,7 +193,10 @@ public class Game implements Runnable {
 
 	}
 
-	// This method is called every tick to update the game
+	/**
+	 * Updates the game state on every tick.
+	 * This includes updating the background, audio, and the current scene based on the game state.
+	 */
 	public void updateGame() {
 		backgroundManager.update();
 		audioPlayer.update();
@@ -192,7 +218,12 @@ public class Game implements Runnable {
 		}
 	}
 
-	// This method is called every frame to render the game
+	/**
+	 * Renders the game graphics on every frame.
+	 * This includes drawing the background, the current scene, and optionally the FPS counter.
+	 *
+	 * @param g the {@link Graphics} object used for rendering
+	 */
 	public void renderGame(Graphics g) {
 		if (menuScene == null || backgroundManager == null) return;
 
@@ -218,6 +249,10 @@ public class Game implements Runnable {
 
 	}
 
+	/**
+	 * The main game loop that handles updates and rendering.
+	 * It maintains a consistent FPS and UPS (updates per second) rate.
+	 */
 	@Override
 	public void run() {
 
@@ -268,12 +303,17 @@ public class Game implements Runnable {
 
 	}
 
+	/**
+	 * Handles logic when the game window loses focus.
+	 * This is used to reset certain states when the game is not in focus.
+	 */
 	public void windowFocusLost() {
 		if (GameScene.scene == GameScene.PLAYING) {
 			// logic for reset booleans when window is not focused
 		}
 	}
 
+	// Game modes getters and setters
 	public boolean isBorderlessMode() {return borderlessMode;}
 	public boolean isSlowMode() {return slowMode;}
 	public boolean isGodMode() {return godMode;}

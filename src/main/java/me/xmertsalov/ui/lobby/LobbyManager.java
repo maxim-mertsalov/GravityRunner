@@ -2,8 +2,8 @@ package me.xmertsalov.ui.lobby;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.entities.Player;
-import me.xmertsalov.exeptions.BundleLoadException;
-import me.xmertsalov.exeptions.LobbyException;
+import me.xmertsalov.exceptions.BundleLoadException;
+import me.xmertsalov.exceptions.LobbyException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.UIManager;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
@@ -18,6 +18,12 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * The LobbyManager class is responsible for managing the lobby UI in the game.
+ * It handles player placeholders, buttons, game modes, and their interactions.
+ * This class implements the UIManager interface and provides methods for updating,
+ * drawing, and handling user input in the lobby.
+ */
 public class LobbyManager implements UIManager {
 
     // General
@@ -69,7 +75,12 @@ public class LobbyManager implements UIManager {
     private final int paddingXText = (int)(28 * Game.SCALE);
     private final int paddingYText = (int)(6 * Game.SCALE);
     
-
+    /**
+     * Constructs a LobbyManager instance.
+     * Initializes players, buttons, modes, images, and placeholders.
+     *
+     * @param game The game instance to associate with this lobby manager.
+     */
     public LobbyManager(Game game) {
         this.game = game;
 
@@ -96,6 +107,9 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Updates the state of the lobby, including player placeholders, buttons, and modes.
+     */
     @Override
     public void update() {
         resetAll();
@@ -109,6 +123,11 @@ public class LobbyManager implements UIManager {
         updateModes();
     }
 
+    /**
+     * Draws the lobby UI, including the background, player placeholders, buttons, and text.
+     *
+     * @param g The Graphics object used for rendering.
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(longBackgoundImage, 100, (int)(Game.SCALE * 290), Game.WINDOW_WIDTH - 200, (int)(96 * 1.5 * Game.SCALE), null);
@@ -124,6 +143,9 @@ public class LobbyManager implements UIManager {
         drawText(g);
     }
 
+    /**
+     * Resets all player stats in the lobby if the reset flag is set to false.
+     */
     private void resetAll(){
         if (reset) return;
 
@@ -134,6 +156,11 @@ public class LobbyManager implements UIManager {
         reset = true;
     }
 
+    /**
+     * Draws the text labels for the game modes on the lobby UI.
+     *
+     * @param g The Graphics object used for rendering.
+     */
     private void drawText(Graphics g) {
         g.drawImage(textSpeedModeImage, (firstColBtnX + paddingXText), (firstRowBtnY + paddingYText), (int)(textSpeedModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textSpeedModeImage.getHeight() * btn_scale * Game.SCALE), null);
         g.drawImage(textGhostModeImage, (firstColBtnX + paddingXText), (secondRowBtnY + paddingYText), (int)(textGhostModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textGhostModeImage.getHeight() * btn_scale * Game.SCALE), null);
@@ -143,6 +170,9 @@ public class LobbyManager implements UIManager {
 //        g.drawImage(textViewerModeImage, (secondColBtnX + paddingXText), (thirdRowBtnY + paddingYText), (int)(textViewerModeImage.getWidth() * btn_scale * Game.SCALE), (int)(textViewerModeImage.getHeight() * btn_scale * Game.SCALE), null);
     }
 
+    /**
+     * Loads the initial states of the game modes from the game instance.
+     */
     private void loadModes(){
         speedMode = game.isIncreasedGameSpeedMode();
         if (speedMode) {
@@ -170,6 +200,9 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Updates the game modes based on the current state of the lobby.
+     */
     private void updateModes(){
         if (speedMode != game.isIncreasedGameSpeedMode()) {
             game.setIncreasedGameSpeedMode(true);
@@ -191,6 +224,11 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse click events for buttons and player placeholders.
+     *
+     * @param e The MouseEvent object containing event details.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         buttons.forEach(button -> button.mouseClicked(e));
@@ -199,6 +237,11 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse press events for buttons and player placeholders.
+     *
+     * @param e The MouseEvent object containing event details.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         buttons.forEach(button -> button.mousePressed(e));
@@ -207,6 +250,11 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse release events for buttons and player placeholders.
+     *
+     * @param e The MouseEvent object containing event details.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         buttons.forEach(button -> button.mouseReleased(e));
@@ -215,6 +263,11 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse movement events for buttons and player placeholders.
+     *
+     * @param e The MouseEvent object containing event details.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         buttons.forEach(button -> button.mouseMoved(e));
@@ -223,18 +276,31 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Handles key press events for player placeholders.
+     *
+     * @param e The KeyEvent object containing event details.
+     */
     public void keyPressed(KeyEvent e) {
         for (PlayerPlaceholder placeholder : playerPlaceholders) {
             placeholder.keyPressed(e);
         }
     }
 
+    /**
+     * Handles key release events for player placeholders.
+     *
+     * @param e The KeyEvent object containing event details.
+     */
     public void keyReleased(KeyEvent e) {
         for (PlayerPlaceholder placeholder : playerPlaceholders) {
             placeholder.keyReleased(e);
         }
     }
 
+    /**
+     * Creates and initializes the buttons for the lobby UI.
+     */
     private void createButtons(){
         buttons = new ArrayList<>();
 
@@ -351,6 +417,10 @@ public class LobbyManager implements UIManager {
         });
     }
 
+    /**
+     * Loads the players from the game instance into the lobby.
+     * Throws a LobbyException if no players are found.
+     */
     private void loadPlayers(){
         if (!game.getPlayers().isEmpty()) {
             this.players = game.getPlayers();
@@ -360,6 +430,10 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Loads the images required for the lobby UI from the resource bundle.
+     * Throws a RuntimeException if the images cannot be loaded.
+     */
     private void loadImages(){
         try {
             playerPlaceholderImage = BundleLoader.getSpriteAtlas(BundleLoader.PLAYER_PLACEHOLDER);
@@ -379,8 +453,16 @@ public class LobbyManager implements UIManager {
         }
     }
 
+    /**
+     * Resets the lobby state, allowing all player stats to be reset.
+     */
     public void reset() {this.reset = false;}
 
+    /**
+     * Retrieves the associated game instance.
+     *
+     * @return The game instance.
+     */
     public Game getGame(){return game;}
 
 }

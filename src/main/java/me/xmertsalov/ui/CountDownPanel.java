@@ -2,13 +2,17 @@ package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * The CountDownPanel class manages the countdown UI before the game starts.
+ * It displays countdown numbers and plays corresponding sound effects.
+ */
 public class CountDownPanel {
 
     // Dependencies
@@ -34,7 +38,11 @@ public class CountDownPanel {
     int width = (int)(22 * k * Game.SCALE);
     int height = (int)(11 * k * Game.SCALE);
 
-
+    /**
+     * Constructs a CountDownPanel instance.
+     *
+     * @param playingScene The PlayingScene instance to which this panel belongs.
+     */
     public CountDownPanel(PlayingScene playingScene) {
         this.playingScene = playingScene;
 
@@ -44,6 +52,10 @@ public class CountDownPanel {
         loadImages();
     }
 
+    /**
+     * Updates the state of the countdown panel.
+     * Handles the countdown logic and triggers game start events.
+     */
     public void update() {
         if (show) {
             if (!sounded) {
@@ -76,6 +88,11 @@ public class CountDownPanel {
         }
     }
 
+    /**
+     * Renders the countdown panel components on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     public void draw(Graphics g) {
         if (show && currentTime != 0) {
             g.drawImage(countDownImages[currentTime - 1],
@@ -85,6 +102,9 @@ public class CountDownPanel {
         }
     }
 
+    /**
+     * Loads the images used in the countdown panel.
+     */
     private void loadImages(){
         BufferedImage image = null;
         try {
@@ -107,5 +127,10 @@ public class CountDownPanel {
         }
     }
 
+    /**
+     * Sets whether the countdown panel should be displayed.
+     *
+     * @param show True to display the panel, false to hide it.
+     */
     public void setShow(boolean show) {this.show = show;}
 }

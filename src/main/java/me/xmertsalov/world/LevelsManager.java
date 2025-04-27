@@ -1,20 +1,23 @@
 package me.xmertsalov.world;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.exeptions.BundleLoadException;
-import me.xmertsalov.exeptions.LevelLoadingException;
+import me.xmertsalov.exceptions.BundleLoadException;
+import me.xmertsalov.exceptions.LevelLoadingException;
 import me.xmertsalov.gameObjects.powerUps.SpeedDown;
 import me.xmertsalov.gameObjects.powerUps.SpeedUp;
 import me.xmertsalov.gameObjects.saws.MovableSaw;
 import me.xmertsalov.gameObjects.saws.Saw;
 import me.xmertsalov.scenes.inGame.PlayingScene;
-import me.xmertsalov.utils.Agragation;
+import me.xmertsalov.utils.Aggregation;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Manages the levels in the game, including loading, rendering, updating, and generating levels.
+ */
 public class LevelsManager {
     // General
     private PlayingScene playingScene;
@@ -40,15 +43,18 @@ public class LevelsManager {
     // Other
     private int ticksBeforeIncreaseSpeed = 0;
 
+    /**
+     * Constructor for the LevelsManager.
+     *
+     * @param playingScene The scene in which the levels are managed.
+     */
     public LevelsManager(PlayingScene playingScene) {
         this.playingScene = playingScene;
 
         levels = new ArrayList<>();
         spawnLevels = new ArrayList<>();
 
-
         importTilesetAtlas();
-
 
         try {
             String levelData = BundleLoader.getFileContent(BundleLoader.WORLD_DATA);
@@ -64,7 +70,11 @@ public class LevelsManager {
         toAddActiveLevels = new ArrayList<>();
     }
 
-
+    /**
+     * Renders all active levels.
+     *
+     * @param g The Graphics object used for rendering.
+     */
     public void render(Graphics g) {
         ArrayList<Level> levelsToRender = new ArrayList<>(activeLevels);
 
@@ -73,6 +83,9 @@ public class LevelsManager {
         }
     }
 
+    /**
+     * Updates the levels, including generating new levels and moving existing ones.
+     */
     public void update() {
         generateLevels();
 
@@ -84,6 +97,9 @@ public class LevelsManager {
         toRemoveActiveLevels.clear();
     }
 
+    /**
+     * Imports the tileset atlas from a sprite sheet.
+     */
     private void importTilesetAtlas() {
         BufferedImage img = null;
         try {
@@ -114,6 +130,12 @@ public class LevelsManager {
             }
     }
 
+    /**
+     * Parses level data from a string and initializes levels.
+     *
+     * @param data The level data as a string.
+     * @throws LevelLoadingException If the level data is invalid.
+     */
     private void parseLevelData(String data) throws LevelLoadingException {
         String[] lines = data.split("\n");
         int levelCount = -1;
@@ -192,8 +214,13 @@ public class LevelsManager {
         levels.removeAll(spawnLevels);
     }
 
-    public void generateSpawnLevel(int playerCount){
-        if (activeLevels.isEmpty()){ // game have been started
+    /**
+     * Generates spawn levels based on the number of players.
+     *
+     * @param playerCount The number of players.
+     */
+    public void generateSpawnLevel(int playerCount) {
+        if (activeLevels.isEmpty()) { // game have been started
             // add spawn levels
 
             ArrayList<String> spawnLevelNames = new ArrayList<>();
@@ -214,6 +241,9 @@ public class LevelsManager {
         }
     }
 
+    /**
+     * Generates new levels if the number of active levels is below the maximum.
+     */
     private void generateLevels() {
         if (activeLevels.size() < maxCurrentLevels) {
             addNewRandomLevel();
@@ -221,7 +251,12 @@ public class LevelsManager {
         activeLevels.addAll(toAddActiveLevels);
     }
 
-    private void moveLevels(double velocity_x){
+    /**
+     * Moves all active levels by a specified velocity.
+     *
+     * @param velocity_x The velocity to move the levels.
+     */
+    private void moveLevels(double velocity_x) {
         for (Level level : activeLevels) {
             level.setXOffsetVelocity(velocity_x);
 
@@ -232,9 +267,12 @@ public class LevelsManager {
         activeLevels.removeAll(toRemoveActiveLevels);
     }
 
+    /**
+     * Adds a new random level to the active levels.
+     */
     private void addNewRandomLevel() {
         int maxLevel = levels.size();
-        int random = Agragation.getRandomNumber(0, maxLevel);
+        int random = Aggregation.getRandomNumber(0, maxLevel);
 
         Level newLevel = levels.get(random).copyLevel();
         newLevel.setXOffset(activeLevels.size() * Game.TILES_SIZE * Game.TILES_IN_WIDTH);
@@ -244,7 +282,10 @@ public class LevelsManager {
         Game.logger.info("New level added: {}", random);
     }
 
-    private void increaseSpeed(){
+    /**
+     * Increases the speed of the levels over time.
+     */
+    private void increaseSpeed() {
         ticksBeforeIncreaseSpeed++;
         if (playingScene.isIncreasedGameSpeedMode() && ticksBeforeIncreaseSpeed >= Game.UPS_LIMIT * SECONDS_TO_SPEED) {
 
@@ -255,7 +296,10 @@ public class LevelsManager {
         }
     }
 
-    public void resetLevelManager(){
+    /**
+     * Resets the level manager, clearing active levels and resetting speed.
+     */
+    public void resetLevelManager() {
         activeLevels.clear();
         toRemoveActiveLevels.clear();
         toAddActiveLevels.clear();
@@ -266,14 +310,49 @@ public class LevelsManager {
         else speed = 0.8f * Game.SCALE;
     }
 
+    /**
+     * Gets a sprite from the tileset atlas by index.
+     *
+     * @param index The index of the sprite.
+     * @return The sprite as a BufferedImage.
+     */
     public BufferedImage getLevelSprite(int index) {
         return tilesetAtlas[index];
     }
+
+    /**
+     * Gets the list of active levels.
+     *
+     * @return The list of active levels.
+     */
     public ArrayList<Level> getActiveLevels() {
         return activeLevels;
     }
-    public ArrayList<Level> getLevels() {return levels;}
-    public double getSpeed() {return speed;}
-    public void setSpeed(double speed) {this.speed = speed;}
 
+    /**
+     * Gets the list of all levels.
+     *
+     * @return The list of levels.
+     */
+    public ArrayList<Level> getLevels() {
+        return levels;
+    }
+
+    /**
+     * Gets the current speed of the levels.
+     *
+     * @return The speed.
+     */
+    public double getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Sets the speed of the levels.
+     *
+     * @param speed The new speed.
+     */
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
 }

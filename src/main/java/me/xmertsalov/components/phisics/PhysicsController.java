@@ -12,17 +12,29 @@ import me.xmertsalov.scenes.inGame.PlayingScene;
 
 import java.awt.geom.Rectangle2D;
 
-
+/**
+ * The {@code PhysicsController} class manages the physics interactions and collisions
+ * in the game. It handles player interactions with tiles, walls, game objects, and other players.
+ * Additionally, it manages player states such as falling, velocity resets, and death conditions.
+ */
 public class PhysicsController {
     private final PlayingScene playingScene;
-
     private int ticks;
 
+    /**
+     * Constructs a {@code PhysicsController} for the specified {@link PlayingScene}.
+     *
+     * @param playingScene the playing scene associated with this physics controller
+     */
     public PhysicsController(PlayingScene playingScene) {
         this.playingScene = playingScene;
     }
 
-    public void update(){
+    /**
+     * Updates the physics state by detecting collisions, resetting velocities,
+     * and handling player interactions.
+     */
+    public void update() {
         detectFallingCollisions();
         detectWallsCollisions();
         resetPlayerVelocityX();
@@ -30,9 +42,13 @@ public class PhysicsController {
         ifPlayerFallingAway();
 
         // Check if the player is in ghost mode
-         if (playingScene.isGhostMode()) playersInteractions();
+        if (!playingScene.isGhostMode()) playersInteractions();
     }
 
+    /**
+     * Detects collisions between players and tiles when falling and adjusts their positions
+     * and velocities accordingly.
+     */
     private void detectFallingCollisions() {
 
         playingScene.getLevelsManager().getActiveLevels().forEach(level -> level.getTiles().forEach(tile -> {
@@ -89,6 +105,10 @@ public class PhysicsController {
         }));
     }
 
+    /**
+     * Detects collisions between players and walls, adjusting their positions and velocities
+     * to prevent overlapping.
+     */
     private void detectWallsCollisions() {
         playingScene.getLevelsManager().getActiveLevels().forEach(level -> level.getTiles().forEach(tile -> {
             if (tile.getCollider() != null) { // There are tiles with colliders:
@@ -120,6 +140,10 @@ public class PhysicsController {
         }));
     }
 
+    /**
+     * Resets the horizontal velocity of players after a bonus effect expires.
+     * The reset occurs after a fixed duration.
+     */
     public void resetPlayerVelocityX(){
         for (Player player : playingScene.getPlayers()) {
             if (player.isConsumedBonus()) {
@@ -133,6 +157,10 @@ public class PhysicsController {
         }
     }
 
+    /**
+     * Detects interactions between players and game objects such as power-ups and saws.
+     * Applies effects or triggers events based on the type of object.
+     */
     public void detectGameObjects(){
         playingScene.getLevelsManager().getActiveLevels().forEach(level -> level.getGameObjects().forEach(gameObject -> {
 
@@ -165,6 +193,10 @@ public class PhysicsController {
         }));
     }
 
+    /**
+     * Checks if players are falling out of bounds and handles their positions or triggers
+     * death conditions based on the game mode.
+     */
     private void ifPlayerFallingAway(){
         for (Player player : playingScene.getPlayers()) {
             if (playingScene.isBorderlessMode()){
@@ -192,6 +224,11 @@ public class PhysicsController {
         }
     }
 
+    /**
+     * Marks a player as dead and adjusts their velocity based on the level's speed.
+     *
+     * @param player the player to mark as dead
+     */
     private void playerDead(Player player){
         double xVelocity = playingScene.getLevelsManager().getSpeed();
 
@@ -199,6 +236,10 @@ public class PhysicsController {
         player.getPhisicsComponent().setVelocityX(-xVelocity);
     }
 
+    /**
+     * Handles interactions between players, such as collisions and adjustments
+     * to their positions and velocities.
+     */
     private void playersInteractions(){
         if (playingScene.isGhostMode()) return;
 
@@ -274,7 +315,6 @@ public class PhysicsController {
 
                         // Check if the players are colliding in the X axis
                         if (detectXBoundPlayer.intersects(boxCOtherPlayer.getBounds())) {
-//                            System.out.println("detectXBoundPlayer");
                             if(player.getPosX() <= otherPlayer.getPosX()) {
                                 player.setPosX(otherPlayer.getPosX() - boxCPlayer.getBounds().getWidth() - 1);
                             }

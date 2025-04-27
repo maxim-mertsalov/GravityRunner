@@ -2,7 +2,7 @@ package me.xmertsalov.ui.buttons;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -11,7 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class ButtonDetectedKey implements IButton{
+/**
+ * Represents a button that listens for a key press and displays the detected key.
+ * This button can be clicked to start listening for a key press, and the detected key is displayed on the button.
+ */
+public class ButtonDetectedKey implements IButton {
     // Dependencies
     private Game game;
 
@@ -31,6 +35,16 @@ public class ButtonDetectedKey implements IButton{
     private boolean listening = false;
     private int keyCode = 0;
 
+    /**
+     * Constructs a ButtonDetectedKey with specified position, size, variant, and game context.
+     *
+     * @param x      The x-coordinate of the button.
+     * @param y      The y-coordinate of the button.
+     * @param width  The width of the button.
+     * @param height The height of the button.
+     * @param variant The variant of the button's appearance.
+     * @param game   The game context.
+     */
     public ButtonDetectedKey(int x, int y, int width, int height, int variant, Game game) {
         this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
@@ -39,6 +53,11 @@ public class ButtonDetectedKey implements IButton{
         loadImage();
     }
 
+    /**
+     * Draws the button on the screen, including the detected key text.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(images[variant][state], (int) rectangle.x, (int) rectangle.y, (int) rectangle.width, (int) rectangle.height, null);
@@ -46,6 +65,9 @@ public class ButtonDetectedKey implements IButton{
         g.drawString(KeyEvent.getKeyText(keyCode), (int) (rectangle.x + rectangle.getWidth() / 2 - 5), (int) (rectangle.y + rectangle.getHeight() / 2));
     }
 
+    /**
+     * Updates the button's state. If the button is listening for a key press, its state is updated accordingly.
+     */
     @Override
     public void update() {
         if (listening) {
@@ -53,6 +75,11 @@ public class ButtonDetectedKey implements IButton{
         }
     }
 
+    /**
+     * Handles mouse click events. Starts or stops listening for a key press based on the button's state.
+     *
+     * @param e The MouseEvent object containing details of the mouse click.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (rectangle.contains(e.getX(), e.getY()) && !listening) {
@@ -107,6 +134,11 @@ public class ButtonDetectedKey implements IButton{
 
     }
 
+    /**
+     * Handles key release events. Detects the key code and updates the button's state.
+     *
+     * @param e The KeyEvent object containing details of the key release.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         if (listening) {
@@ -135,6 +167,9 @@ public class ButtonDetectedKey implements IButton{
         this.onClickListener = listener;
     }
 
+    /**
+     * Loads the button's images from a sprite atlas.
+     */
     @Override
     public void loadImage() {
         BufferedImage image = null;
@@ -159,16 +194,31 @@ public class ButtonDetectedKey implements IButton{
         }
     }
 
+    /**
+     * Gets the rectangle representing the button's position and size.
+     *
+     * @return The rectangle of the button.
+     */
     @Override
     public Rectangle2D getRectangle() {
         return rectangle;
     }
 
+    /**
+     * Gets the detected key code.
+     *
+     * @return The key code of the detected key.
+     */
     @Override
     public int getData() {
         return keyCode;
     }
 
+    /**
+     * Sets the detected key code.
+     *
+     * @param data The key code to set.
+     */
     @Override
     public void setData(int data) {
         this.keyCode = data;

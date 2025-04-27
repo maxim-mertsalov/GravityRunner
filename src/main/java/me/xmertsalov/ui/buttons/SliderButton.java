@@ -2,7 +2,7 @@ package me.xmertsalov.ui.buttons;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
@@ -11,7 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class SliderButton implements IButton{
+/**
+ * Represents a slider button that allows users to adjust a value by dragging the slider.
+ * The slider's position corresponds to a percentage value between 0 and 100.
+ */
+public class SliderButton implements IButton {
     // Dependencies
     private Game game;
 
@@ -34,6 +38,16 @@ public class SliderButton implements IButton{
     // Listener
     private Runnable onClickListener;
 
+    /**
+     * Constructs a SliderButton with specified position, size, variant, and game context.
+     *
+     * @param x      The x-coordinate of the slider.
+     * @param y      The y-coordinate of the slider.
+     * @param width  The width of the slider.
+     * @param height The height of the slider.
+     * @param variant The variant of the slider's appearance.
+     * @param game   The game context.
+     */
     public SliderButton(int x, int y, int width, int height, int variant, Game game) {
         this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
@@ -45,17 +59,30 @@ public class SliderButton implements IButton{
         trackRectangle = new Rectangle2D.Float(getTrackXFromData(), y + 2.5f * Game.SCALE, 7 * 2.25f * Game.SCALE, 11 * 2.25f * Game.SCALE);
     }
 
+    /**
+     * Draws the slider and its track on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(slider, (int)rectangle.x, (int)rectangle.y, (int)(rectangle.width), (int)(rectangle.height * Game.SCALE), null);
         g.drawImage(track[state], (int) trackRectangle.x, (int) (trackRectangle.y), (int) (trackRectangle.width), (int) (trackRectangle.height), null);
     }
 
+    /**
+     * Updates the slider's state. Currently, no specific update logic is implemented.
+     */
     @Override
     public void update() {
 
     }
 
+    /**
+     * Handles mouse click events. Updates the slider's state if the track is clicked.
+     *
+     * @param e The MouseEvent object containing details of the mouse click.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (trackRectangle.contains(e.getX(), e.getY())) {
@@ -100,6 +127,11 @@ public class SliderButton implements IButton{
         state = 0;
     }
 
+    /**
+     * Handles mouse drag events. Updates the slider's position and value based on the drag.
+     *
+     * @param e The MouseEvent object containing details of the mouse drag.
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (trackRectangle.contains(e.getX(), e.getY())) {
@@ -140,6 +172,9 @@ public class SliderButton implements IButton{
         this.onClickListener = listener;
     }
 
+    /**
+     * Loads the slider's images from a sprite atlas.
+     */
     @Override
     public void loadImage() {
         BufferedImage image = null;
@@ -178,16 +213,31 @@ public class SliderButton implements IButton{
         return (int) (t * 100);
     }
 
+    /**
+     * Gets the rectangle representing the slider's position and size.
+     *
+     * @return The rectangle of the slider.
+     */
     @Override
     public Rectangle2D getRectangle() {
         return rectangle;
     }
 
+    /**
+     * Gets the slider's current value as a percentage (0-100).
+     *
+     * @return The slider's value.
+     */
     @Override
     public int getData() {
         return data;
     }
 
+    /**
+     * Sets the slider's value as a percentage (0-100) and updates its position.
+     *
+     * @param data The value to set.
+     */
     @Override
     public void setData(int data) {
         this.data = data;

@@ -1,7 +1,6 @@
 package me.xmertsalov.components;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.Animator.AnimationStrategy;
 import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.utils.BundleLoader;
@@ -10,15 +9,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The PlayerAnimator class is responsible for managing animations for different player skins.
+ * It provides functionality to load animation states, URLs, and create Animator objects for each skin.
+ * This class supports cloning and provides access to specific Animator instances based on skin names.
+ *
+ * <p>
+ * The PlayerAnimator class uses a combination of animation states and sprite sheets to define
+ * animations for various player skins. It relies on the Animator class to handle the actual
+ * animation logic and rendering.
+ * </p>
+ */
 public class PlayerAnimator {
 
-    private HashMap<String, Animator> animators; // for many skins
+    private HashMap<String, Animator> animators; // Map of skin names to Animator objects
+    private HashMap<String, String> skinsURL; // Map of skin names to sprite sheet URLs
+    private HashMap<String, List<Integer>> animationStates; // Map of animation states to frame data
 
-
-    private HashMap<String, String> skinsURL;
-    private HashMap<String, List<Integer>> animationStates; // first - animation state, second - number of frames in animation
-
-
+    /**
+     * Default constructor for PlayerAnimator.
+     * Initializes the animators map and loads animation states, URLs, and animators.
+     *
+     * <p>
+     * This constructor sets up the PlayerAnimator by loading predefined animation states,
+     * sprite sheet URLs, and creating Animator objects for each skin. The animators map
+     * is populated with Animator instances that are configured based on the loaded data.
+     * </p>
+     */
     public PlayerAnimator() {
         animators = new HashMap<>();
         loadAnimationStates();
@@ -26,14 +43,31 @@ public class PlayerAnimator {
         loadAnimators();
     }
 
-    private PlayerAnimator(HashMap<String, Animator> animators){
+    /**
+     * Private constructor used for cloning.
+     *
+     * @param animators A map of skin names to Animator objects.
+     * <p>
+     * This constructor is used internally to create a deep copy of the PlayerAnimator instance.
+     * It reuses the provided animators map and reloads the animation states and URLs.
+     * </p>
+     */
+    private PlayerAnimator(HashMap<String, Animator> animators) {
         loadAnimationStates();
         loadAnimationURLs();
         this.animators = animators;
     }
 
-
-    public PlayerAnimator clone(){
+    /**
+     * Creates a deep copy of the current PlayerAnimator instance.
+     *
+     * @return A new PlayerAnimator instance with cloned Animator objects.
+     * <p>
+     * This method creates a new PlayerAnimator instance by cloning all Animator objects
+     * in the current instance. The cloning is performed using the Animator.Builder's clone method.
+     * </p>
+     */
+    public PlayerAnimator clone() {
         HashMap<String, Animator> new_animators = new HashMap<>();
         for (String skinName : animators.keySet()) {
             new_animators.put(skinName, new Animator.Builder().clone(animators.get(skinName)));
@@ -41,6 +75,12 @@ public class PlayerAnimator {
         return new PlayerAnimator(new_animators);
     }
 
+    /**
+     * Retrieves the Animator object for a given skin name.
+     *
+     * @param key The name of the skin.
+     * @return The Animator object associated with the given skin name.
+     */
     public Animator getAnimator(String key) {
         if (animators.containsKey(key)) {
             return animators.get(key);
@@ -50,7 +90,11 @@ public class PlayerAnimator {
         }
     }
 
-    private void loadAnimationURLs(){
+    /**
+     * Loads the URLs for different player skins into the skinsURL map.
+     * The URLs are used to locate the sprite sheets for each skin.
+     */
+    private void loadAnimationURLs() {
         skinsURL = new HashMap<>();
 
         skinsURL.put("Adventure Boy A", BundleLoader.PLAYER_BOY_ADVENTURE_A_ATLAS);
@@ -78,7 +122,14 @@ public class PlayerAnimator {
         skinsURL.put("Worker D", BundleLoader.PLAYER_WORKER_D_ATLAS);
     }
 
-    private void loadAnimationStates(){
+    /**
+     * Loads the animation states into the animationStates map.
+     * <p>
+     * Each animation state is associated with a list of integers that define
+     * the row index and the number of frames in the sprite sheet for that state.
+     * </p>
+     */
+    private void loadAnimationStates() {
         animationStates = new HashMap<>();
 
         animationStates.put("IDLE", new ArrayList<>(List.of(0, 6)) );
@@ -92,7 +143,15 @@ public class PlayerAnimator {
 
     }
 
-    private void loadAnimators(){
+    /**
+     * Loads Animator objects for each skin and populates the animators map.
+     * <p>
+     * This method iterates through the skinsURL map, creates an Animator object
+     * for each skin using the Animator.Builder, and configures it with the
+     * appropriate sprite sheet, animation states, and other properties.
+     * </p>
+     */
+    private void loadAnimators() {
         for (String skinName : skinsURL.keySet()) {
             Animator animator = new Animator.Builder()
                     .setSpriteWidth(48)
@@ -111,14 +170,23 @@ public class PlayerAnimator {
         Game.logger.info("Loaded {} characters", animators.size());
     }
 
+    /**
+     * Retrieves the map of skin names to sprite sheet URLs.
+     *
+     * @return A HashMap where the keys are skin names and the values are the
+     *         corresponding sprite sheet URLs.
+     */
     public HashMap<String, String> getSkinsURL() {
         return skinsURL;
     }
 
+    /**
+     * Retrieves the map of skin names to Animator objects.
+     *
+     * @return A HashMap where the keys are skin names and the values are the
+     *         corresponding Animator objects.
+     */
     public HashMap<String, Animator> getAnimationStates() {
         return animators;
     }
-
-
-
 }

@@ -1,7 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
 import me.xmertsalov.ui.buttons.IButton;
@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * The MenuManager class manages the main menu UI of the game.
+ * It handles the display of the menu background, logo, and navigation buttons.
+ */
 public class MenuManager implements UIManager {
 
     // Dependencies
@@ -40,7 +44,11 @@ public class MenuManager implements UIManager {
 
     private int buttonsX = (int)((double) Game.WINDOW_WIDTH / 2 - (56 * btn_scale * Game.SCALE) / 2);
 
-
+    /**
+     * Constructs a MenuManager instance.
+     *
+     * @param game The Game instance to which this manager belongs.
+     */
     public MenuManager(Game game) {
         this.game = game;
         bigButtonFactory = new BigButtonFactory();
@@ -50,13 +58,20 @@ public class MenuManager implements UIManager {
         loadImages();
     }
 
-
+    /**
+     * Updates the state of the menu UI.
+     */
     public void update() {
         for (IButton button : buttons) {
             button.update();
         }
     }
 
+    /**
+     * Renders the menu UI components on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     public void draw(Graphics g) {
         g.drawImage(background, (int)((double) Game.WINDOW_WIDTH / 2 - backgroundWidth / 2), backgroundY, (int)backgroundWidth, (int)backgroundHeight, null);
         g.drawImage(logo, (int)((double) Game.WINDOW_WIDTH / 2 - logoWidth / 2), logoY , (int)logoWidth, (int)logoHeight, null);
@@ -66,6 +81,9 @@ public class MenuManager implements UIManager {
         }
     }
 
+    /**
+     * Loads the images used in the menu UI.
+     */
     private void loadImages() {
         try {
             logo = BundleLoader.getSpriteAtlas(BundleLoader.LOGO);
@@ -77,24 +95,44 @@ public class MenuManager implements UIManager {
         }
     }
 
+    /**
+     * Handles mouse click events for menu buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse click.
+     */
     public void mouseClicked(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseClicked(e);
         }
     }
 
+    /**
+     * Handles mouse press events for menu buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse press.
+     */
     public void mousePressed(MouseEvent e) {
         for (IButton button : buttons) {
             button.mousePressed(e);
         }
     }
 
+    /**
+     * Handles mouse release events for menu buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse release.
+     */
     public void mouseReleased(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseReleased(e);
         }
     }
 
+    /**
+     * Handles mouse movement events for menu buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse movement.
+     */
     public void mouseMoved(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseMoved(e);
@@ -107,6 +145,9 @@ public class MenuManager implements UIManager {
     @Override
     public void keyReleased(KeyEvent e) {}
 
+    /**
+     * Creates the navigation buttons for the menu.
+     */
     private void createButtons() {
         buttons = new ArrayList<>();
 

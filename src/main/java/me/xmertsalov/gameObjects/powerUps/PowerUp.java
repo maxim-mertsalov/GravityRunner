@@ -11,6 +11,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Abstract base class for all power-up objects in the game.
+ * Power-ups are collectible items that provide temporary effects to the player.
+ * This class handles the common functionality such as animation, position, and collision bounds.
+ */
 public abstract class PowerUp extends GameObject {
     // Dependencies
     protected Animator animator;
@@ -25,7 +30,13 @@ public abstract class PowerUp extends GameObject {
     // States
     protected HashMap<String, List<Integer>> animationStates;
 
-    protected PowerUp(double x, double y){
+    /**
+     * Constructs a PowerUp object at the specified position.
+     *
+     * @param x The x-coordinate of the power-up.
+     * @param y The y-coordinate of the power-up.
+     */
+    protected PowerUp(double x, double y) {
         super(x, y);
         bounds = new Rectangle2D.Double(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
 
@@ -46,6 +57,12 @@ public abstract class PowerUp extends GameObject {
                 .build_and_load();
     }
 
+    /**
+     * Updates the position of the power-up and its collision bounds.
+     *
+     * @param x The new x-coordinate.
+     * @param y The new y-coordinate.
+     */
     public void updatePos(double x, double y) {
         this.x = x;
         this.y = y;
@@ -53,25 +70,49 @@ public abstract class PowerUp extends GameObject {
         bounds.y = y;
     }
 
+    /**
+     * Draws the power-up on the screen using its animator.
+     *
+     * @param g The Graphics object used for rendering.
+     */
     public void draw(Graphics g) {
         animator.draw(g, x, y, (int) bounds.getWidth(), (int) bounds.getHeight());
     }
 
+    /**
+     * Updates the animation state of the power-up.
+     */
     public void update() {
         animator.update();
     }
 
+    /**
+     * Sets the x-coordinate of the power-up and updates its collision bounds.
+     *
+     * @param x The new x-coordinate.
+     */
     @Override
     public void setX(double x) {
         super.setX(x);
         bounds.x = x;
     }
+
+    /**
+     * Sets the y-coordinate of the power-up and updates its collision bounds.
+     *
+     * @param y The new y-coordinate.
+     */
     @Override
     public void setY(double y) {
         super.setY(y);
         bounds.y = y;
     }
 
+    /**
+     * Gets the collision bounds of the power-up.
+     *
+     * @return A Rectangle2D.Double representing the collision bounds.
+     */
     public Rectangle2D.Double getBounds() {
         return bounds;
     }

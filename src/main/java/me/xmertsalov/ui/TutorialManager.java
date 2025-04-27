@@ -1,7 +1,7 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
 import me.xmertsalov.ui.buttons.IButton;
@@ -13,7 +13,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class TutorialManager implements UIManager{
+/**
+ * The TutorialManager class manages the tutorial UI for the game.
+ * It handles the display of tutorial images, text, and navigation buttons.
+ */
+public class TutorialManager implements UIManager {
 
     // Dependencies
     private BigButtonFactory bigButtonFactory;
@@ -67,8 +71,11 @@ public class TutorialManager implements UIManager{
     double imageWidth = (int)(backgroundWidth  - imageXOffset * 2);
     double imageHeight = (int)(imageWidth / imageInitWidth * imageInitHeight);
 
-
-
+    /**
+     * Constructs a TutorialManager instance.
+     *
+     * @param game The Game instance to which this manager belongs.
+     */
     public TutorialManager(Game game) {
         this.game = game;
 
@@ -81,13 +88,19 @@ public class TutorialManager implements UIManager{
         createButtons();
     }
 
-
-
+    /**
+     * Updates the state of the tutorial UI.
+     */
     @Override
     public void update() {
 
     }
 
+    /**
+     * Renders the tutorial UI components on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     public void draw(Graphics g) {
         g.drawImage(background, backgroundX, backgorundY, (int)backgroundWidth, (int)backgroundHeight, null);
@@ -98,6 +111,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles mouse click events for tutorial buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse click.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         for (IButton button : buttons) {
@@ -105,6 +123,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles mouse press events for tutorial buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse press.
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         for (IButton button : buttons) {
@@ -112,6 +135,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles mouse release events for tutorial buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse release.
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         for (IButton button : buttons) {
@@ -119,6 +147,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles mouse movement events for tutorial buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse movement.
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         for (IButton button : buttons) {
@@ -126,6 +159,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles key press events for tutorial buttons.
+     *
+     * @param e The KeyEvent object containing details about the key press.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         for (IButton button : buttons) {
@@ -133,6 +171,11 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Handles key release events for tutorial buttons.
+     *
+     * @param e The KeyEvent object containing details about the key release.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         for (IButton button : buttons) {
@@ -140,6 +183,9 @@ public class TutorialManager implements UIManager{
         }
     }
 
+    /**
+     * Creates the navigation buttons for the tutorial.
+     */
     private void createButtons() {
         buttons = new ArrayList<>();
 
@@ -205,6 +251,9 @@ public class TutorialManager implements UIManager{
 
     }
 
+    /**
+     * Loads the tutorial images and text from resources.
+     */
     private void loadImages(){
         texts = new BufferedImage[countCases];
         images = new BufferedImage[countCases];
@@ -227,7 +276,6 @@ public class TutorialManager implements UIManager{
 
         int textWidth = 192;
         int textHeight = 96;
-
 
         for (int i = 0; i < countCases; i++) {
             texts[i] = bigTextsImg.getSubimage(0, i * textHeight, textWidth, textHeight);

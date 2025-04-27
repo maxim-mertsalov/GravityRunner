@@ -2,7 +2,7 @@ package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
 import me.xmertsalov.entities.Player;
-import me.xmertsalov.exeptions.BundleLoadException;
+import me.xmertsalov.exceptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.PlayingScene;
 import me.xmertsalov.ui.buttons.BigButtonFactory;
@@ -15,6 +15,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * The GameOverPanel class manages the game-over screen UI.
+ * It displays the game-over background, player scores, and navigation buttons.
+ */
 public class GameOverPanel {
     // General
     private PlayingScene playingScene;
@@ -45,7 +49,11 @@ public class GameOverPanel {
     // Storage
     private ArrayList<IButton> buttons;
 
-
+    /**
+     * Constructs a GameOverPanel instance.
+     *
+     * @param playingScene The PlayingScene instance to which this panel belongs.
+     */
     public GameOverPanel(PlayingScene playingScene) {
         this.playingScene = playingScene;
         this.game = playingScene.getGame();
@@ -58,7 +66,11 @@ public class GameOverPanel {
         createButtons();
     }
 
-
+    /**
+     * Renders the game-over panel components on the screen.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     public void draw(Graphics g) {
         if (!isShown) return;
 
@@ -92,6 +104,9 @@ public class GameOverPanel {
         }
     }
 
+    /**
+     * Updates the state of the game-over panel.
+     */
     public void update() {
         if (!isShown) return;
 
@@ -100,30 +115,53 @@ public class GameOverPanel {
         }
     }
 
+    /**
+     * Handles mouse click events for game-over buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse click.
+     */
     public void mouseClicked(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseClicked(e);
         }
     }
 
+    /**
+     * Handles mouse press events for game-over buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse press.
+     */
     public void mousePressed(MouseEvent e) {
         for (IButton button : buttons) {
             button.mousePressed(e);
         }
     }
 
+    /**
+     * Handles mouse release events for game-over buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse release.
+     */
     public void mouseReleased(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseReleased(e);
         }
     }
 
+    /**
+     * Handles mouse movement events for game-over buttons.
+     *
+     * @param e The MouseEvent object containing details about the mouse movement.
+     */
     public void mouseMoved(MouseEvent e) {
         for (IButton button : buttons) {
             button.mouseMoved(e);
         }
     }
 
+    /**
+     * Creates the navigation buttons for the game-over panel.
+     */
     private void createButtons() {
         buttons = new ArrayList<>();
 
@@ -141,7 +179,6 @@ public class GameOverPanel {
             isShown = false;
         });
 
-
         // Home button
         buttons.add(smallButtonFactory.createButton(
                 (int)(xBtn - (14 * 1.8 * Game.SCALE) - (Game.SCALE * 3)),
@@ -156,6 +193,9 @@ public class GameOverPanel {
         });
     }
 
+    /**
+     * Loads the images used in the game-over panel.
+     */
     private void loadImages(){
         playerIndexesTexts = new BufferedImage[4];
         BufferedImage tempPlayerIndexesTexts;
@@ -177,5 +217,8 @@ public class GameOverPanel {
         }
     }
 
+    /**
+     * Shows the game-over panel.
+     */
     public void show() {isShown = true;}
 }
