@@ -29,14 +29,16 @@ public class Saw extends GameObject {
         animationStates.put("IDLE", List.of(0, 1));
         animationStates.put("ROTATING", List.of(0, 8));
 
-        animator = new Animator(BundleLoader.SAW_ATLAS,
-                32,
-                32,
-                1,
-                8,
-                animationStates,
-                animationState,
-                5);
+        animator = new Animator.Builder()
+                .setImageURL(BundleLoader.SAW_ATLAS)
+                .setSpriteWidth(32)
+                .setSpriteHeight(32)
+                .setRows(1)
+                .setColumns(8)
+                .setAnimationStates(animationStates)
+                .setCurrentState(animationState)
+                .setAnimationSpeed(5)
+                .build_and_load();
     }
 
     public void update(){
@@ -58,7 +60,8 @@ public class Saw extends GameObject {
     }
 
     public Ellipse2D.Double getBounds() {return bounds;}
-    public Saw clone() {return new Saw(this.x, this.y);}
+    @Override
+    public GameObject clone() {return new Saw(this.x, this.y);}
 
     @Override
     public void setX(double x) {

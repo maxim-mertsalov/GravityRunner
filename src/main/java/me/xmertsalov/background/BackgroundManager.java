@@ -55,14 +55,17 @@ public class BackgroundManager {
         HashMap<String, List<Integer>> waterStates = new HashMap<>();
         waterStates.put("WATER", List.of(0, 4));
 
-        waterAnimator = new Animator(BundleLoader.WATER_REFLECTS_ATLAS,
-                170,
-                10,
-                1,
-                4,
-                waterStates,
-                "WATER",
-                -1);
+        waterAnimator = new Animator.Builder()
+                .setImageURL(BundleLoader.WATER_REFLECTS_ATLAS)
+                .setSpriteWidth(170)
+                .setSpriteHeight(10)
+                .setRows(1)
+                .setColumns(4)
+                .setAnimationStates(waterStates)
+                .setCurrentState("WATER")
+                .setAnimationSpeed(-1)
+                .build_and_load();
+
 
         loadAssets();
     }

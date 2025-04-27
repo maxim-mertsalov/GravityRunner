@@ -1,7 +1,6 @@
 package me.xmertsalov.scenes.inGame;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.IScene;
 import me.xmertsalov.scenes.Scene;
 import me.xmertsalov.ui.TutorialManager;
@@ -17,7 +16,7 @@ public class TutorialScene extends Scene implements IScene {
 
     public TutorialScene(Game game) {
         super(game);
-        tutorialManager = new TutorialManager();
+        tutorialManager = new TutorialManager(game);
     }
 
     @Override

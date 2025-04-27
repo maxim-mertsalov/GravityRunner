@@ -1,7 +1,6 @@
 package me.xmertsalov.ui;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.config.Config;
 import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.scenes.GameScene;
 import me.xmertsalov.scenes.inGame.SettingsScene;
@@ -30,16 +29,16 @@ public class SettingsManager implements UIManager{
     private ArrayList<String> resolutions;
 
     // States
-    private int currentResolutionIndex = 0;
-    private int musicVolume = 0;
-    private int sfxVolume = 0;
+    private int currentResolutionIndex;
+    private int musicVolume;
+    private int sfxVolume;
 
     // Images
     private BufferedImage background;
 
     // UI Settings
-    private int backX = (int)(Game.WINDOW_WIDTH / 2 - (96 * 2 * Game.SCALE) / 2);
-    private int backY = (int)(Game.WINDOW_HEIGHT / 2 - (160 * 2 * Game.SCALE) / 2);
+    private int backX = (int)((float) Game.WINDOW_WIDTH / 2 - (96 * 2 * Game.SCALE) / 2);
+    private int backY = (int)((float) Game.WINDOW_HEIGHT / 2 - (160 * 2 * Game.SCALE) / 2);
 
 
     public SettingsManager(SettingsScene settingsScene, Game game) {
@@ -142,7 +141,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 64 * Game.SCALE),
                 (int)(24 * Game.SCALE),
                 (int)(24 * Game.SCALE),
-                0
+                0, game
         ));
         buttons.get(0).setOnClickListener(() -> {
             currentResolutionIndex++;
@@ -157,7 +156,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 64 * Game.SCALE),
                 (int)(24 * Game.SCALE),
                 (int)(24 * Game.SCALE),
-                1
+                1, game
         ));
         buttons.get(1).setOnClickListener(() -> {
             currentResolutionIndex--;
@@ -173,7 +172,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 136 * Game.SCALE),
                 (int)((96 * 2 * Game.SCALE) - 24 * 2 * Game.SCALE),
                 (int)(11 * 1.35 * Game.SCALE),
-                0
+                0, game
         ));
         buttons.get(2).setData(musicVolume);
         buttons.get(2).setOnClickListener(() -> {
@@ -187,7 +186,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 200 * Game.SCALE),
                 (int)((96 * 2 * Game.SCALE) - 24 * 2 * Game.SCALE),
                 (int)(11 * 1.35 * Game.SCALE),
-                0
+                0, game
         ));
         buttons.get(3).setData(sfxVolume);
         buttons.get(3).setOnClickListener(() -> {
@@ -201,7 +200,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 250 * Game.SCALE),
                 (int)(14 * 2 * Game.SCALE),
                 (int)(14 * 2 * Game.SCALE),
-                0
+                0, game
         ));
         buttons.get(4).setOnClickListener(() -> {
             currentResolutionIndex = game.getConfig().getResolutionIndex();
@@ -215,7 +214,7 @@ public class SettingsManager implements UIManager{
                 (int)(backY + 250 * Game.SCALE),
                 (int)(56 * 2 * Game.SCALE),
                 (int)(14 * 2 * Game.SCALE),
-                8
+                8, game
         ));
         buttons.get(5).setOnClickListener(this::applySettings);
 

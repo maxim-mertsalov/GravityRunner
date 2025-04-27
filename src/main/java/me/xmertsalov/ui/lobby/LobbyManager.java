@@ -240,7 +240,7 @@ public class LobbyManager implements UIManager {
 
         // ready button
         buttons.add(bigButtonFactory.createButton(
-                (int) ((Game.WINDOW_WIDTH - 200) / 2), (int) (392 * Game.SCALE), (int)(56 * btn_scale * Game.SCALE), (int)(14 * btn_scale * Game.SCALE), 4
+                (int) ((Game.WINDOW_WIDTH - 200) / 2), (int) (392 * Game.SCALE), (int)(56 * btn_scale * Game.SCALE), (int)(14 * btn_scale * Game.SCALE), 4, game
         ));
         buttons.get(0).setOnClickListener(() -> {
 
@@ -254,7 +254,7 @@ public class LobbyManager implements UIManager {
 
         // increase speed mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
+                firstColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4, game
         ));
         buttons.get(1).setOnClickListener(() -> {
             if (speedMode) {
@@ -269,7 +269,7 @@ public class LobbyManager implements UIManager {
 
         // ghost mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
+                firstColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4, game
         ));
         buttons.get(2).setOnClickListener(() -> {
             if (ghostMode) {
@@ -284,7 +284,7 @@ public class LobbyManager implements UIManager {
 
         // god mode
         buttons.add(smallButtonFactory.createButton(
-                firstColBtnX, thirdRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
+                firstColBtnX, thirdRowBtnY, sizeToggleBtn, sizeToggleBtn, 4, game
         ));
         buttons.get(3).setOnClickListener(() -> {
             if (godMode) {
@@ -299,7 +299,7 @@ public class LobbyManager implements UIManager {
 
         // slow mode
         buttons.add(smallButtonFactory.createButton(
-                secondColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
+                secondColBtnX, firstRowBtnY, sizeToggleBtn, sizeToggleBtn, 4, game
         ));
         buttons.get(4).setOnClickListener(() -> {
             if (slowMode) {
@@ -314,7 +314,7 @@ public class LobbyManager implements UIManager {
 
         // borderless mode
         buttons.add(smallButtonFactory.createButton(
-                secondColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4
+                secondColBtnX, secondRowBtnY, sizeToggleBtn, sizeToggleBtn, 4, game
         ));
         buttons.get(5).setOnClickListener(() -> {
             if (borderlessMode) {
@@ -329,7 +329,7 @@ public class LobbyManager implements UIManager {
 
         // viewer mode
 //        buttons.add(smallButtonFactory.createButton(
-//                secondColBtnX, thirdRowBtnY, sizeTogleBtn, sizeTogleBtn, 4
+//                secondColBtnX, thirdRowBtnY, sizeTogleBtn, sizeTogleBtn, 4, game
 //        ));
 //        buttons.get(6).setOnClickListener(() -> {
 //            if (viewerMode) {
@@ -344,7 +344,7 @@ public class LobbyManager implements UIManager {
 
         // menu page(back btn)
         buttons.add(smallButtonFactory.createButton(
-                (int) ((Game.WINDOW_WIDTH - 200) / 2) - sizeToggleBtn - (int)(6 * Game.SCALE), (int) (392 * Game.SCALE), sizeToggleBtn, sizeToggleBtn, 0
+                (int) ((Game.WINDOW_WIDTH - 200) / 2) - sizeToggleBtn - (int)(6 * Game.SCALE), (int) (392 * Game.SCALE), sizeToggleBtn, sizeToggleBtn, 0, game
         ));
         buttons.get(6).setOnClickListener(() -> {
             GameScene.scene = GameScene.MENU;
@@ -380,5 +380,7 @@ public class LobbyManager implements UIManager {
     }
 
     public void reset() {this.reset = false;}
+
+    public Game getGame(){return game;}
 
 }

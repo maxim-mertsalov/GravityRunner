@@ -1,5 +1,6 @@
 package me.xmertsalov.ui.buttons;
 
+import me.xmertsalov.Game;
 import me.xmertsalov.audio.AudioPlayer;
 import me.xmertsalov.exeptions.BundleLoadException;
 import me.xmertsalov.utils.BundleLoader;
@@ -11,13 +12,24 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class ArrowsButton implements IButton {
+    // Dependencies
+    private Game game;
+
+    // Position && Size
     private Rectangle2D.Float rectangle;
+
+    // Images
     private BufferedImage[][] images;
+
+    // States
     private int variant = 0;
     private int state = 0;
+
+    // Runnable
     private Runnable onClickListener;
 
-    public ArrowsButton(int x, int y, int width, int height, int variant) {
+    public ArrowsButton(int x, int y, int width, int height, int variant, Game game) {
+        this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
         this.variant = variant;
 
@@ -52,7 +64,7 @@ public class ArrowsButton implements IButton {
     public void mouseReleased(MouseEvent e) {
         if (rectangle.contains(e.getX(), e.getY())) {
             state = 1;
-//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
+            game.getAudioPlayer().playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

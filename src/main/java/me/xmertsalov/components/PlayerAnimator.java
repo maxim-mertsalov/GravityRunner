@@ -33,7 +33,7 @@ public class PlayerAnimator {
     public PlayerAnimator clone(){
         HashMap<String, Animator> new_animators = new HashMap<>();
         for (String skinName : animators.keySet()) {
-            new_animators.put(skinName, animators.get(skinName).clone());
+            new_animators.put(skinName, new Animator.Builder().clone(animators.get(skinName)));
         }
         return new PlayerAnimator(new_animators);
     }
@@ -91,14 +91,17 @@ public class PlayerAnimator {
 
     private void loadAnimators(){
         for (String skinName : skinsURL.keySet()) {
-            Animator animator = new Animator(skinsURL.get(skinName),
-                    48,
-                    48,
-                    12,
-                    8,
-                    animationStates,
-                    "IDLE",
-                    25);
+            Animator animator = new Animator.Builder()
+                    .setSpriteWidth(48)
+                    .setSpriteHeight(48)
+                    .setRows(12)
+                    .setColumns(8)
+                    .setImageURL(skinsURL.get(skinName))
+                    .setAnimationStates(animationStates)
+                    .setCurrentState("IDLE")
+                    .setAnimationSpeed(25)
+                    .build_and_load();
+
             animators.put(skinName, animator);
         }
         Game.logger.info("Loaded {} characters", animators.size());

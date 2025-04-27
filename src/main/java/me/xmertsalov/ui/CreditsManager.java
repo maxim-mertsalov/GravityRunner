@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class CreditsManager implements UIManager {
     // Dependencies
     private SmallButtonFactory smallButtonFactory;
+    private Game game;
 
     // Storage
     private ArrayList<IButton> buttons;
@@ -24,7 +25,8 @@ public class CreditsManager implements UIManager {
     private BufferedImage background;
 
 
-    public CreditsManager() {
+    public CreditsManager(Game game) {
+        this.game = game;
         loadImages();
         smallButtonFactory = new SmallButtonFactory();
 
@@ -92,7 +94,7 @@ public class CreditsManager implements UIManager {
                 (int)(Game.WINDOW_WIDTH / 2 - 80 * Game.SCALE),
                 (int)(Game.WINDOW_HEIGHT - 120 * Game.SCALE),
                 (int)(14 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 0
+                (int)(14 * 1.8 * Game.SCALE), 0, game
         ));
         buttons.get(0).setOnClickListener(() -> {
             GameScene.scene = GameScene.MENU;

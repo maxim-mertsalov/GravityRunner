@@ -17,6 +17,7 @@ public class TutorialManager implements UIManager{
 
     // Dependencies
     private BigButtonFactory bigButtonFactory;
+    private Game game;
 
     // Storage
     private ArrayList<IButton> buttons;
@@ -68,7 +69,9 @@ public class TutorialManager implements UIManager{
 
 
 
-    public TutorialManager() {
+    public TutorialManager(Game game) {
+        this.game = game;
+
         bigButtonFactory = new BigButtonFactory();
 
         // Load images
@@ -148,7 +151,7 @@ public class TutorialManager implements UIManager{
                 (int)(textY + marginTop + 14 * btn_scale * Game.SCALE + 4 * Game.SCALE),
                 (int)(56 * btn_scale * Game.SCALE),
                 (int)(14 * btn_scale * Game.SCALE),
-                leftBtnVariant
+                leftBtnVariant, game
         ));
         buttons.get(0).setOnClickListener(() -> {
             currentState--;
@@ -177,7 +180,7 @@ public class TutorialManager implements UIManager{
                 (int)(textY + marginTop),
                 (int)(56 * btn_scale * Game.SCALE),
                 (int)(14 * btn_scale * Game.SCALE),
-                rightBtnVariant
+                rightBtnVariant, game
         ));
         buttons.get(1).setOnClickListener(() -> {
             currentState++;

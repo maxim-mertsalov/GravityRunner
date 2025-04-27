@@ -12,6 +12,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class SliderButton implements IButton{
+    // Dependencies
+    private Game game;
+
     // Size & position
     private Rectangle2D.Float rectangle;
     private Rectangle2D.Float trackRectangle;
@@ -31,7 +34,8 @@ public class SliderButton implements IButton{
     // Listener
     private Runnable onClickListener;
 
-    public SliderButton(int x, int y, int width, int height, int variant) {
+    public SliderButton(int x, int y, int width, int height, int variant, Game game) {
+        this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
 
         loadImage();
@@ -72,7 +76,7 @@ public class SliderButton implements IButton{
             if (onClickListener != null) onClickListener.run();
             state = 1;
             dragging = false;
-//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
+            game.getAudioPlayer().playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

@@ -12,16 +12,27 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class ButtonDetectedKey implements IButton{
+    // Dependencies
+    private Game game;
+
+    // Position && Size
     private Rectangle2D.Float rectangle;
+
+    // Images
     private BufferedImage[][] images;
+
+    // States
     private int variant = 0;
     private int state = 0;
+
+    // Runnable
     private Runnable onClickListener;
 
     private boolean listening = false;
     private int keyCode = 0;
 
-    public ButtonDetectedKey(int x, int y, int width, int height, int variant) {
+    public ButtonDetectedKey(int x, int y, int width, int height, int variant, Game game) {
+        this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
         this.variant = variant;
 
@@ -105,7 +116,7 @@ public class ButtonDetectedKey implements IButton{
             }
             state = 0;
             listening = false;
-//            AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
+            game.getAudioPlayer().playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

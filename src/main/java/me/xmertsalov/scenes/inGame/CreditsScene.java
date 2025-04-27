@@ -16,7 +16,7 @@ public class CreditsScene extends Scene implements IScene {
 
     public CreditsScene(Game game) {
         super(game);
-        creditsManager = new CreditsManager();
+        creditsManager = new CreditsManager(game);
     }
 
     @Override

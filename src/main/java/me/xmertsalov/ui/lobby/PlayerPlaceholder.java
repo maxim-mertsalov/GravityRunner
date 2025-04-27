@@ -1,10 +1,8 @@
 package me.xmertsalov.ui.lobby;
 
 import me.xmertsalov.Game;
-import me.xmertsalov.components.PlayerAnimator;
 import me.xmertsalov.entities.Player;
 import me.xmertsalov.ui.buttons.*;
-import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,17 +12,30 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PlayerPlaceholder {
+    // Dependencies
+    private Game game;
+    private LobbyManager lobbyManager;
+
+    private ArrowsButtonFactory arrowsButtonFactory;
+    private ButtonDetectKeyFactory buttonDetectKeyFactory;
+
+    // Storage
     private Player player;
     private int id;
+    private ArrayList<IButton> buttons;
 
+    // States
     private int currentSkin; // 0 is empty
     private String currentSkinName;
 
+    // Images
     private BufferedImage playerPlaceholderImage;
 
+    // Constants
     private final int initialWidth = 96;
     private final int initialHeight = 128;
 
+    // UI Settings
     private final int placeholderWidth = (int) (initialWidth * Game.SCALE * 1.4);
     private final int placeholderHeight = (int) (initialHeight * Game.SCALE * 1.4);
 
@@ -32,24 +43,14 @@ public class PlayerPlaceholder {
 
     private int offsetXBetween;
 
-    private boolean isReady = false;
-
-    private ArrowsButtonFactory arrowsButtonFactory;
-    private BigButtonFactory bigButtonFactory;
-    private ButtonDetectKeyFactory buttonDetectKeyFactory;
-
-    private ArrayList<IButton> buttons;
-
-    private LobbyManager lobbyManager;
-
 
     public PlayerPlaceholder(Player player, int id, BufferedImage playerPlaceholderImage, LobbyManager lobbyManager) {
         this.player = player;
         this.id = id;
         this.lobbyManager = lobbyManager;
+        this.game = lobbyManager.getGame();
 
         this.arrowsButtonFactory = new ArrowsButtonFactory();
-        this.bigButtonFactory = new BigButtonFactory();
         this.buttonDetectKeyFactory = new ButtonDetectKeyFactory();
 
         this.buttons = new ArrayList<>();
@@ -58,18 +59,18 @@ public class PlayerPlaceholder {
         int arrowsOffsetY = (int)(placeholderY - 36 * Game.SCALE);
         int arrowSize = 24;
 
-        int placeholdersContainer = (int) (Game.WINDOW_WIDTH - 200); // 100 ____ 100
-        offsetXBetween = (int) (placeholdersContainer - placeholderWidth * 4) / 3; // _ var _ var _ var _
+        int placeholdersContainer = (Game.WINDOW_WIDTH - 200); // 100 ____ 100
+        offsetXBetween = (placeholdersContainer - placeholderWidth * 4) / 3; // _ var _ var _ var _
 
-        buttons.add(arrowsButtonFactory.createButton(getXById() + arrowsOffsetX, placeholderY + arrowsOffsetY, (int)(arrowSize * Game.SCALE), (int)(arrowSize * Game.SCALE), 0));
-        buttons.add(arrowsButtonFactory.createButton((int)(getXById() + placeholderWidth - arrowsOffsetX * 2.3), placeholderY + arrowsOffsetY, (int)(arrowSize * Game.SCALE), (int)(arrowSize * Game.SCALE), 1));
+        buttons.add(arrowsButtonFactory.createButton(getXById() + arrowsOffsetX, placeholderY + arrowsOffsetY, (int)(arrowSize * Game.SCALE), (int)(arrowSize * Game.SCALE), 0, game));
+        buttons.add(arrowsButtonFactory.createButton((int)(getXById() + placeholderWidth - arrowsOffsetX * 2.3), placeholderY + arrowsOffsetY, (int)(arrowSize * Game.SCALE), (int)(arrowSize * Game.SCALE), 1, game));
 
         buttons.get(0).setOnClickListener(this::setPrevSkin);
         buttons.get(1).setOnClickListener(this::setNextSkin);
 
         // 56 x 14
         buttons.add(
-                buttonDetectKeyFactory.createButton((int) (getXById() + 32 * Game.SCALE), (int)(placeholderY + 130 * Game.SCALE), (int)(56 * 1.2 * Game.SCALE), (int)(14 * 1.8 * Game.SCALE), 0)
+                buttonDetectKeyFactory.createButton((int) (getXById() + 32 * Game.SCALE), (int)(placeholderY + 130 * Game.SCALE), (int)(56 * 1.2 * Game.SCALE), (int)(14 * 1.8 * Game.SCALE), 0, game)
         );
 
         if (buttons.get(2) instanceof ButtonDetectedKey buttonDetectKey) {
@@ -155,18 +156,6 @@ public class PlayerPlaceholder {
             }
         }
         return -1;
-    }
-
-    public void setCurrentSkin(int currentSkin, String currentSkinName) {
-        this.currentSkin = currentSkin;
-        this.currentSkinName = currentSkinName;
-    }
-
-    public void setReady(boolean isReady) {
-        this.isReady = isReady;
-    }
-    public boolean isReady() {
-        return isReady;
     }
 
     public void mouseClicked(MouseEvent e) {

@@ -72,3 +72,256 @@
 2025-04-27 04:32:44 INFO  Game:244 - New level added: 1
 2025-04-27 04:32:48 INFO  Game:244 - New level added: 10
 2025-04-27 04:32:52 INFO  Game:244 - New level added: 10
+2025-04-27 04:56:55 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 04:56:55 INFO  Game:104 - Loaded 20 characters
+2025-04-27 04:56:55 INFO  Game:185 - Loaded 17 levels
+2025-04-27 04:57:44 ERROR Game:45 - Animator for None not found
+2025-04-27 04:57:44 ERROR Game:45 - Animator for None not found
+2025-04-27 04:57:44 ERROR Game:45 - Animator for None not found
+2025-04-27 04:57:44 ERROR Game:45 - Animator for None not found
+2025-04-27 04:59:26 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 04:59:27 INFO  Game:104 - Loaded 20 characters
+2025-04-27 04:59:27 INFO  Game:185 - Loaded 17 levels
+2025-04-27 05:04:09 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 05:04:09 INFO  Game:104 - Loaded 20 characters
+2025-04-27 05:04:09 INFO  Game:185 - Loaded 17 levels
+2025-04-27 05:04:21 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 05:04:21 INFO  Game:104 - Loaded 20 characters
+2025-04-27 05:04:21 INFO  Game:185 - Loaded 17 levels
+2025-04-27 05:04:26 ERROR Game:45 - Animator for None not found
+2025-04-27 05:04:26 ERROR Game:45 - Animator for None not found
+2025-04-27 05:04:26 ERROR Game:45 - Animator for None not found
+2025-04-27 05:04:26 ERROR Game:45 - Animator for None not found
+2025-04-27 05:04:29 ERROR Game:45 - Animator for None not found
+2025-04-27 12:37:44 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 12:37:46 INFO  Game:104 - Loaded 20 characters
+2025-04-27 12:37:46 INFO  Game:185 - Loaded 17 levels
+2025-04-27 12:38:16 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 12:38:17 INFO  Game:104 - Loaded 20 characters
+2025-04-27 12:38:17 INFO  Game:185 - Loaded 17 levels
+2025-04-27 12:38:33 ERROR Game:45 - Animator for None not found
+2025-04-27 12:38:33 ERROR Game:45 - Animator for None not found
+2025-04-27 12:38:33 ERROR Game:45 - Animator for None not found
+2025-04-27 12:38:33 ERROR Game:45 - Animator for None not found
+2025-04-27 12:39:27 ERROR Game:45 - Animator for None not found
+2025-04-27 12:39:34 INFO  Game:207 - Spawn level added: spawn_p1
+2025-04-27 12:39:34 INFO  Game:244 - New level added: 11
+2025-04-27 12:39:34 INFO  Game:244 - New level added: 11
+2025-04-27 12:39:35 INFO  Game:63 - Game starts in 4 seconds
+2025-04-27 12:39:36 INFO  Game:63 - Game starts in 3 seconds
+2025-04-27 12:39:38 INFO  Game:63 - Game starts in 2 seconds
+2025-04-27 12:39:39 INFO  Game:63 - Game starts in 1 seconds
+2025-04-27 12:39:40 INFO  Game:63 - Game starts in 0 seconds
+2025-04-27 12:39:44 INFO  Game:244 - New level added: 12
+2025-04-27 12:39:49 INFO  Game:244 - New level added: 12
+2025-04-27 12:39:54 INFO  Game:244 - New level added: 12
+2025-04-27 12:39:59 INFO  Game:244 - New level added: 12
+2025-04-27 12:40:04 INFO  Game:244 - New level added: 0
+2025-04-27 12:40:08 INFO  Game:244 - New level added: 7
+2025-04-27 12:40:13 INFO  Game:244 - New level added: 10
+2025-04-27 12:40:17 INFO  Game:244 - New level added: 10
+2025-04-27 12:40:22 INFO  Game:244 - New level added: 5
+2025-04-27 12:40:26 INFO  Game:244 - New level added: 12
+2025-04-27 12:40:30 INFO  Game:244 - New level added: 11
+2025-04-27 12:40:34 INFO  Game:244 - New level added: 9
+2025-04-27 12:40:39 INFO  Game:244 - New level added: 9
+2025-04-27 12:40:43 INFO  Game:244 - New level added: 12
+2025-04-27 12:40:47 INFO  Game:244 - New level added: 4
+2025-04-27 12:40:51 INFO  Game:244 - New level added: 2
+2025-04-27 12:40:55 INFO  Game:244 - New level added: 3
+2025-04-27 12:40:58 INFO  Game:244 - New level added: 10
+2025-04-27 12:41:02 INFO  Game:244 - New level added: 9
+2025-04-27 12:41:06 INFO  Game:244 - New level added: 3
+2025-04-27 12:41:10 INFO  Game:244 - New level added: 4
+2025-04-27 12:41:14 INFO  Game:244 - New level added: 11
+2025-04-27 12:41:17 INFO  Game:244 - New level added: 2
+2025-04-27 12:41:21 INFO  Game:244 - New level added: 6
+2025-04-27 12:41:25 INFO  Game:244 - New level added: 10
+2025-04-27 12:41:28 INFO  Game:244 - New level added: 8
+2025-04-27 12:41:32 INFO  Game:244 - New level added: 11
+2025-04-27 12:55:21 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 12:55:21 INFO  Game:104 - Loaded 20 characters
+2025-04-27 12:55:21 INFO  Game:185 - Loaded 17 levels
+2025-04-27 12:55:42 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 12:55:43 INFO  Game:104 - Loaded 20 characters
+2025-04-27 12:55:43 INFO  Game:185 - Loaded 17 levels
+2025-04-27 13:42:25 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:42:25 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:42:27 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:43:16 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:16 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:43:37 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:43:37 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:43:38 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:45:33 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:45:33 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:45:34 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:46:56 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:46:56 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:51:10 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 ERROR Game:233 - There are not enough image settings: Sprite dimensions or rows/columns are zero
+2025-04-27 13:51:10 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:51:10 ERROR Game:240 - Cannot clone a null Animator
+2025-04-27 13:53:14 INFO  Game:135 - Game started with 1280x800 resolution and scale: 1.7857143
+2025-04-27 13:53:14 INFO  Game:107 - Loaded 20 characters
+2025-04-27 13:53:14 INFO  Game:185 - Loaded 17 levels
+2025-04-27 13:53:20 ERROR Game:45 - Animator for None not found
+2025-04-27 13:53:20 ERROR Game:45 - Animator for None not found
+2025-04-27 13:53:20 ERROR Game:45 - Animator for None not found
+2025-04-27 13:53:20 ERROR Game:45 - Animator for None not found
+2025-04-27 13:53:32 INFO  Game:207 - Spawn level added: spawn_p4
+2025-04-27 13:53:32 INFO  Game:244 - New level added: 4
+2025-04-27 13:53:32 INFO  Game:244 - New level added: 0
+2025-04-27 13:53:33 INFO  Game:63 - Game starts in 4 seconds
+2025-04-27 13:53:34 INFO  Game:63 - Game starts in 3 seconds
+2025-04-27 13:53:35 INFO  Game:63 - Game starts in 2 seconds
+2025-04-27 13:53:37 INFO  Game:63 - Game starts in 1 seconds
+2025-04-27 13:53:38 INFO  Game:63 - Game starts in 0 seconds
+2025-04-27 13:53:42 INFO  Game:244 - New level added: 0
+2025-04-27 13:53:47 INFO  Game:244 - New level added: 10
+2025-04-27 13:53:52 INFO  Game:244 - New level added: 1
+2025-04-27 13:53:57 INFO  Game:244 - New level added: 7
+2025-04-27 13:54:01 INFO  Game:244 - New level added: 6
+2025-04-27 13:54:06 INFO  Game:244 - New level added: 0
+2025-04-27 13:54:10 INFO  Game:244 - New level added: 9

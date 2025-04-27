@@ -32,14 +32,16 @@ public abstract class PowerUp extends GameObject {
         animationStates.put("TO_RIGHT", List.of(0, 4));
         animationStates.put("TO_LEFT", List.of(1, 4));
 
-        animator = new Animator(BundleLoader.POWER_UPS_ATLAS,
-                32,
-                32,
-                2,
-                4,
-                animationStates,
-                "IDLE",
-                20);
+        animator = new Animator.Builder()
+                .setImageURL(BundleLoader.POWER_UPS_ATLAS)
+                .setSpriteWidth(32)
+                .setSpriteHeight(32)
+                .setRows(2)
+                .setColumns(4)
+                .setAnimationStates(animationStates)
+                .setCurrentState("IDLE")
+                .setAnimationSpeed(20)
+                .build_and_load();
     }
 
     public void updatePos(double x, double y) {

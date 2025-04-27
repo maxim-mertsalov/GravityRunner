@@ -1,6 +1,6 @@
 package me.xmertsalov.gameObjects.powerUps;
 
-import java.awt.*;
+import me.xmertsalov.gameObjects.GameObject;
 
 public class SpeedUp extends PowerUp {
     private double velocityXIncrement = 10f;
@@ -19,7 +19,8 @@ public class SpeedUp extends PowerUp {
         return velocityXIncrement;
     }
 
-    public SpeedUp clone() {
+    @Override
+    public GameObject clone() {
         return new SpeedUp(x, y);
     }
 }

@@ -17,7 +17,8 @@ import java.util.ArrayList;
 
 public class GameOverPanel {
     // General
-    PlayingScene playingScene;
+    private PlayingScene playingScene;
+    private Game game;
 
     // Dependencies
     private BigButtonFactory bigButtonFactory;
@@ -34,12 +35,12 @@ public class GameOverPanel {
     // UI Settings
     private int xGap = (int)(3 * Game.SCALE);
     private int yGap = (int)(18 * Game.SCALE);
-    private int xMargin = (int)(Game.WINDOW_WIDTH / 2 - (182 * Game.SCALE) / 2);
-    private int yMargin = (int)(Game.WINDOW_HEIGHT / 2 - (64 * Game.SCALE));
-    private int yText = (int)(Game.WINDOW_HEIGHT / 2 - (150 * Game.SCALE));
-    private int yBackground = (int)(Game.WINDOW_HEIGHT / 2 - (100 * Game.SCALE));
-    private int xBtn = (int)(Game.WINDOW_HEIGHT / 2 - (-102 * Game.SCALE));
-    private int yBtns = (int)(Game.WINDOW_HEIGHT / 2 - (-36 * Game.SCALE));
+    private int xMargin = (int)((float) Game.WINDOW_WIDTH / 2 - (182 * Game.SCALE) / 2);
+    private int yMargin = (int)((float) Game.WINDOW_HEIGHT / 2 - (64 * Game.SCALE));
+    private int yText = (int)((float) Game.WINDOW_HEIGHT / 2 - (150 * Game.SCALE));
+    private int yBackground = (int)((float) Game.WINDOW_HEIGHT / 2 - (100 * Game.SCALE));
+    private int xBtn = (int)((float) Game.WINDOW_HEIGHT / 2 - (-102 * Game.SCALE));
+    private int yBtns = (int)((float) Game.WINDOW_HEIGHT / 2 - (-36 * Game.SCALE));
 
     // Storage
     private ArrayList<IButton> buttons;
@@ -47,6 +48,7 @@ public class GameOverPanel {
 
     public GameOverPanel(PlayingScene playingScene) {
         this.playingScene = playingScene;
+        this.game = playingScene.getGame();
 
         loadImages();
 
@@ -61,13 +63,13 @@ public class GameOverPanel {
         if (!isShown) return;
 
         g.drawImage(background,
-                (int)(Game.WINDOW_WIDTH / 2 - (128 * 2 * Game.SCALE) / 2),
+                (int)((float) Game.WINDOW_WIDTH / 2 - (128 * 2 * Game.SCALE) / 2),
                 yBackground,
                 (int)(128 * 2 * Game.SCALE),
                 (int)(96 * 2 * Game.SCALE), null);
 
         g.drawImage(gameOverText,
-                (int)(Game.WINDOW_WIDTH / 2 - (43 * 2 * Game.SCALE) / 2),
+                (int)((float) Game.WINDOW_WIDTH / 2 - (43 * 2 * Game.SCALE) / 2),
                 yText,
                 (int)(43 * 2 * Game.SCALE),
                 (int)(25 * 2 * Game.SCALE), null);
@@ -130,7 +132,7 @@ public class GameOverPanel {
                 xBtn,
                 yBtns,
                 (int)(56 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 5));
+                (int)(14 * 1.8 * Game.SCALE), 5, game));
         buttons.get(0).setOnClickListener(() -> {
             playingScene.reset();
             for (Player player : playingScene.getPlayers()) {
@@ -145,11 +147,10 @@ public class GameOverPanel {
                 (int)(xBtn - (14 * 1.8 * Game.SCALE) - (Game.SCALE * 3)),
                 yBtns,
                 (int)(14 * 1.8 * Game.SCALE),
-                (int)(14 * 1.8 * Game.SCALE), 0));
+                (int)(14 * 1.8 * Game.SCALE), 0, game));
         buttons.get(1).setOnClickListener(() -> {
-            for (Player player : playingScene.getPlayers()) {
-                playingScene.getGame().getLobbyScene().reset();
-            }
+            playingScene.getGame().getLobbyScene().reset();
+
             isShown = false;
             GameScene.scene = GameScene.MENU;
         });

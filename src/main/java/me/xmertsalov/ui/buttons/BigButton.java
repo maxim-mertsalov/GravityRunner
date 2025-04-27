@@ -12,13 +12,24 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class BigButton implements IButton {
+    // Dependencies
+    private Game game;
+
+    // Position && Size
     private Rectangle2D.Float rectangle;
+
+    // Images
     private BufferedImage[][] images;
+
+    // States
     private int state = 0;
     private int variant = 0;
+
+    // Runnable
     private Runnable onClickListener;
 
-    public BigButton(int x, int y, int width, int height, int variant) {
+    public BigButton(int x, int y, int width, int height, int variant, Game game) {
+        this.game = game;
         this.rectangle = new Rectangle2D.Float(x, y, width, height);
         this.variant = variant;
     }
@@ -51,7 +62,7 @@ public class BigButton implements IButton {
     public void mouseReleased(MouseEvent e) {
        if (rectangle.contains(e.getX(), e.getY())) {
             state = 1;
-//           AudioPlayer.playSfx(AudioPlayer.SFX_CLICK);
+            game.getAudioPlayer().playSfx(AudioPlayer.SFX_CLICK);
         }
     }
 

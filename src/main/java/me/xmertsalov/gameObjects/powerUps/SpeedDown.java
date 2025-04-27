@@ -1,8 +1,6 @@
 package me.xmertsalov.gameObjects.powerUps;
 
-import me.xmertsalov.components.Animator;
-
-import java.awt.*;
+import me.xmertsalov.gameObjects.GameObject;
 
 public class SpeedDown extends PowerUp {
     private double velocityXIncrement = -15f;
@@ -22,7 +20,8 @@ public class SpeedDown extends PowerUp {
         return velocityXIncrement;
     }
 
-    public SpeedDown clone() {
+    @Override
+    public GameObject clone() {
         return new SpeedDown(x, y);
     }
 }

@@ -1,6 +1,7 @@
 package me.xmertsalov.gameObjects.saws;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.gameObjects.GameObject;
 
 import java.awt.*;
 
@@ -105,7 +106,8 @@ public class MovableSaw extends Saw {
     public double getVelocityX() {return velocityX;}
     public double getVelocityY() {return velocityY;}
 
-    public MovableSaw clone() {return new MovableSaw(x, y, dx, dy);}
+    @Override
+    public GameObject clone() {return new MovableSaw(x, y, dx, dy);}
 
     public void setVelocityOffset(double offsetX) {
         this.velocityXOffset = offsetX;
