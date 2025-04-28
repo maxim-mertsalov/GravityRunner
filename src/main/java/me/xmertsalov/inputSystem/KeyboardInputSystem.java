@@ -42,15 +42,25 @@ public class KeyboardInputSystem implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().keyReleased(e);
-			case MENU -> gamePanel.getGame().getMenuScene().keyReleased(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().keyReleased(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().keyReleased(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().keyReleased(e);
-			case LOADING -> {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().keyReleased(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().keyReleased(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().keyReleased(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().keyReleased(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().keyReleased(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -63,15 +73,25 @@ public class KeyboardInputSystem implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().keyPressed(e);
-			case MENU -> gamePanel.getGame().getMenuScene().keyPressed(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().keyPressed(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().keyPressed(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().keyPressed(e);
-			case LOADING -> {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().keyPressed(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().keyPressed(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().keyPressed(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().keyPressed(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().keyPressed(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 }

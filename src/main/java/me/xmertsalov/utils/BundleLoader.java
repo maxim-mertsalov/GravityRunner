@@ -123,18 +123,16 @@ public class BundleLoader {
     public static BufferedImage getSpriteAtlas(String fileName) throws BundleLoadException {
         BufferedImage img;
 
-        String filePath = Game.SET_SLASH_BEF0RE_DIR ? "/" + fileName : fileName;
-
         try {
-            InputStream inputStream = BundleLoader.class.getClassLoader().getResourceAsStream(filePath);
+            InputStream inputStream = BundleLoader.class.getClassLoader().getResourceAsStream(fileName);
             if (inputStream != null) {
                 img = ImageIO.read(inputStream);
                 inputStream.close();
             } else {
-                throw new BundleLoadException("Resource not found", filePath);
+                throw new BundleLoadException("Resource not found", fileName);
             }
         } catch (IOException e) {
-            throw new BundleLoadException(e, filePath);
+            throw new BundleLoadException(e, fileName);
         }
         return img;
     }
@@ -148,11 +146,9 @@ public class BundleLoader {
      */
     public static String getFileContent(String fileName) throws BundleLoadException {
 
-        String filePath = Game.SET_SLASH_BEF0RE_DIR ? "/" + fileName : fileName;
-
         StringBuilder content = new StringBuilder();
         try {
-            InputStream inputStream = BundleLoader.class.getClassLoader().getResourceAsStream(filePath);
+            InputStream inputStream = BundleLoader.class.getClassLoader().getResourceAsStream(fileName);
 
             if (inputStream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -162,10 +158,10 @@ public class BundleLoader {
                     content.append(line).append("\n");
                 }
             } else {
-                throw new BundleLoadException("Resource not found", filePath);
+                throw new BundleLoadException("Resource not found", fileName);
             }
         } catch (IOException e) {
-            throw new BundleLoadException(e, filePath);
+            throw new BundleLoadException(e, fileName);
         }
         return content.toString();
     }

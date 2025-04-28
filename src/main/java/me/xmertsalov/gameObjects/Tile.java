@@ -50,70 +50,19 @@ public class Tile extends GameObject {
             return null;
         }
 
-        return switch (tileType) {
-            case "grass" -> // grass can't have colliders
-                    null;
-            case "spices" -> null;
-            case "platform" -> new BoxCollider(x, y, Game.TILES_SIZE / 2.0, Game.TILES_SIZE / 2.0);
-            case "slide1-1" -> // platform 1-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + Game.TILES_SIZE), (int) (x + Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) (y + Game.TILES_SIZE)});
-            case "slide2-1" -> // platform 2-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 2 * Game.TILES_SIZE), (int) (x + 2 * Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) (y + Game.TILES_SIZE)});
-            case "slide2-2" -> null;
-            case "slide3-1" -> // platform 3-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 3 * Game.TILES_SIZE), (int) (x + 3 * Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) (y + Game.TILES_SIZE)});
-            case "slide3-2", "slide3-3" -> null;
-            case "slide4-1" -> // platform 1-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + Game.TILES_SIZE), (int) (x + Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) y});
-            case "slide5-1" -> // platform 2-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 2 * Game.TILES_SIZE), (int) (x + 2 * Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) y});
-            case "slide5-2" -> null;
-            case "slide6-1" -> // platform 3-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 3 * Game.TILES_SIZE), (int) (x + 3 * Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) y});
-            case "slide6-2", "slide6-3" -> null;
-            case "slide9-1" -> // platform 1-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + Game.TILES_SIZE), (int) (x + Game.TILES_SIZE), (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) y, (int) y});
-            case "slide8-1" -> // platform 2-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 2 * Game.TILES_SIZE), (int) x, (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) (y + Game.TILES_SIZE), (int) y});
-            case "slide8-2" -> null;
-            case "slide7-1" -> // platform 3-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 3 * Game.TILES_SIZE), (int) x, (int) x},
-                            new int[]{(int) (y + Game.TILES_SIZE), (int) (y + Game.TILES_SIZE), (int) y});
-            case "slide7-2", "slide7-3" -> null;
-            case "slide12-1" -> // platform 1-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + Game.TILES_SIZE), (int) (x + Game.TILES_SIZE), (int) x},
-                            new int[]{(int) y, (int) y, (int) y});
-            case "slide11-1" -> // platform 2-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 2 * Game.TILES_SIZE), (int) x, (int) x},
-                            new int[]{(int) y, (int) (y + Game.TILES_SIZE), (int) y});
-            case "slide11-2" -> null;
-            case "slide10-1" -> // platform 3-grid slide
-                    new PolygonCollider(
-                            new int[]{(int) (x + 3 * Game.TILES_SIZE), (int) x, (int) x},
-                            new int[]{(int) y, (int) (y + Game.TILES_SIZE), (int) y});
-            case "slide10-2", "slide10-3" -> null;
-            default -> // for all other tiles
-                    new BoxCollider(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
-        };
+        switch (tileType) {
+            case "grass": // grass can't have colliders
+            case "spices":
+                return null;
+
+            case "platform": {
+                return new BoxCollider(x, y, Game.TILES_SIZE / 2.0, Game.TILES_SIZE / 2.0);
+            }
+
+            default: // for all other tiles
+                return new BoxCollider(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
+        }
+
     }
 
     /**

@@ -111,25 +111,28 @@ public class LevelLoader {
                 // Special elements like entities, power-ups and other
                 if (spriteIndex < 0) {
                     switch (tileType) {
-                        case "SpeedUp" -> {
+                        case "SpeedUp": {
                             SpeedUp speedUp = (SpeedUp) gameObjects.get("SpeedUp").clone();
                             speedUp.updatePos(x, y);
                             speedUp.setZIndex(0);
                             levels.get(levelCount).setGameObject(speedUp);
+                            break;
                         }
-                        case "SpeedDown" -> {
+                        case "SpeedDown": {
                             SpeedDown speedDown = (SpeedDown) gameObjects.get("SpeedDown").clone();
                             speedDown.updatePos(x, y);
                             speedDown.setZIndex(0);
                             levels.get(levelCount).setGameObject(speedDown);
+                            break;
                         }
-                        case "Saw" -> {
+                        case "Saw": {
                             Saw saw = (Saw) gameObjects.get("Saw").clone();
                             saw.updatePos(x, y);
                             saw.setZIndex(1);
                             levels.get(levelCount).setGameObject(saw);
+                            break;
                         }
-                        case "MovableSaw" -> {
+                        case "MovableSaw": {
                             int dx = (Integer.parseInt(values[4])) * Game.TILES_SIZE;
                             int dy = (Integer.parseInt(values[5])) * Game.TILES_SIZE;
                             MovableSaw movableSaw = (MovableSaw) gameObjects.get("MovableSaw").clone();
@@ -137,48 +140,55 @@ public class LevelLoader {
                             movableSaw.setDestination(dx, dy);
                             movableSaw.setZIndex(1);
                             levels.get(levelCount).setGameObject(movableSaw);
+                            break;
                         }
-                        case "BackPalm1" -> {
+                        case "BackPalm1": {
                             Palm palm = (Palm) gameObjects.get("BackPalm1").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(-1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
-                        case "BackPalm2" -> {
+                        case "BackPalm2": {
                             Palm palm = (Palm) gameObjects.get("BackPalm2").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(-1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
-                        case "BackPalm3" -> {
+                        case "BackPalm3": {
                             Palm palm = (Palm) gameObjects.get("BackPalm3").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(-1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
-                        case "FrontPalm1" -> {
+                        case "FrontPalm1": {
                             Palm palm = (Palm) gameObjects.get("FrontPalm1").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
-                        case "FrontPalm2" -> {
+                        case "FrontPalm2": {
                             Palm palm = (Palm) gameObjects.get("FrontPalm2").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
-                        case "FrontPalm3" -> {
+                        case "FrontPalm3": {
                             Palm palm = (Palm) gameObjects.get("FrontPalm3").clone();
                             palm.updatePos(x, y);
                             palm.setZIndex(1);
                             palm.setIncrementSize(Double.parseDouble(values[4]));
                             levels.get(levelCount).setGameObject(palm);
+                            break;
                         }
                     }
                     continue;

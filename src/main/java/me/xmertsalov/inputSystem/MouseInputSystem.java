@@ -32,18 +32,32 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseDragged(e);
-			case MENU -> gamePanel.getGame().getMenuScene().mouseDragged(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseDragged(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseDragged(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseDragged(e);
-			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseDragged(e);
-			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseDragged(e);
-            case LOADING -> {
-                break;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+		switch (GameScene.scene) {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().mouseDragged(e);
+				break;
+			case MENU:
+				gamePanel.getGame().getMenuScene().mouseDragged(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().mouseDragged(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().mouseDragged(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().mouseDragged(e);
+				break;
+			case PANORAMA:
+				gamePanel.getGame().getPanoramaScene().mouseDragged(e);
+				break;
+			case TUTORIAL:
+				gamePanel.getGame().getTutorialScene().mouseDragged(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -55,18 +69,32 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseMoved(e);
-			case MENU -> gamePanel.getGame().getMenuScene().mouseMoved(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseMoved(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseMoved(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseMoved(e);
-			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseMoved(e);
-			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseMoved(e);
-			case LOADING -> {
+		switch (GameScene.scene) {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().mouseMoved(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().mouseMoved(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().mouseMoved(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().mouseMoved(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().mouseMoved(e);
+				break;
+			case PANORAMA:
+				gamePanel.getGame().getPanoramaScene().mouseMoved(e);
+				break;
+			case TUTORIAL:
+				gamePanel.getGame().getTutorialScene().mouseMoved(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -78,18 +106,32 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseClicked(e);
-			case MENU -> gamePanel.getGame().getMenuScene().mouseClicked(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseClicked(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseClicked(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseClicked(e);
-			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseClicked(e);
-			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseClicked(e);
-			case LOADING -> {
+		switch (GameScene.scene) {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().mouseClicked(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().mouseClicked(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().mouseClicked(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().mouseClicked(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().mouseClicked(e);
+				break;
+			case PANORAMA:
+				gamePanel.getGame().getPanoramaScene().mouseClicked(e);
+				break;
+			case TUTORIAL:
+				gamePanel.getGame().getTutorialScene().mouseClicked(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -101,18 +143,32 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().mousePressed(e);
-			case MENU -> gamePanel.getGame().getMenuScene().mousePressed(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().mousePressed(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().mousePressed(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().mousePressed(e);
-			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mousePressed(e);
-			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mousePressed(e);
-			case LOADING -> {
+		switch (GameScene.scene) {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().mousePressed(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().mousePressed(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().mousePressed(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().mousePressed(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().mousePressed(e);
+				break;
+			case PANORAMA:
+				gamePanel.getGame().getPanoramaScene().mousePressed(e);
+				break;
+			case TUTORIAL:
+				gamePanel.getGame().getTutorialScene().mousePressed(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -124,18 +180,32 @@ public class MouseInputSystem implements MouseListener, MouseMotionListener, Mou
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		switch (GameScene.scene){
-			case PLAYING -> gamePanel.getGame().getPlayingScene().mouseReleased(e);
-			case MENU -> gamePanel.getGame().getMenuScene().mouseReleased(e);
-			case LOBBY -> gamePanel.getGame().getLobbyScene().mouseReleased(e);
-			case SETTINGS -> gamePanel.getGame().getSettingsScene().mouseReleased(e);
-			case CREDITS -> gamePanel.getGame().getCreditsScene().mouseReleased(e);
-			case PANORAMA -> gamePanel.getGame().getPanoramaScene().mouseReleased(e);
-			case TUTORIAL -> gamePanel.getGame().getTutorialScene().mouseReleased(e);
-			case LOADING -> {
+		switch (GameScene.scene) {
+			case PLAYING:
+				gamePanel.getGame().getPlayingScene().mouseReleased(e);
 				break;
-			}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				gamePanel.getGame().getMenuScene().mouseReleased(e);
+				break;
+			case LOBBY:
+				gamePanel.getGame().getLobbyScene().mouseReleased(e);
+				break;
+			case SETTINGS:
+				gamePanel.getGame().getSettingsScene().mouseReleased(e);
+				break;
+			case CREDITS:
+				gamePanel.getGame().getCreditsScene().mouseReleased(e);
+				break;
+			case PANORAMA:
+				gamePanel.getGame().getPanoramaScene().mouseReleased(e);
+				break;
+			case TUTORIAL:
+				gamePanel.getGame().getTutorialScene().mouseReleased(e);
+				break;
+			case LOADING:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 

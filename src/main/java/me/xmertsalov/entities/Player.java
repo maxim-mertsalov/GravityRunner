@@ -49,8 +49,6 @@ public class Player extends Entity {
 	// States
 	private double speed = 0;
 
-	// Constants
-	private final double TIME_BEFORE_JUMP = 0.6f;
 
 	/**
 	 * Constructs a {@code Player} with the specified position, control key, animator, and skin.
@@ -91,10 +89,6 @@ public class Player extends Entity {
 	 * This method is called on every game update cycle.
 	 */
 	public void update() {
-		if (isDead) {
-			setPosX(getPosX() - speed);
-			return;
-		}
 		if (inActive) return;
 
 		resetTemporarilyDisabled();
@@ -109,6 +103,10 @@ public class Player extends Entity {
 		phisicsComponent.update();
 
 		flipPlayer();
+
+		if (isDead) {
+//			setPosX(getPosX() - speed);
+		}
 	}
 
 	/**
@@ -144,7 +142,7 @@ public class Player extends Entity {
 		if (!isTemporarilyDisabled) return;
 
 		ticksBeforeTemporlyDisabled++;
-		if (ticksBeforeTemporlyDisabled >= Game.UPS_LIMIT * TIME_BEFORE_JUMP){
+		if (ticksBeforeTemporlyDisabled >= Game.UPS_LIMIT * Game.TIME_BEFORE_PLAYER_JUMP){
 			ticksBeforeTemporlyDisabled = 0;
 			isTemporarilyDisabled = false;
 		}
@@ -154,7 +152,7 @@ public class Player extends Entity {
 	 * Changes the player's gravity direction and temporarily disables controls.
 	 */
 	public void changeGravity() {
-		if (disableControls || isTemporarilyDisabled) return;
+		if (disableControls || isTemporarilyDisabled && isDead) return;
 
 		phisicsComponent.setVelocityY(0);
 		phisicsComponent.setGravityDirection(-phisicsComponent.getGravityDirection());

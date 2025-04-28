@@ -59,7 +59,7 @@ public class PlayingUIManager implements UIManager {
             countPlayers = playingScene.getNumPlayers();
         }
 
-        alldead = playingScene.getPlayers().stream().filter(player -> !player.isDead()).count() == 0;
+        alldead = playingScene.getPlayers().stream().filter(player -> !player.isDead() && !player.isInActive()).count() == 0;
 
         if (alldead) {
             gameOverPanel.show();

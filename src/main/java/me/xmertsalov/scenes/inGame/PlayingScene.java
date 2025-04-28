@@ -80,12 +80,28 @@ public class PlayingScene extends Scene implements IScene {
         for (Player player : players) {
             player.update();
         }
+        // Count Down started
         if (!canMove) {
             reservedSpeed = levelsManager.getSpeed();
             levelsManager.setSpeed(0);
+
+            players.forEach(player -> {
+                player.setDisableControls(true);
+                if (player.getPhisicsComponent().getGravityDirection() < 0){
+                    player.getPhisicsComponent().setGravityDirection(1);
+                    player.setFlipH(1);
+                    player.setFlipY(0);
+                }
+            });
+
         }
+        // Count Down finished
         else if (continuedSpeed) {
             levelsManager.setSpeed(reservedSpeed);
+
+            players.forEach(player -> {
+                player.setDisableControls(false);
+            });
 
             if (isSlowMode()) levelsManager.setSpeed(0.4f * Game.SCALE);
             else if (isIncreasedGameSpeedMode()) levelsManager.setSpeed(0.7f * Game.SCALE);
@@ -162,18 +178,20 @@ public class PlayingScene extends Scene implements IScene {
         game.getScore().resetPlayers(players);
 
         switch (players.size()){
-            case 1 -> {
+            case 1: {
                 players.get(0).setPosX(Game.TILES_SIZE * 11);
                 players.get(0).setPosY(Game.TILES_SIZE * 5);
+                break;
             }
-            case 2 -> {
+            case 2: {
                 players.get(0).setPosX(Game.TILES_SIZE * 11);
                 players.get(0).setPosY(Game.TILES_SIZE * 5);
 
                 players.get(1).setPosX(Game.TILES_SIZE * 11);
                 players.get(1).setPosY(Game.TILES_SIZE * 10);
+                break;
             }
-            case 3 -> {
+            case 3: {
                 players.get(0).setPosX(Game.TILES_SIZE * 11);
                 players.get(0).setPosY(Game.TILES_SIZE * 2);
 
@@ -182,8 +200,9 @@ public class PlayingScene extends Scene implements IScene {
 
                 players.get(2).setPosX(Game.TILES_SIZE * 11);
                 players.get(2).setPosY(Game.TILES_SIZE * 10);
+                break;
             }
-            case 4 -> {
+            case 4: {
                 players.get(0).setPosX(Game.TILES_SIZE * 11);
                 players.get(0).setPosY(Game.TILES_SIZE * 2);
 
@@ -195,7 +214,9 @@ public class PlayingScene extends Scene implements IScene {
 
                 players.get(3).setPosX(Game.TILES_SIZE * 11);
                 players.get(3).setPosY(Game.TILES_SIZE * 10);
+                break;
             }
+            default: break;
         }
 
         uiManager.startCountDown();

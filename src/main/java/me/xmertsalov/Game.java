@@ -65,6 +65,10 @@ public class Game implements Runnable {
 	private BackgroundManager backgroundManager;
 	private Score score;
 
+	// Player Constants
+	public final static double TIME_BEFORE_POWER_UP_RESET = 5;
+	public final static double TIME_BEFORE_PLAYER_JUMP = 0.65f;
+
 	// Game Modes
 	private boolean increasedGameSpeedMode = true;
 	private boolean ghostMode = false;
@@ -75,9 +79,6 @@ public class Game implements Runnable {
 
 	// Config
 	private final Config config;
-
-	// JAR Build
-	public final static boolean SET_SLASH_BEF0RE_DIR = false;
 
 	// Music
 	private AudioPlayer audioPlayer;
@@ -205,19 +206,37 @@ public class Game implements Runnable {
 		audioPlayer.update();
 		audioPlayer.autoGenerateMusic();
 		switch (GameScene.scene){
-			case PLAYING -> {
+			case PLAYING: {
 				playingScene.update();
 				score.update();
+				break;
             }
-			case MENU -> menuScene.update();
-			case LOBBY -> lobbyScene.update();
-			case SETTINGS -> settingsScene.update();
-			case CREDITS -> creditsScene.update();
-			case EXIT -> System.exit(0);
-			case PANORAMA -> panoramaScene.update();
-			case TUTORIAL -> tutorialScene.update();
-			case LOADING -> loadingScene.update();
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case MENU:
+				menuScene.update();
+				break;
+			case LOBBY:
+				lobbyScene.update();
+				break;
+			case SETTINGS:
+				settingsScene.update();
+				break;
+			case CREDITS:
+				creditsScene.update();
+				break;
+			case EXIT:
+				System.exit(0);
+				break;
+			case PANORAMA:
+				panoramaScene.update();
+				break;
+			case TUTORIAL:
+				tutorialScene.update();
+				break;
+			case LOADING:
+				loadingScene.update();
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 	}
 
@@ -233,16 +252,34 @@ public class Game implements Runnable {
 		backgroundManager.draw(g);
 
 		switch (GameScene.scene) {
-			case PLAYING -> playingScene.draw(g);
-			case MENU -> menuScene.draw(g);
-			case LOBBY -> lobbyScene.draw(g);
-			case SETTINGS -> settingsScene.draw(g);
-			case CREDITS -> creditsScene.draw(g);
-			case PANORAMA -> panoramaScene.draw(g);
-			case TUTORIAL -> tutorialScene.draw(g);
-			case LOADING -> loadingScene.draw(g);
-			case EXIT -> {break;}
-			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
+			case PLAYING:
+				playingScene.draw(g);
+				break;
+			case MENU:
+				menuScene.draw(g);
+				break;
+			case LOBBY:
+				lobbyScene.draw(g);
+				break;
+			case SETTINGS:
+				settingsScene.draw(g);
+				break;
+			case CREDITS:
+				creditsScene.draw(g);
+				break;
+			case PANORAMA:
+				panoramaScene.draw(g);
+				break;
+			case TUTORIAL:
+				tutorialScene.draw(g);
+				break;
+			case LOADING:
+				loadingScene.draw(g);
+				break;
+			case EXIT:
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 
 		if (DEBUG_FPS) {

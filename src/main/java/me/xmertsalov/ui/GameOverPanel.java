@@ -43,7 +43,7 @@ public class GameOverPanel {
     private int yMargin = (int)((float) Game.WINDOW_HEIGHT / 2 - (64 * Game.SCALE));
     private int yText = (int)((float) Game.WINDOW_HEIGHT / 2 - (150 * Game.SCALE));
     private int yBackground = (int)((float) Game.WINDOW_HEIGHT / 2 - (100 * Game.SCALE));
-    private int xBtn = (int)((float) Game.WINDOW_HEIGHT / 2 - (-102 * Game.SCALE));
+    private int xBtn = (int)((float) Game.WINDOW_WIDTH / 2 - (36 * Game.SCALE));
     private int yBtns = (int)((float) Game.WINDOW_HEIGHT / 2 - (-36 * Game.SCALE));
 
     // Storage

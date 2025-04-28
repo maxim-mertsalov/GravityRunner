@@ -253,7 +253,7 @@ public class AudioPlayer {
      * @return A {@code Clip} object representing the audio file, or {@code null} if the file could not be loaded.
      */
     private Clip getClip(String fileName) {
-        URL url = getClass().getClassLoader().getResource(Game.SET_SLASH_BEF0RE_DIR ? "/" + fileName : fileName);
+        URL url = getClass().getClassLoader().getResource(fileName);
         AudioInputStream audioInputStream;
 
         if (url == null) {

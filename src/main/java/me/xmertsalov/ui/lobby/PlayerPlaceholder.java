@@ -85,7 +85,9 @@ public class PlayerPlaceholder {
                 buttonDetectKeyFactory.createButton((int) (getXById() + 32 * Game.SCALE), (int)(placeholderY + 130 * Game.SCALE), (int)(56 * 1.2 * Game.SCALE), (int)(14 * 1.8 * Game.SCALE), 0, game)
         );
 
-        if (buttons.get(2) instanceof ButtonDetectedKey buttonDetectKey) {
+        if (buttons.get(2) instanceof ButtonDetectedKey) {
+            ButtonDetectedKey buttonDetectKey = (ButtonDetectedKey) buttons.get(2);
+
             if (buttonDetectKey.getData() != player.getChangeGravityKey()){
                 buttonDetectKey.setData(player.getChangeGravityKey());
             }
@@ -138,7 +140,9 @@ public class PlayerPlaceholder {
             player.setAnimator(player.getPlayerAnimator(), currentSkinName);
         }
 
-        if (buttons.get(2) instanceof ButtonDetectedKey buttonDetectKey) {
+        if (buttons.get(2) instanceof ButtonDetectedKey) {
+            ButtonDetectedKey buttonDetectKey = (ButtonDetectedKey) buttons.get(2);
+
             if (buttonDetectKey.getData() != player.getChangeGravityKey()){
                 player.setChangeGravityKey(buttonDetectKey.getData());
             }
@@ -170,18 +174,14 @@ public class PlayerPlaceholder {
      */
     private int getXById() {
         switch (id) {
-            case 0 -> {
+            case 0:
                 return 100;
-            }
-            case 1 -> {
+            case 1:
                 return 100 + offsetXBetween + placeholderWidth;
-            }
-            case 2 -> {
+            case 2:
                 return 100 + offsetXBetween * 2 + placeholderWidth * 2;
-            }
-            case 3 -> {
+            case 3:
                 return 100 + offsetXBetween * 3 + placeholderWidth * 3;
-            }
         }
         return -1;
     }

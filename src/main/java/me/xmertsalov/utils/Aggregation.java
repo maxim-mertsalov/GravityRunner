@@ -26,14 +26,20 @@ public class Aggregation {
         double maxVal = max.doubleValue();
         double result = Math.random() * (maxVal - minVal) + minVal;
 
-        return switch (min) {
-            case Integer i -> (T) Integer.valueOf((int) result);
-            case Double d -> (T) Double.valueOf(result);
-            case Float f -> (T) Float.valueOf((float) result);
-            case Long l -> (T) Long.valueOf((long) result);
-            case Short s -> (T) Short.valueOf((short) result);
-            case Byte b -> (T) Byte.valueOf((byte) result);
-            default -> throw new IllegalArgumentException("Unsupported numeric type: " + min.getClass());
-        };
+        if (min instanceof Integer) {
+            return (T) Integer.valueOf((int) result);
+        } else if (min instanceof Double) {
+            return (T) Double.valueOf(result);
+        } else if (min instanceof Float) {
+            return (T) Float.valueOf((float) result);
+        } else if (min instanceof Long) {
+            return (T) Long.valueOf((long) result);
+        } else if (min instanceof Short) {
+            return (T) Short.valueOf((short) result);
+        } else if (min instanceof Byte) {
+            return (T) Byte.valueOf((byte) result);
+        } else {
+            throw new IllegalArgumentException("Unsupported numeric type: " + min.getClass());
+        }
     }
 }

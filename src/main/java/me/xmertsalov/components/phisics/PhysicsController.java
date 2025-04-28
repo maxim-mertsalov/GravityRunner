@@ -55,7 +55,10 @@ public class PhysicsController {
             if (tile.getCollider() != null) { // There are tiles with colliders:
                 Collider collider = tile.getCollider();
                 for (Player player : playingScene.getPlayers()) {
-                    if (player.getCollider() instanceof BoxCollider boxCollider) {
+
+                    if (player.getCollider() instanceof BoxCollider && !player.isInActive()) {
+                        BoxCollider boxCollider = (BoxCollider) player.getCollider();
+
                         double velocityY = player.getPhisicsComponent().getVelocityY();
                         double modVelocityY = Math.abs(velocityY);
 
@@ -76,7 +79,9 @@ public class PhysicsController {
                                 boxCollider.getBounds().getHeight()
                         );
 
-                        if (collider instanceof BoxCollider tileBoxCollider) {
+                        if (collider instanceof BoxCollider) {
+                            BoxCollider tileBoxCollider = (BoxCollider) collider;
+
                             Rectangle2D tileBounds = tileBoxCollider.getBounds();
 
                             if (velocityY > 0 && tileBounds.intersects(playerNextBoundsUp)) { // Moving down
@@ -113,7 +118,10 @@ public class PhysicsController {
         playingScene.getLevelsManager().getActiveLevels().forEach(level -> level.getTiles().forEach(tile -> {
             if (tile.getCollider() != null) { // There are tiles with colliders:
                 Collider collider = tile.getCollider();
-                if (collider instanceof BoxCollider boxCollider) {
+                if (collider instanceof BoxCollider) {
+
+                    BoxCollider boxCollider = (BoxCollider) collider;
+
                     // Adjust the future tile collider bounds
                     Rectangle2D.Double adjustedTileBounds = new Rectangle2D.Double(
                             boxCollider.getBounds().x + tile.getTilePhisicsComponents().getVelocity_x(),
@@ -124,7 +132,10 @@ public class PhysicsController {
 
 
                     for (Player player : playingScene.getPlayers()) {
-                        if (player.getCollider() instanceof BoxCollider playerCollider){
+
+                        if (player.getCollider() instanceof BoxCollider && !player.isInActive()) {
+                            BoxCollider playerCollider = (BoxCollider) player.getCollider();
+
                             if (playerCollider.getBounds().intersects(adjustedTileBounds)) {
                                 double overlap = playerCollider.getBounds().getMaxX() - adjustedTileBounds.getMinX();
                                 player.setPosX(player.getPosX() - overlap);
@@ -146,9 +157,9 @@ public class PhysicsController {
      */
     public void resetPlayerVelocityX(){
         for (Player player : playingScene.getPlayers()) {
-            if (player.isConsumedBonus()) {
+            if (player.isConsumedBonus() && !player.isInActive()) {
                 ticks++;
-                if (ticks >= Game.UPS_LIMIT * 3) { // 3 seconds
+                if (ticks >= Game.UPS_LIMIT * Game.TIME_BEFORE_POWER_UP_RESET) { // 3 seconds
                     player.setConsumedBonus(false);
                     player.getPhisicsComponent().setVelocityX(0);
                     ticks = 0;
@@ -165,30 +176,40 @@ public class PhysicsController {
         playingScene.getLevelsManager().getActiveLevels().forEach(level -> level.getGameObjects().forEach(gameObject -> {
 
             for (Player player : playingScene.getPlayers()) {
-                BoxCollider player_collider = (BoxCollider) player.getCollider();
 
-                if(gameObject instanceof PowerUp powerUp){
-                    if (powerUp.getBounds().intersects(player_collider.getBounds()) && !player.isConsumedBonus()) {
-                        if (powerUp instanceof SpeedUp speedUp) {
-                            player.getPhisicsComponent().setVelocityX(speedUp.getVelocityXIncrement() * 10);
-                            player.setConsumedBonus(true);
+                if (player.getCollider() instanceof BoxCollider && !player.isInActive()){
+                    BoxCollider player_collider = (BoxCollider) player.getCollider();
+
+                    if(gameObject instanceof PowerUp){
+                        PowerUp powerUp = (PowerUp) gameObject;
+
+                        if (powerUp.getBounds().intersects(player_collider.getBounds()) && !player.isConsumedBonus()) {
+                            if (powerUp instanceof SpeedUp) {
+                                SpeedUp speedUp = (SpeedUp) powerUp;
+
+                                player.getPhisicsComponent().setVelocityX(speedUp.getVelocityXIncrement() * 10);
+                                player.setConsumedBonus(true);
+                            }
+                            else if (powerUp instanceof SpeedDown) {
+                                SpeedDown speedDown = (SpeedDown) powerUp;
+
+                                player.getPhisicsComponent().setVelocityX(speedDown.getVelocityXIncrement() * 10);
+                                player.setConsumedBonus(true);
+                            }
                         }
-                        else if (powerUp instanceof SpeedDown speedDown) {
-                            player.getPhisicsComponent().setVelocityX(speedDown.getVelocityXIncrement() * 10);
-                            player.setConsumedBonus(true);
+                    }
+
+                    if (gameObject instanceof Saw){
+                        Saw saw = (Saw) gameObject;
+
+                        if (saw.getBounds().intersects(player_collider.getBounds())) {
+                            if (!playingScene.isGodMode()) {
+                                playerDead(player);
+                            }
+
                         }
                     }
                 }
-
-                if (gameObject instanceof Saw saw){
-                    if (saw.getBounds().intersects(player_collider.getBounds())) {
-                        if (!playingScene.isGodMode()) {
-                            playerDead(player);
-                        }
-
-                    }
-                }
-
             }
         }));
     }
@@ -199,26 +220,28 @@ public class PhysicsController {
      */
     private void ifPlayerFallingAway(){
         for (Player player : playingScene.getPlayers()) {
-            if (playingScene.isBorderlessMode()){
-                if (player.getPosY() >= Game.WINDOW_HEIGHT - Game.TILES_SIZE) { // falling down
-                    player.setPosY(Game.WINDOW_HEIGHT - Game.TILES_SIZE);
+            if (!player.isInActive()){
+                if (playingScene.isBorderlessMode()){
+                    if (player.getPosY() >= Game.WINDOW_HEIGHT - Game.TILES_SIZE) { // falling down
+                        player.setPosY(Game.WINDOW_HEIGHT - Game.TILES_SIZE);
+                    }
+                    else if(player.getPosY() <= -Game.TILES_SIZE){ // falling up
+                        player.setPosY(-Game.TILES_SIZE);
+                    }
+                    else if (player.getPosX() < -Game.TILES_SIZE * 2){
+                        playerDead(player);
+                    }
                 }
-                else if(player.getPosY() <= -Game.TILES_SIZE){ // falling up
-                    player.setPosY(-Game.TILES_SIZE);
-                }
-                else if (player.getPosX() < -Game.TILES_SIZE * 2){
-                    playerDead(player);
-                }
-            }
-            else{
-                if (player.getPosY() > Game.WINDOW_HEIGHT + Game.TILES_SIZE * 2.5) { // falling down
-                    playerDead(player);
-                }
-                else if(player.getPosY() < -Game.TILES_SIZE * 2.5){ // falling up
-                    playerDead(player);
-                }
-                else if (player.getPosX() < -Game.TILES_SIZE * 2){
-                    playerDead(player);
+                else{
+                    if (player.getPosY() > Game.WINDOW_HEIGHT + Game.TILES_SIZE * 2.5) { // falling down
+                        playerDead(player);
+                    }
+                    else if(player.getPosY() < -Game.TILES_SIZE * 2.5){ // falling up
+                        playerDead(player);
+                    }
+                    else if (player.getPosX() < -Game.TILES_SIZE * 2){
+                        playerDead(player);
+                    }
                 }
             }
         }
@@ -246,8 +269,14 @@ public class PhysicsController {
         for(Player player : playingScene.getPlayers()) {
             for (Player otherPlayer : playingScene.getPlayers()) {
                 if (player != otherPlayer) {
-                    if(player.getCollider() instanceof BoxCollider boxCPlayer &&
-                            otherPlayer.getCollider() instanceof BoxCollider boxCOtherPlayer) {
+                    if(player.getCollider() instanceof BoxCollider &&
+                            otherPlayer.getCollider() instanceof BoxCollider) {
+
+                        // Do not check collisions if one of the players is not playing
+                        if (player.isInActive() || otherPlayer.isInActive()) continue;
+
+                        BoxCollider boxCPlayer = (BoxCollider) player.getCollider();
+                        BoxCollider boxCOtherPlayer = (BoxCollider) otherPlayer.getCollider();
 
                         Rectangle2D.Double detectXBoundPlayer = new Rectangle2D.Double(
                                 boxCPlayer.getBounds().getX(),
@@ -270,6 +299,7 @@ public class PhysicsController {
                             if (player.getPhisicsComponent().getGravityDirection() > 0 &&
                                     otherPlayer.getPhisicsComponent().getGravityDirection() > 0) {
                                 if (player.getPosY() < otherPlayer.getPosY()) {
+
                                     // upper player
                                     player.setPosY(otherPlayer.getPosY() - boxCOtherPlayer.getBounds().getHeight());
                                     player.getPhisicsComponent().setAbleToUp(true);
@@ -284,6 +314,7 @@ public class PhysicsController {
                             else if (player.getPhisicsComponent().getGravityDirection() < 0 &&
                                     otherPlayer.getPhisicsComponent().getGravityDirection() < 0) {
                                 if (player.getPosY() > otherPlayer.getPosY()) {
+
                                     // downer player
                                     player.setPosY(otherPlayer.getPosY() + boxCOtherPlayer.getBounds().getHeight());
                                     player.getPhisicsComponent().setAbleToUp(false);
@@ -297,6 +328,7 @@ public class PhysicsController {
                             // if first and second has different velocity
                             else if (player.getPhisicsComponent().getGravityDirection() < 0 &&
                                     otherPlayer.getPhisicsComponent().getGravityDirection() > 0) {
+
                                 player.setPosY(player.getPosY() + 1);
                                 player.getPhisicsComponent().setVelocityY(0);
                                 player.getPhisicsComponent().setAbleToUp(false);
