@@ -27,19 +27,6 @@ public class Level {
     // dependencies
     private final LevelsManager levelsManager;
 
-    /**
-     * Constructor for creating a level with specific tiles and parameters.
-     *
-     * @param levelsManager The manager responsible for handling levels.
-     * @param lvlData       The list of tiles in the level.
-     * @param params        Additional parameters for the level.
-     */
-    public Level(LevelsManager levelsManager, ArrayList<Tile> lvlData, String params) {
-        this.lvlData = lvlData;
-        this.levelsManager = levelsManager;
-        this.params = params;
-        this.gameObjects = new ArrayList<>();
-    }
 
     /**
      * Creates a copy of the current level, including its tiles and game objects.
@@ -65,7 +52,7 @@ public class Level {
      * @param params        Additional parameters for the level.
      */
     public Level(LevelsManager levelsManager, String params) {
-        this.lvlData = new ArrayList<Tile>(Game.TILES_IN_WIDTH * Game.TILES_IN_HEIGHT);
+        this.lvlData = new ArrayList<>(Game.TILES_IN_WIDTH * Game.TILES_IN_HEIGHT);
         this.levelsManager = levelsManager;
         this.params = params;
         this.gameObjects = new ArrayList<>();
@@ -88,20 +75,29 @@ public class Level {
      *
      * @param g The Graphics object used for rendering.
      */
-    public void render(Graphics g) {
-        for (Tile tile : lvlData) {
-            int index = Math.max(tile.getTileIndex() - 1, 0);
-            tile.setImage(levelsManager.getLevelSprite(index));
-            tile.draw(g);
-
-            // broken tiles
-            if (index == 0 && Game.DEBUG_COLLIDERS) {
-                g.setColor(Color.RED);
-                g.fillRect((int) tile.getX(), (int) tile.getY(), Game.TILES_SIZE, Game.TILES_SIZE);
+    public void render(Graphics g, int zIndex) {
+        // background layer
+        if (zIndex < 0){
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() < 0).toList() ) {
+                gameObject.draw(g);
             }
         }
-        for (GameObject gameObject : gameObjects) {
-            gameObject.draw(g);
+        else if (zIndex == 0){
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() == 0).toList() ) {
+//                System.out.println(gameObject.toString());
+                gameObject.draw(g);
+            }
+            for (Tile tile : lvlData) {
+                int index = Math.max(tile.getTileIndex() - 1, 0);
+                tile.setImage(levelsManager.getLevelSprite(index));
+                tile.draw(g);
+            }
+        }
+        // foreground layer
+        else {
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() > 0).toList() ) {
+                gameObject.draw(g);
+            }
         }
     }
 
@@ -111,7 +107,7 @@ public class Level {
     public void update() {
         for (Tile tile : lvlData) {
             tile.getTilePhisicsComponents().setVelocity_x(xOffsetVelocity);
-            tile.update();
+//            tile.update();
         }
         for (GameObject gameObject : gameObjects) {
             gameObject.updatePos(gameObject.getX() + xOffsetVelocity, gameObject.getY());

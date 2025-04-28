@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class LevelsManager {
     // General
     private PlayingScene playingScene;
+    private LevelLoader levelLoader;
 
     // Images
     private BufferedImage[] tilesetAtlas;
@@ -56,14 +57,10 @@ public class LevelsManager {
 
         importTilesetAtlas();
 
-        try {
-            String levelData = BundleLoader.getFileContent(BundleLoader.WORLD_DATA);
-            parseLevelData(levelData);
+        levelLoader = new LevelLoader(this);
 
-        } catch (BundleLoadException | LevelLoadingException e) {
-            Game.logger.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
+        this.levels = levelLoader.getLevels();
+        this.spawnLevels = levelLoader.getSpawnLevels();
 
         activeLevels = new ArrayList<>();
         toRemoveActiveLevels = new ArrayList<>();
@@ -75,11 +72,11 @@ public class LevelsManager {
      *
      * @param g The Graphics object used for rendering.
      */
-    public void render(Graphics g) {
+    public void render(Graphics g, int zIndex) {
         ArrayList<Level> levelsToRender = new ArrayList<>(activeLevels);
 
         for (Level level : levelsToRender) {
-            level.render(g);
+            level.render(g, zIndex);
         }
     }
 
@@ -130,89 +127,6 @@ public class LevelsManager {
             }
     }
 
-    /**
-     * Parses level data from a string and initializes levels.
-     *
-     * @param data The level data as a string.
-     * @throws LevelLoadingException If the level data is invalid.
-     */
-    private void parseLevelData(String data) throws LevelLoadingException {
-        String[] lines = data.split("\n");
-        int levelCount = -1;
-
-        for (String line : lines) {
-            // Start of a new level: line like: #level-0,"Some data"
-            if (line.startsWith("#level-")) {
-                levelCount++;
-
-                String[] levelData = line.split(",");
-
-                String params = levelData[1].substring(1, levelData[1].length() - 1); // get params and remove quotes
-
-                levels.add(new Level(this, params));
-                continue;
-            }
-
-            // End of all levels
-            if (line.startsWith("\n")) {
-                break;
-            }
-
-            // if there are no level beginning string - incorrect data
-            if (levelCount < 0) {
-                throw new LevelLoadingException("Level data not found");
-            }
-
-            // Tile data: line like: <position X>,<position Y>,<TileType>,"<Special params>"
-            {
-                String[] values = line.split(","); // 0 - x, 1 - y, 2 - spriteIndex, 3 - params
-                if (values.length < 4) {
-                    throw new LevelLoadingException("Invalid level data");
-                }
-                int x = (Integer.parseInt(values[0]) - 1) * Game.TILES_SIZE;
-                int y = (Integer.parseInt(values[1]) - 1) * Game.TILES_SIZE;
-                int spriteIndex = Integer.parseInt(values[2]);
-                String tileType = values[3].substring(1, values[3].length() - 1); // remove quotes
-
-                // Special elements like entities, power-ups and other
-                if (spriteIndex < 0) {
-                    switch (tileType) {
-                        case "SpeedUp" -> {
-                            SpeedUp speedUp = new SpeedUp(x, y);
-                            levels.get(levelCount).setGameObject(speedUp);
-                        }
-                        case "SpeedDown" -> {
-                            SpeedDown speedDown = new SpeedDown(x, y);
-                            levels.get(levelCount).setGameObject(speedDown);
-                        }
-                        case "Saw" -> {
-                            Saw saw = new Saw(x, y);
-                            levels.get(levelCount).setGameObject(saw);
-                        }
-                        case "MovableSaw" -> {
-                            int dx = (Integer.parseInt(values[4])) * Game.TILES_SIZE;
-                            int dy = (Integer.parseInt(values[5])) * Game.TILES_SIZE;
-                            MovableSaw movableSaw = new MovableSaw(x, y, dx, dy);
-                            levels.get(levelCount).setGameObject(movableSaw);
-                        }
-                    }
-                    continue;
-                }
-
-                // Normal tile
-                levels.get(levelCount).setTile(x, y, spriteIndex, tileType);
-            }
-        }
-
-        Game.logger.info("Loaded {} levels", levels.size());
-
-        for (Level level : levels) {
-            if (level.getParams().startsWith("spawn")) {
-                spawnLevels.add(level);
-            }
-        }
-        levels.removeAll(spawnLevels);
-    }
 
     /**
      * Generates spawn levels based on the number of players.

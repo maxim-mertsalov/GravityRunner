@@ -1,6 +1,10 @@
 package me.xmertsalov.gameObjects.powerUps;
 
+import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.gameObjects.GameObject;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a SpeedUp power-up that increases the player's horizontal velocity.
@@ -17,6 +21,12 @@ public class SpeedUp extends PowerUp {
     public SpeedUp(double x, double y) {
         super(x, y);
         animator.setAnimationState("TO_RIGHT");
+    }
+
+    private SpeedUp(double x, double y, Animator animator, HashMap<String, List<Integer>> animationStates, String animationState, int zIndex) {
+        super(x, y, animator, animationStates);
+        this.animator.setAnimationState(animationState);
+        this.zIndex = zIndex;
     }
 
     /**
@@ -43,6 +53,6 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public GameObject clone() {
-        return new SpeedUp(x, y);
+        return new SpeedUp(x, y, animator, animationStates, "TO_RIGHT", zIndex);
     }
 }

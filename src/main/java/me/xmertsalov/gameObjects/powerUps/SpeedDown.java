@@ -1,6 +1,10 @@
 package me.xmertsalov.gameObjects.powerUps;
 
+import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.gameObjects.GameObject;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a SpeedDown power-up that decreases the player's horizontal velocity.
@@ -17,6 +21,12 @@ public class SpeedDown extends PowerUp {
     public SpeedDown(double x, double y) {
         super(x, y);
         animator.setAnimationState("TO_LEFT");
+    }
+
+    private SpeedDown(double x, double y, Animator animator, HashMap<String, List<Integer>> animationStates, String animationState, int zIndex) {
+        super(x, y, animator, animationStates);
+        this.animator.setAnimationState(animationState);
+        this.zIndex = zIndex;
     }
 
     /**
@@ -43,6 +53,6 @@ public class SpeedDown extends PowerUp {
      */
     @Override
     public GameObject clone() {
-        return new SpeedDown(x, y);
+        return new SpeedDown(x, y, animator, animationStates, "TO_LEFT", zIndex);
     }
 }

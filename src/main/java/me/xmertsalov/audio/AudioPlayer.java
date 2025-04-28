@@ -45,15 +45,15 @@ public class AudioPlayer {
     public static final int SFX_COUNTDOWN_S = 5;
 
     // Sounds files
-    private static final String FILE_SFX_CLICK = "/res/Sounds/wav/click.wav";
-    private static final String FILE_SFX_JUMP = "/res/Sounds/wav/jump.wav";
-    private static final String FILE_SFX_COUNTDOWN = "/res/Sounds/wav/countdown.wav";
-    private static final String FILE_SFX_COUNTDOWN_FIRST = "/res/Sounds/wav/countdown first.wav";
-    private static final String FILE_SFX_COUNTDOWN_SECOND = "/res/Sounds/wav/countdown second.wav";
-    private static final String FILE_SFX_COIN = "/res/Sounds/wav/coin.wav";
-    private static final String FILE_MUSIC_1 = "/res/Sounds/wav/music1.wav";
-    private static final String FILE_MUSIC_2 = "/res/Sounds/wav/music2.wav";
-    private static final String FILE_MUSIC_3 = "/res/Sounds/wav/music3.wav";
+    private static final String FILE_SFX_CLICK = "res/Sounds/wav/click.wav";
+    private static final String FILE_SFX_JUMP = "res/Sounds/wav/jump.wav";
+    private static final String FILE_SFX_COUNTDOWN = "res/Sounds/wav/countdown.wav";
+    private static final String FILE_SFX_COUNTDOWN_FIRST = "res/Sounds/wav/countdown first.wav";
+    private static final String FILE_SFX_COUNTDOWN_SECOND = "res/Sounds/wav/countdown second.wav";
+    private static final String FILE_SFX_COIN = "res/Sounds/wav/coin.wav";
+    private static final String FILE_MUSIC_1 = "res/Sounds/wav/music1.wav";
+    private static final String FILE_MUSIC_2 = "res/Sounds/wav/music2.wav";
+    private static final String FILE_MUSIC_3 = "res/Sounds/wav/music3.wav";
 
     // Storage
     private Clip[] musicClips;
@@ -253,7 +253,7 @@ public class AudioPlayer {
      * @return A {@code Clip} object representing the audio file, or {@code null} if the file could not be loaded.
      */
     private Clip getClip(String fileName) {
-        URL url = getClass().getResource(fileName);
+        URL url = getClass().getClassLoader().getResource(Game.SET_SLASH_BEF0RE_DIR ? "/" + fileName : fileName);
         AudioInputStream audioInputStream;
 
         if (url == null) {

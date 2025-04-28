@@ -76,6 +76,9 @@ public class Game implements Runnable {
 	// Config
 	private final Config config;
 
+	// JAR Build
+	public final static boolean SET_SLASH_BEF0RE_DIR = false;
+
 	// Music
 	private AudioPlayer audioPlayer;
 
@@ -238,6 +241,7 @@ public class Game implements Runnable {
 			case PANORAMA -> panoramaScene.draw(g);
 			case TUTORIAL -> tutorialScene.draw(g);
 			case LOADING -> loadingScene.draw(g);
+			case EXIT -> {break;}
 			default -> throw new IllegalStateException("Unexpected value: " + GameScene.scene);
 		}
 

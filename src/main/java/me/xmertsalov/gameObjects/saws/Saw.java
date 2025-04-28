@@ -52,6 +52,15 @@ public class Saw extends GameObject {
                 .build_and_load();
     }
 
+    protected Saw(double x, double y, Animator animator, HashMap<String, List<Integer>> animationStates, String animationState, Ellipse2D.Double bounds, int zIndex) {
+        super(x, y);
+        this.animationStates = animationStates;
+        this.animationState = animationState;
+        this.animator = animator;
+        this.bounds = bounds;
+        this.zIndex = zIndex;
+    }
+
     /**
      * Updates the animation of the saw.
      */
@@ -104,7 +113,7 @@ public class Saw extends GameObject {
      */
     @Override
     public GameObject clone() {
-        return new Saw(this.x, this.y);
+        return new Saw(x, y, new Animator.Builder().clone(this.animator), animationStates, animationState, bounds, zIndex);
     }
 
     /**

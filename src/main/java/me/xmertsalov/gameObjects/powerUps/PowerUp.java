@@ -55,6 +55,17 @@ public abstract class PowerUp extends GameObject {
                 .setAnimationSpeed(20)
                 .setAnimationStrategy(new LoopingAnimationStrategy())
                 .build_and_load();
+
+        setZIndex(0);
+    }
+
+    protected PowerUp(double x, double y, Animator animator, HashMap<String, List<Integer>> animationStates) {
+        super(x, y);
+        this.animator = animator;
+        this.animationStates = animationStates;
+        bounds = new Rectangle2D.Double(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
+        this.animator.setAnimationSpeed(250);
+        setZIndex(0);
     }
 
     /**

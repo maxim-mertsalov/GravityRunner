@@ -371,5 +371,9 @@ public class Animator implements IAnimator {
 
     }
 
+    public void setAnimationSpeed(int animationSpeed) {
+        this.aniSpeed = animationSpeed;
+    }
+
 }
 

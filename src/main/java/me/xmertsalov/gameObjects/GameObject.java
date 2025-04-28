@@ -18,6 +18,8 @@ public abstract class GameObject {
      */
     protected double y;
 
+    protected int zIndex = 0; // -1 - background, 0 - not render, 1 - foreground
+
     /**
      * Constructs a new {@code GameObject} with the specified initial position.
      *
@@ -95,4 +97,8 @@ public abstract class GameObject {
      * @return a new {@code GameObject} instance that is a copy of this object.
      */
     public abstract GameObject clone();
+
+    public int getZIndex() {return zIndex;}
+
+    public void setZIndex(int zIndex) {this.zIndex = zIndex;}
 }

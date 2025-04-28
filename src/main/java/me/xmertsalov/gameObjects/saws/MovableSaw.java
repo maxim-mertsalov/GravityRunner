@@ -1,9 +1,13 @@
 package me.xmertsalov.gameObjects.saws;
 
 import me.xmertsalov.Game;
+import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.gameObjects.GameObject;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Represents a movable saw object in the game.
@@ -57,6 +61,10 @@ public class MovableSaw extends Saw {
 
         this.velocityX = baseVelocityX;
         this.velocityY = baseVelocityY;
+    }
+
+    private MovableSaw(double x, double y, Animator animator, HashMap<String, List<Integer>> animationStates, String animationState, Ellipse2D.Double bounds, int zIndex) {
+        super(x, y, animator, animationStates, animationState, bounds, zIndex);
     }
 
     /**
@@ -161,6 +169,20 @@ public class MovableSaw extends Saw {
         return velocityY;
     }
 
+    public void setDestination(double dx, double dy) {
+        this.dx = dx;
+        this.dy = dy;
+        this.lengthX = dx - sx;
+        this.lengthY = dy - sy;
+
+        double length = Math.sqrt(lengthX * lengthX + lengthY * lengthY);
+        this.baseVelocityX = (lengthX / length) * speed;
+        this.baseVelocityY = (lengthY / length) * speed;
+
+        this.velocityX = baseVelocityX;
+        this.velocityY = baseVelocityY;
+    }
+
     /**
      * Creates a clone of the MovableSaw object.
      *
@@ -168,7 +190,7 @@ public class MovableSaw extends Saw {
      */
     @Override
     public GameObject clone() {
-        return new MovableSaw(x, y, dx, dy);
+        return new MovableSaw(x, y, new Animator.Builder().clone(this.animator), animationStates, animationState, bounds, zIndex);
     }
 
     /**

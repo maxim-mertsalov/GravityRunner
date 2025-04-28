@@ -108,10 +108,16 @@ public class PlayingScene extends Scene implements IScene {
      */
     @Override
     public void draw(Graphics g) {
+        levelsManager.render(g, -1); // background layer
+
         for (Player player : players) {
             player.render(g);
         }
-        levelsManager.render(g);
+
+        levelsManager.render(g, 0); // tile layer (interaction layer)
+
+        levelsManager.render(g, 1); // foreground layer
+
         uiManager.draw(g);
     }
 
@@ -133,6 +139,10 @@ public class PlayingScene extends Scene implements IScene {
                 player.setDead(false, 0);
                 players.add(player);
                 System.out.println("XX:" + player.getPosX() + ", " + player.getPosY());
+            }
+            else{
+                player.setPosX(-1000);
+                player.setPosY(1000);
             }
         }
 
