@@ -53,6 +53,6 @@ public class SpeedUp extends PowerUp {
      */
     @Override
     public GameObject clone() {
-        return new SpeedUp(x, y, animator, animationStates, "TO_RIGHT", zIndex);
+        return new SpeedUp(x, y, new Animator.Builder().clone(animator), animationStates, "TO_RIGHT", zIndex);
     }
 }

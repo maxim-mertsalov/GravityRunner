@@ -53,6 +53,6 @@ public class SpeedDown extends PowerUp {
      */
     @Override
     public GameObject clone() {
-        return new SpeedDown(x, y, animator, animationStates, "TO_LEFT", zIndex);
+        return new SpeedDown(x, y, new Animator.Builder().clone(animator), animationStates, "TO_LEFT", zIndex);
     }
 }

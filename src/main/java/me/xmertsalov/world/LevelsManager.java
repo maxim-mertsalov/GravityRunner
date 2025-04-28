@@ -90,6 +90,10 @@ public class LevelsManager {
 
         moveLevels(-speed);
 
+        for (Level level : activeLevels) {
+            level.update();
+        }
+
         toAddActiveLevels.clear();
         toRemoveActiveLevels.clear();
     }

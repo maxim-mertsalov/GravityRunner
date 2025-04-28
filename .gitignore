@@ -41,3 +41,6 @@ build/
 logs/
 logs/*
 
+### Settings ###
+settings.ser
+

@@ -84,7 +84,6 @@ public class Level {
         }
         else if (zIndex == 0){
             for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() == 0).toList() ) {
-//                System.out.println(gameObject.toString());
                 gameObject.draw(g);
             }
             for (Tile tile : lvlData) {
@@ -106,17 +105,12 @@ public class Level {
      */
     public void update() {
         for (Tile tile : lvlData) {
-            tile.getTilePhisicsComponents().setVelocity_x(xOffsetVelocity);
-//            tile.update();
+            tile.update();
         }
-        for (GameObject gameObject : gameObjects) {
-            gameObject.updatePos(gameObject.getX() + xOffsetVelocity, gameObject.getY());
 
-            if (gameObject instanceof MovableSaw) {
-                ((MovableSaw) gameObject).setVelocityOffset(xOffsetVelocity);
-            }
+        for (GameObject gameObject : gameObjects) {
+            gameObject.update();
         }
-        xOffset += xOffsetVelocity;
     }
 
     /**
@@ -138,11 +132,9 @@ public class Level {
 
         for (Tile tile : lvlData) {
             tile.getTilePhisicsComponents().setVelocity_x(xOffsetVelocity);
-            tile.update();
         }
         for (GameObject gameObject : gameObjects) {
             gameObject.updatePos(gameObject.getX() + xOffsetVelocity, gameObject.getY());
-            gameObject.update();
 
             if (gameObject instanceof MovableSaw) {
                 ((MovableSaw) gameObject).setVelocityOffset(xOffsetVelocity);

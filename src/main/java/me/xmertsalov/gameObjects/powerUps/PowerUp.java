@@ -3,6 +3,7 @@ package me.xmertsalov.gameObjects.powerUps;
 import me.xmertsalov.Game;
 import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
+import me.xmertsalov.components.Animator.OneWayAnimationStrategy;
 import me.xmertsalov.gameObjects.GameObject;
 import me.xmertsalov.utils.BundleLoader;
 
@@ -52,8 +53,8 @@ public abstract class PowerUp extends GameObject {
                 .setColumns(4)
                 .setAnimationStates(animationStates)
                 .setCurrentState("IDLE")
-                .setAnimationSpeed(20)
-                .setAnimationStrategy(new LoopingAnimationStrategy())
+                .setAnimationSpeed(30)
+                .setAnimationStrategy(new OneWayAnimationStrategy())
                 .build_and_load();
 
         setZIndex(0);
@@ -64,7 +65,7 @@ public abstract class PowerUp extends GameObject {
         this.animator = animator;
         this.animationStates = animationStates;
         bounds = new Rectangle2D.Double(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
-        this.animator.setAnimationSpeed(250);
+        this.animator.setAnimationSpeed(20);
         setZIndex(0);
     }
 
