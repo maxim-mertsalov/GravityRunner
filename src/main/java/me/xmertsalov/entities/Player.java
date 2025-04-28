@@ -103,10 +103,6 @@ public class Player extends Entity {
 		phisicsComponent.update();
 
 		flipPlayer();
-
-		if (isDead) {
-//			setPosX(getPosX() - speed);
-		}
 	}
 
 	/**
@@ -152,7 +148,7 @@ public class Player extends Entity {
 	 * Changes the player's gravity direction and temporarily disables controls.
 	 */
 	public void changeGravity() {
-		if (disableControls || isTemporarilyDisabled && isDead) return;
+		if (disableControls || isTemporarilyDisabled || isDead) return;
 
 		phisicsComponent.setVelocityY(0);
 		phisicsComponent.setGravityDirection(-phisicsComponent.getGravityDirection());

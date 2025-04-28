@@ -65,7 +65,6 @@ public abstract class PowerUp extends GameObject {
         this.animator = animator;
         this.animationStates = animationStates;
         bounds = new Rectangle2D.Double(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
-        this.animator.setAnimationSpeed(20);
         setZIndex(0);
     }
 
