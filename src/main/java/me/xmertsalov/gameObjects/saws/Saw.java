@@ -8,6 +8,7 @@ import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class Saw extends GameObject {
         bounds = new Ellipse2D.Double(x, y, 50 * Game.SCALE, 50 * Game.SCALE);
 
         animationStates = new HashMap<>();
-        animationStates.put("IDLE", List.of(0, 1));
-        animationStates.put("ROTATING", List.of(0, 8));
+        animationStates.put("IDLE", Arrays.asList(0, 1));
+        animationStates.put("ROTATING", Arrays.asList(0, 8));
 
         animator = new Animator.Builder()
                 .setImageURL(BundleLoader.SAW_ATLAS)

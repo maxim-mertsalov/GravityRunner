@@ -2,6 +2,7 @@ package me.xmertsalov;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The {@code Main} class serves as the entry point for the GravityRunner application.
@@ -23,7 +24,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // Convert the command-line arguments to a list for easier processing
-        List<String> argsList = Arrays.stream(args).toList();
+        List<String> argsList = Arrays.stream(args).collect(Collectors.toList());
         boolean debugColliders = false;
         boolean showFps = false;
 

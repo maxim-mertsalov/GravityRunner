@@ -114,7 +114,7 @@ public class Animator implements IAnimator {
      * @param height The height of the animation frame.
      */
     public void draw(Graphics g, double x, double y, int width, int height) {
-        BufferedImage sprite = animations[animationStates.get(animationState).getFirst()][aniIndex];
+        BufferedImage sprite = animations[animationStates.get(animationState).get(0)][aniIndex];
 
         g.drawImage(sprite,
                 (int) x, (int) y,

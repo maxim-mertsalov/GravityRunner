@@ -10,6 +10,7 @@ import me.xmertsalov.utils.BundleLoader;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class BackgroundManager {
         toRemoveBigCloudsList = new ArrayList<>();
 
         HashMap<String, List<Integer>> waterStates = new HashMap<>();
-        waterStates.put("WATER", List.of(0, 4));
+        waterStates.put("WATER", Arrays.asList(0, 4));
 
         waterAnimator = new Animator.Builder()
                 .setImageURL(BundleLoader.WATER_REFLECTS_ATLAS)
@@ -131,7 +132,7 @@ public class BackgroundManager {
             if (bigCloudsList.isEmpty()) {
                 newCloud.setX(0);
             } else {
-                Cloud lastCloud = bigCloudsList.getLast();
+                Cloud lastCloud = bigCloudsList.get(bigCloudsList.size() - 1);
                 newCloud.setX(lastCloud.getX() + lastCloud.getWidth() - 1); // Subtract 1 to overlap slightly
             }
             toAddBigCloudsList.add(newCloud);

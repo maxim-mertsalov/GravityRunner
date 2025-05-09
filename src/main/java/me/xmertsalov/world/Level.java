@@ -7,6 +7,7 @@ import me.xmertsalov.gameObjects.saws.MovableSaw;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Represents a level in the game, containing tiles and game objects.
@@ -78,12 +79,12 @@ public class Level {
     public void render(Graphics g, int zIndex) {
         // background layer
         if (zIndex < 0){
-            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() < 0).toList() ) {
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() < 0).collect(Collectors.toList()) ) {
                 gameObject.draw(g);
             }
         }
         else if (zIndex == 0){
-            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() == 0).toList() ) {
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() == 0).collect(Collectors.toList()) ) {
                 gameObject.draw(g);
             }
             for (Tile tile : lvlData) {
@@ -94,7 +95,7 @@ public class Level {
         }
         // foreground layer
         else {
-            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() > 0).toList() ) {
+            for (GameObject gameObject : gameObjects.stream().filter(gameObject -> gameObject.getZIndex() > 0).collect(Collectors.toList()) ) {
                 gameObject.draw(g);
             }
         }

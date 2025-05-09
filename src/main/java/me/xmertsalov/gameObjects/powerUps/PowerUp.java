@@ -9,6 +9,7 @@ import me.xmertsalov.utils.BundleLoader;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public abstract class PowerUp extends GameObject {
         bounds = new Rectangle2D.Double(x, y, Game.TILES_SIZE, Game.TILES_SIZE);
 
         animationStates = new HashMap<>();
-        animationStates.put("TO_RIGHT", List.of(0, 4));
-        animationStates.put("TO_LEFT", List.of(1, 4));
+        animationStates.put("TO_RIGHT", Arrays.asList(0, 4));
+        animationStates.put("TO_LEFT", Arrays.asList(1, 4));
 
         animator = new Animator.Builder()
                 .setImageURL(BundleLoader.POWER_UPS_ATLAS)

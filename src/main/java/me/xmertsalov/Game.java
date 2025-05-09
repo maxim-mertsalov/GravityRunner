@@ -67,7 +67,7 @@ public class Game implements Runnable {
 
 	// Player Constants
 	public final static double TIME_BEFORE_POWER_UP_RESET = 5;
-	public final static double TIME_BEFORE_PLAYER_JUMP = 0.65f;
+	public final static double TIME_BEFORE_PLAYER_JUMP = 1f;
 
 	// Game Modes
 	private boolean increasedGameSpeedMode = true;

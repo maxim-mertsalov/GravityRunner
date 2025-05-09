@@ -5,6 +5,7 @@ import me.xmertsalov.components.Animator.Animator;
 import me.xmertsalov.gameObjects.GameObject;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.HashMap;
 
@@ -22,7 +23,7 @@ public class Palm extends GameObject {
         this.spriteHeight = spriteHeight;
 
         HashMap<String, List<Integer>> animationStates = new HashMap<>();
-        animationStates.put("IDLE", List.of(0, 4));
+        animationStates.put("IDLE", Arrays.asList(0, 4));
 
         this.animator = new Animator.Builder()
                 .setImageURL(imageURL)

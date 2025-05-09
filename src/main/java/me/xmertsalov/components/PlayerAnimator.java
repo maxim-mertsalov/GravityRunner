@@ -6,6 +6,7 @@ import me.xmertsalov.components.Animator.LoopingAnimationStrategy;
 import me.xmertsalov.utils.BundleLoader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -132,14 +133,14 @@ public class PlayerAnimator {
     private void loadAnimationStates() {
         animationStates = new HashMap<>();
 
-        animationStates.put("IDLE", new ArrayList<>(List.of(0, 6)) );
-        animationStates.put("WALKING", new ArrayList<>(List.of(1, 6)) );
-        animationStates.put("RUNNING", new ArrayList<>(List.of(2, 6)) );
-        animationStates.put("JUMPING", new ArrayList<>(List.of(3, 4)) );
-        animationStates.put("ATTACK1", new ArrayList<>(List.of(5, 8)) );
-        animationStates.put("ATTACK2", new ArrayList<>(List.of(6, 8)) );
-        animationStates.put("HIT", new ArrayList<>(List.of(10, 4)) );
-        animationStates.put("DEATH", new ArrayList<>(List.of(11, 8)) );
+        animationStates.put("IDLE", new ArrayList<>(Arrays.asList(0, 6)) );
+        animationStates.put("WALKING", new ArrayList<>(Arrays.asList(1, 6)) );
+        animationStates.put("RUNNING", new ArrayList<>(Arrays.asList(2, 6)) );
+        animationStates.put("JUMPING", new ArrayList<>(Arrays.asList(3, 4)) );
+        animationStates.put("ATTACK1", new ArrayList<>(Arrays.asList(5, 8)) );
+        animationStates.put("ATTACK2", new ArrayList<>(Arrays.asList(6, 8)) );
+        animationStates.put("HIT", new ArrayList<>(Arrays.asList(10, 4)) );
+        animationStates.put("DEATH", new ArrayList<>(Arrays.asList(11, 8)) );
 
     }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * It includes default settings and ensures that invalid values are handled gracefully.
  */
 public class Config implements Serializable {
-    @Serial
+//    @Serial
     private static final long serialVersionUID = 1L; // For versioning during serialization
     private static final String CONFIG_FILE = "settings.ser";
 

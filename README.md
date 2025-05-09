@@ -44,10 +44,10 @@ You have two options to run the game:
 ### 2. Download the Release (easier)
 
 1. Go to the [Releases page](https://github.com/maxim-mertsalov/GravityRunner/releases).
-2. Download the latest `.jar` file (`GravityRunner-1.2-SNAPSHOT.jar`).
+2. Download the latest `.jar` file (`GravityRunner-1.3-SNAPSHOT.jar`).
 3. Run the game with Java:
    ```bash
-   java -jar GravityRunner-1.2-SNAPSHOT.jar
+   java -jar GravityRunner-1.3-SNAPSHOT.jar
    ```
 
 ### Runtime Options
@@ -59,7 +59,7 @@ You can run the game with the following options for debugging and additional fea
 
 Example:
 ```bash
-java -jar GravityRunner-1.2-SNAPSHOT.jar --debug-colliders --show-fps
+java -jar GravityRunner-1.3-SNAPSHOT.jar --debug-colliders --show-fps
 ```
 or
 ```bash
@@ -72,14 +72,14 @@ mvn exec:java -Dexec.args="--debug-colliders --show-fps"
 - **Free Trap Platformer** – Free – [Link](https://bdragon1727.itch.io/free-trap-platformer)
 - **Pixel Adventure Character 16x16** – Free – [Link](https://bdragon1727.itch.io/pixel-character-16x16)
 - **SFX** – [Pixabay License](https://pixabay.com/service/license-summary)
-   - Countdown SFX – [Link](https://pixabay.com/sound-effects/countdown-sound-effect-8-bit-151797)
-   - Jump SFX – [Link](https://pixabay.com/sound-effects/pixel-jump-319167)
-   - Click SFX – [Link](https://pixabay.com/sound-effects/retro-click-236673)
-   - Coin SFX – [Link](https://pixabay.com/sound-effects/retro-coin-2-236685)
+    - Countdown SFX – [Link](https://pixabay.com/sound-effects/countdown-sound-effect-8-bit-151797)
+    - Jump SFX – [Link](https://pixabay.com/sound-effects/pixel-jump-319167)
+    - Click SFX – [Link](https://pixabay.com/sound-effects/retro-click-236673)
+    - Coin SFX – [Link](https://pixabay.com/sound-effects/retro-coin-2-236685)
 - **Music** – [Uppbeat Commercial License](https://uppbeat.io/commercial-licenses)
-   - Threshold – Michael Grubb – [Link](https://uppbeat.io/track/michael-grubb/threshold)
-   - Pookatori And Friends – Kevin MacLeod – [Link](https://uppbeat.io/track/kevin-macleod/pookatori-and-friends)
-   - Cyborg Ninja – Kevin MacLeod – [Link](https://uppbeat.io/track/kevin-macleod/cyborg-ninja)
+    - Threshold – Michael Grubb – [Link](https://uppbeat.io/track/michael-grubb/threshold)
+    - Pookatori And Friends – Kevin MacLeod – [Link](https://uppbeat.io/track/kevin-macleod/pookatori-and-friends)
+    - Cyborg Ninja – Kevin MacLeod – [Link](https://uppbeat.io/track/kevin-macleod/cyborg-ninja)
 
 ## Contributing
 
