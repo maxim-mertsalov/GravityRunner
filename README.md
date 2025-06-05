@@ -1,4 +1,5 @@
 # Gravity Runner
+![Gravity Runner](/background_readme.png)
 
 Are you ready for a real competition of reaction and speed? In **Gravity Runner**, you don't control your character — you control gravity itself! One tap and your character goes up, another tap and he goes down. Overcome static obstacles and dodge deadly saws that won't give you a second chance.
 
@@ -24,7 +25,7 @@ You have two options to run the game:
 
 ### 1. Run via Maven (build manually)
 
-1. Make sure you have **Java 11** or later installed.
+1. Make sure you have **Java 8** or later installed.
 2. Clone the repository:
    ```bash
    git clone git@github.com:maxim-mertsalov/GravityRunner.git
@@ -88,5 +89,3 @@ Feel free to fork the repository and submit pull requests. Contributions are wel
 ## License
 
 This project is licensed under the MIT License.
-
-`
